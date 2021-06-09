@@ -11,6 +11,7 @@
 ------------------*/
 @import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,900&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Rajdhani:400,500,600,700&display=swap");
+
 *,
 *::before,
 *::after {
@@ -1618,6 +1619,7 @@ textarea::placeholder {
 ----------------------*/
 .content-grid {
   max-width: 1184px;
+  margin: 0 auto;
   padding: 112px 0 100px;
 }
 

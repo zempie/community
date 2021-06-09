@@ -6,7 +6,7 @@ import store from './store'
 
 
 import 'tiny-slider'
-
+import '@/js/utils/svg-loader'
 
 Vue.config.productionTip = false
 

@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
@@ -25,15 +26,15 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "allowJs": true
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
+    "tests/**/*.tsx"],
   "exclude": [
     "node_modules"
   ]

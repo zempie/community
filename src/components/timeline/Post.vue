@@ -34,12 +34,15 @@
                     <div class="form-item">
                         <div class="form-textarea">
                             <textarea
+                                v-model="postingText"
                                 id="quick-post-text"
                                 name="quick-post-text"
                                 placeholder="Hi Marina! Share your post here..."
                             ></textarea>
 
-                            <p class="form-textarea-limit-text">998/1000</p>
+                            <p class="form-textarea-limit-text">
+                                {{ this.postingText.length }}/5000
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -59,25 +62,27 @@
 
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
-                    data-title="Insert GIF"
+                    data-title="Insert Video"
                 >
-                    <svg class="quick-post-footer-action-icon icon-gif">
-                        <use xlink:href="#svg-gif"></use>
-                    </svg>
+                    video
                 </div>
 
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Tag"
                 >
-                    <svg class="quick-post-footer-action-icon icon-tags">
-                        <use xlink:href="#svg-tags"></use>
-                    </svg>
+                    link
+                </div>
+                  <div
+                    class="quick-post-footer-action text-tooltip-tft-medium"
+                    data-title="Insert Tag"
+                >
+                    sound
                 </div>
             </div>
 
             <div class="quick-post-footer-actions">
-                <p class="button small void">Discard</p>
+                <p class="button small void" >임시 저장</p>
 
                 <p class="button small secondary">Post</p>
             </div>
@@ -86,12 +91,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
     components: {},
 })
-export default class Post extends Vue {}
+export default class Post extends Vue {
+    private postingText: string = "";
+
+    @Watch("postText")
+    watchChar() {
+        if (this.postingText.length > 5000) {
+            alert("5000자 이상은 작성할 수 없습니다.")
+            this.postingText = this.postingText.substring(0, 5000);
+        }
+    }
+}
 </script>
 
 <style scoped>

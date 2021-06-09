@@ -8,13 +8,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import PageLoader from "../components/PageLoader.vue";
+import PageLoader from "../components/common/PageLoader.vue";
 import Feed from "../components/timeline/Feed.vue"
 
 @Component({
     components: { PageLoader, Feed },
 })
-export default class Test extends Vue {}
+export default class Home extends Vue {}
 </script>
 
 <style scoped>
