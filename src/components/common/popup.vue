@@ -420,6 +420,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
     components: {},
 })
 export default class Popup extends Vue {
+    
     closePopup(){
         console.log('close popup')
     }

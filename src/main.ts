@@ -2,11 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
+import './api/api';
 
 
 import 'tiny-slider'
-import '@/js/utils/svg-loader'
+import '@/script/utils/svg-loader'
 
 Vue.config.productionTip = false
 
