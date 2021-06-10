@@ -111,7 +111,7 @@ export default class Api {
         return result;
     }
 
-    async getCommunityInfo(id: number) {
+   getCommunityInfo(id: number) {
 
         let result = {
             "id": 1,
@@ -124,9 +124,9 @@ export default class Api {
             "description": "sample community description1",
             "profile_img": "http://wwww.ewqeqwe2.png",
             "banner_img": "http://wwww.ewqeqwere1.png",
-            "member_cnt": 0,
-            "posts_cnt": 0,
-            "visit_cnt": 0,
+            "member_cnt": 100,
+            "posts_cnt": 10,
+            "visit_cnt": 11111,
             "state": "private || public",
             "is_certificated": true || false,
             "is_subscribed": false,
@@ -144,7 +144,7 @@ export default class Api {
             "user_block": "null"
         }
 
-        return await result;
+        return  result;
 
     }
 }
