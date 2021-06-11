@@ -3,7 +3,7 @@
         <div class="section-banner">
             <img
                 class="section-banner-icon"
-                src="../img/banner/groups-icon.png"
+                src="../../../img/banner/groups-icon.png"
                 alt="groups-icon"
             />
 

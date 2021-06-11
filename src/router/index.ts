@@ -11,9 +11,9 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: '/community',
-    name: 'Community',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Community.vue')
+    path: '/community/list',
+    name: 'CommunityList',
+    component: () => import(/* webpackChunkName: "about" */ '@/components/pages/community/CommunityList.vue')
   },
   {
     path: '/community/:community_id',
@@ -21,18 +21,17 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ "@/components/pages/community/CommunityDetail.vue"),
   },
   {
-    // path: '/community/:community_id/members',
-    path: '/community/communityDetail/members',
+    path: '/community/:community_id/members',
     name: 'MemberList',
-    component: () => import(/* webpackChunkName: "about" */ "@/components/pages/community/MemberList.vue"),
+    component: () => import("@/components/pages/community/MemberList.vue"),
   },
 
   {
     path: '/timeline',
     name: 'Timeline',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Timeline.vue')
+    component: () => import('../views/Timeline.vue')
   },
-  
+
 
 ]
 

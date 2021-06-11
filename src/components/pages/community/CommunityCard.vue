@@ -29,8 +29,7 @@
                         medium
                         no-stats
                     "
-                    :to="`/community/communityDetail`"
-                >
+                    :to="`/community/${community.id}/`">
                     <div class="user-avatar-border">
                         <div class="hexagon-120-130"></div>
                     </div>
