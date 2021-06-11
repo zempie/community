@@ -25,7 +25,12 @@ const routes: Array<RouteConfig> = [
     name: 'MemberList',
     component: () => import("@/components/pages/community/MemberList.vue"),
   },
-
+  // /api/v1/timeline/:community_id/channel/:channel_id
+  {
+    path: '/community/:community_id/channel/:channel_id',
+    name: 'MemberList',
+    component: () => import("@/components/pages/community/Channel.vue"),
+  },
   {
     path: '/timeline',
     name: 'Timeline',

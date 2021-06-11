@@ -128,7 +128,7 @@ export default class Api {
             "posts_cnt": 10,
             "visit_cnt": 11111,
             "state": "public",
-            "is_certificated": true ,
+            "is_certificated": true,
             "is_subscribed": false,
             "channels": [
                 {
@@ -156,6 +156,162 @@ export default class Api {
         return result;
 
     }
+
+    // 타임라인
+    getTimeline(id: number) {
+
+        let result = [
+            {
+                "id": 111,
+                "user": {
+                    "id": 1,
+                    "status": "owner ",
+                    "email": "zempie@google.name",
+                    "name": "젬파이",
+                    "nickname": "zempieeee",
+                    "channel_id": 12,
+                    "created_at": 1616117970000,
+                    "state": "active || block ",
+                    "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                    "post_cnt": 0,
+                    "liked_cnt": 7,
+                    "followers_cnt": 123,
+                    "followings_cnt": 0,
+                    "follows_you": true,
+                    "is_following": true,
+                    "block_you": false,
+                    "is_blocked": false,
+                    "mutes_you": false,
+                    "is_muted": false,
+                    "type": "user"
+                },
+                "created_at": 1616117970000,
+                "attatchment_files": [
+                    {
+                        "id": 111,
+                        "type": "image",
+                        "size": 200,
+                        "url": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb"
+                    },
+
+                ],
+                "content": "test Posting~~",
+                "visibility": "public",
+                "hashtags": ["tag", "tag1"],
+                "user_tag": [],
+                "liked": true,
+                "like_cnt": 1,
+                "comment_cnt": 5,
+                "read_cnt": 0,
+                "shared_cnt": 0,
+                "posted_at": {
+                    "channel_id": 1,
+                    "game_id": null,
+                    "community": {
+                        "id": 1,
+                        "channel_id": 1,
+                    },
+                    "portfolio_id": null,
+                },
+                "poll": null,
+                "scheduled_for": null,
+                "status": "active",
+                "is_retweet": false,
+                "is_pinned": false
+            },
+            {
+                "id": 222,
+                "user": {
+                    "id": 1,
+                    "status": "owner ",
+                    "email": "zempie@google.name",
+                    "name": "젬파이",
+                    "nickname": "zempieeee",
+                    "channel_id": 12,
+                    "created_at": 1616117970000,
+                    "state": "active || block ",
+                    "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                    "post_cnt": 0,
+                    "liked_cnt": 7,
+                    "followers_cnt": 123,
+                    "followings_cnt": 0,
+                    "follows_you": true,
+                    "is_following": true,
+                    "block_you": false,
+                    "is_blocked": false,
+                    "mutes_you": false,
+                    "is_muted": false,
+                    "type": "user"
+                },
+                "created_at": 1616117970000,
+                "attatchment_files": [
+                    {
+                        "id": 222,
+                        "type": "image",
+                        "size": 200,
+                        "url": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb"
+                    },
+
+                ],
+                "content": "test Posting11111111111111~~",
+                "visibility": "public",
+                "hashtags": ["tag0", "tag1", "tag2"],
+                "user_tag": [],
+                "liked": false,
+                "like_cnt": 5,
+                "comment_cnt": 3,
+                "read_cnt": 0,
+                "shared_cnt": 0,
+                "posted_at": {
+                    "channel_id": 1,
+                    "game_id": null,
+                    "community": {
+                        "id": 1,
+                        "channel_id": 1,
+                    },
+                    "portfolio_id": null,
+                },
+                "poll": null,
+                "scheduled_for": null,
+                "status": "active",
+                "is_retweet": false,
+                "is_pinned": true
+            }
+        ]
+
+        return result;
+
+    }
+
+    getCommentList(id: number) {
+        let result = [
+            {
+                "id": 1,
+                "user_id": 1,
+                "parent_id": null,
+                "post_id": 111,
+                "created_at": 1622615373000,
+                "content": "comment~!",
+                "state": "public",
+                "is_pinned": false,
+                "attatchment_file":
+                {
+                    "id": 123,
+                    "type": "image/png",
+                    "size": 15762,
+                    "data_unit": "bytes",
+                    "url": "https://blush-design.imgix.net/collections/ob0qDoT6RsCX7xcsG6PD/51234a1a-d7ef-41e6-9ec9-75249e850f08.png?w=800&auto=compress&cs=srgb"
+
+                },
+                "like_cnt": 0,
+                "dislike_cnt": 0
+
+
+            }
+        ]
+        return result;
+    }
+
 }
 
 

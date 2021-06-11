@@ -16,10 +16,9 @@ import Dropdown from "@/plugins/dropdown";
 })
 export default class App extends Vue {
     private dropdown: Dropdown = new Dropdown();
-    
-     mounted() {
+
+    mounted() {
         this.dropdown.init();
-      console.log(this.dropdown.init());
     }
 }
 </script>

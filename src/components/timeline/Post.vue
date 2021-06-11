@@ -33,7 +33,18 @@
                                 name="quick-post-text"
                                 placeholder="Hi Marina! Share your post here..."
                             ></textarea>
-                           
+                            <div
+                                v-if="imageSrc.length > 0"
+                                class="upload-image"
+                            >
+                                <hr style="border-bottom: 1px solid" />
+                                <img
+                                    class="preview-img"
+                                    v-for="img in imageSrc"
+                                    :key="img.id"
+                                    :src="img"
+                                />
+                            </div>
                             <p class="form-textarea-limit-text">
                                 {{ this.postingText.length }}/5000
                             </p>
@@ -45,15 +56,25 @@
 
         <div class="quick-post-footer">
             <div class="quick-post-footer-actions">
-                <file-upload></file-upload>
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Photo"
+                    @click="onClickUpload"
                 >
                     <svg class="quick-post-footer-action-icon icon-camera">
                         <use xlink:href="#svg-camera"></use>
                     </svg>
                 </div>
+
+                <!-- file uploader -->
+                <input
+                    type="file"
+                    class="file-input"
+                    accept="image/*"
+                    ref="fileInput"
+                    style="display: none"
+                    @change="onFileChange"
+                />
 
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
@@ -68,6 +89,7 @@
                 >
                     link
                 </div>
+                
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Tag"
@@ -85,10 +107,9 @@
             <div class="quick-post-footer-actions">
                 <p class="button small void">임시 저장</p>
 
-                <p class="button small secondary">Post</p>
+                <p class="button small secondary" @click="uploadPost">Post</p>
             </div>
         </div>
-         
     </div>
 </template>
 
@@ -96,7 +117,8 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import FileUpload from "@/components/common/FileUpload.vue";
-import Tiptap from "@/components/timeline/Tiptap.vue"
+import Tiptap from "@/components/timeline/Tiptap.vue";
+
 @Component({
     components: { FileUpload, Tiptap },
 })
@@ -105,6 +127,9 @@ export default class Post extends Vue {
     private videoTag?: HTMLScriptElement;
     private player: any;
     private done = false;
+
+    private filename: string = "";
+    private imageSrc: string[] = [];
 
     @Watch("postText")
     watchChar() {
@@ -152,8 +177,63 @@ export default class Post extends Vue {
     stopVideo() {
         this.player.stopVideo();
     }
+
+    // 이미지 업로드
+    onFileChange(event: { target: { files: any } }) {
+        this.inputImageFile(event.target.files);
+    }
+
+    inputImageFile(files: string | any[]) {
+        if (files.length) {
+            let file = files[0];
+            if (!/^image\//.test(file.type)) {
+                alert("이미지 파일만 등록이 가능합니다");
+                return false;
+            }
+            this.filename = file.name;
+            this.preview(file);
+        }
+    }
+
+    onClickUpload() {
+        //@ts-ignore
+        this.$refs.fileInput.click();
+        this.preview(this.filename);
+    }
+
+    preview(file: string | Blob) {
+        if (typeof file === "string") {
+        } else {
+            let vm = this;
+            let reader = new FileReader();
+            reader.onload = () => {
+                //@ts-ignore
+                vm.imageSrc.push(reader.result);
+                console.log("imageSrc", vm.imageSrc);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    //포스팅
+
+    uploadPost() {
+        console.log(this.imageSrc, this.postingText);
+    }
 }
 </script>
 
 <style scoped>
+.upload-image {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+.preview-img {
+    max-width: 100%;
+    height: 100%;
+}
 </style>

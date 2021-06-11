@@ -209,6 +209,9 @@
             </div>
             <div class="grid-column">
                 <post></post>
+            <!-- 타임라인 -->
+            
+                <feed v-for="feed in timeline" :key="feed.id" :feed="feed"></feed>
             </div>
             <div class="grid-column"></div>
         </div>
@@ -223,9 +226,11 @@ import Hexagon from "@/plugins/hexagon";
 
 import Post from "@/components/timeline/Post.vue";
 import Channel from "@/components/pages/community/Channel.vue";
+import Feed from "@/components/timeline/Feed.vue"
+import Tiptap from "@/components/timeline/Tiptap.vue"
 
 @Component({
-    components: { Post, Channel },
+    components: { Post, Channel, Tiptap, Feed },
 })
 export default class CommunityDetail extends Vue {
     private dropdown: Dropdown = new Dropdown();
@@ -233,8 +238,12 @@ export default class CommunityDetail extends Vue {
 
     private communityId = parseInt(this.$route.params.community_id);
     private community: any;
+
+    private timeline: any;
+
     created() {
         this.community = this.$api.getCommunityInfo(this.communityId);
+        this.timeline = this.$api.getTimeline(this.communityId);
         console.log(this.community);
     }
     mounted() {
