@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './api/api';
+import './plugins/firebase'
+import './plugins/axios'
 
 
 import 'tiny-slider'

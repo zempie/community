@@ -123,22 +123,16 @@
                 id="section-navigation-medium-slider"
                 class="section-menu secondary"
             >
-                <a class="section-menu-item active" href="group-timeline.html">
+            
+                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline`">
                     <svg class="section-menu-item-icon icon-timeline">
                         <use xlink:href="#svg-timeline"></use>
                     </svg>
 
                     <p class="section-menu-item-text">Timeline</p>
-                </a>
+                </router-link>
 
-                <a class="section-menu-item" href="group-info.html">
-                    <svg class="section-menu-item-icon icon-info">
-                        <use xlink:href="#svg-info"></use>
-                    </svg>
-
-                    <p class="section-menu-item-text">Info</p>
-                </a>
-
+                
                 <router-link
                     class="section-menu-item"
                     :to="`/community/${community.id}/members`"
@@ -192,29 +186,7 @@
                 </div>
             </div>
         </nav>
-        <div class="grid grid-3-6-3 mobile-prefer-content">
-            <div class="grid-column">
-                <div class="widget-box">
-                    <p class="widget-box-title">Channels</p>
-                    <div class="widget-box-content">
-                        <div
-                            class="user-status-list"
-                            v-for="channel in community.channels"
-                            :key="channel.id"
-                        >
-                            <channel :channel="channel"></channel>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="grid-column">
-                <post></post>
-            <!-- 타임라인 -->
-            
-                <feed v-for="feed in timeline" :key="feed.id" :feed="feed"></feed>
-            </div>
-            <div class="grid-column"></div>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -224,27 +196,22 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
-import Post from "@/components/timeline/Post.vue";
-import Channel from "@/components/pages/community/Channel.vue";
-import Feed from "@/components/timeline/Feed.vue"
+
+
 import Tiptap from "@/components/timeline/Tiptap.vue"
 
 @Component({
-    components: { Post, Channel, Tiptap, Feed },
+    components: {  Tiptap },
 })
-export default class CommunityDetail extends Vue {
+export default class CommunityHeader extends Vue {
     private dropdown: Dropdown = new Dropdown();
     private hexagon: Hexagon = new Hexagon();
 
     private communityId = parseInt(this.$route.params.community_id);
     private community: any;
 
-    private timeline: any;
-
     created() {
         this.community = this.$api.getCommunityInfo(this.communityId);
-        this.timeline = this.$api.getTimeline(this.communityId);
-        console.log(this.community);
     }
     mounted() {
         this.dropdown.init();

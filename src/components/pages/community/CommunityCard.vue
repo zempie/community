@@ -7,21 +7,9 @@
         <!--/ 배너이미지 -->
 
         <div class="user-preview-info">
-            <template v-if="community.state === 'public'">
-                <div class="tag-sticker">
-                    <svg class="tag-sticker-icon icon-public">
-                        <use xlink:href="#svg-public"></use>
-                    </svg>
-                </div>
-            </template>
-            <template v-else>
-                <div class="tag-sticker">
-                    <svg class="tag-sticker-icon icon-private">
-                        <use xlink:href="#svg-private"></use>
-                    </svg>
-                </div>
-            </template>
-
+            <!-- Community State -->
+            <slot name="communityState"></slot>
+            <!-- /Community State -->
             <div class="user-short-description">
                 <router-link
                     class="
@@ -29,7 +17,8 @@
                         medium
                         no-stats
                     "
-                    :to="`/community/${community.id}/`">
+                    :to="`/community/${community.id}/`"
+                >
                     <div class="user-avatar-border">
                         <div class="hexagon-120-130"></div>
                     </div>
@@ -52,27 +41,9 @@
                     {{ community.description }}
                 </p>
             </div>
-
-            <div class="user-stats">
-                <div class="user-stat">
-                    <p class="user-stat-title">{{ community.member_cnt }}</p>
-
-                    <p class="user-stat-text">members</p>
-                </div>
-
-                <div class="user-stat">
-                    <p class="user-stat-title">{{ community.posts_cnt }}</p>
-
-                    <p class="user-stat-text">posts</p>
-                </div>
-
-                <div class="user-stat">
-                    <p class="user-stat-title">{{ community.visit_cnt }}</p>
-
-                    <p class="user-stat-text">visits</p>
-                </div>
-            </div>
-
+            <!-- Community Detail Info  -->
+            <slot name="communityDetail"></slot>
+            <!-- /Community Detail Info  -->
             <div class="user-preview-actions">
                 <template v-if="!community.is_subscribed">
                     <p class="button secondary full" @click="joinCommunity">
@@ -109,14 +80,16 @@ export default class CommunityCard extends Vue {
     mounted() {
         this.hexagon.init();
     }
-    joinCommunity(){
-    
-    }
+    joinCommunity() {}
 }
 </script>
 
 <style scoped>
 svg {
     vertical-align: middle;
+}
+figure > img{
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
 }
 </style>

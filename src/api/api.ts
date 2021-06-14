@@ -1,8 +1,58 @@
 import store from '@/store';
 import axios, { AxiosInstance } from 'axios'
 import Vue, { PluginObject } from "vue";
+import firebase from 'firebase/app';
+
 
 export default class Api {
+
+    async request( method : string, url : string, data : any, withCredentials : boolean = false, errorCallback : Function | null = null, retryCount : number = 0 ): Promise<any> {        try {
+        
+            // @ts-ignore
+            const result = await Vue.$axios({
+                method : method,
+                url,
+                data,
+                withCredentials
+            }  );
+     
+            return result.data;
+        }
+        catch (error) {
+            // if ( error && error.response && error.response.data && error.response.data.error && error.response.data.error.message === 'Unauthorized' ) {
+            if ( error?.response?.data?.error?.code === 10001 ) {
+                const currentUser = firebase.auth().currentUser;
+                if (currentUser) {
+                    const idToken = await currentUser.getIdToken(true);
+                    store.commit('idToken', idToken);
+                    if ( retryCount < 3 ) {
+                        return await this.request(method, url, data, withCredentials, errorCallback, ++retryCount );
+                    }
+                    else {
+                        //3번 초과
+                        errorCallback && errorCallback(error);
+                        // throw new Error(error);
+                    }
+                }
+                else {
+                    //로그인 안됨.
+                    errorCallback && errorCallback(error);
+                    // throw new Error(error)
+                    // return error;
+                }
+            }
+            // console.log(error, error.message);
+            // throw error;
+            //error && error.response && error.response.data || error
+
+            const result = error && error.response && error.response.data || {
+                    error : error.message || error,
+                };
+            return result;
+        }
+    }
+
+
     getCommunityList(sort?: number) {
         let result
 
@@ -310,6 +360,83 @@ export default class Api {
             }
         ]
         return result;
+    }
+
+
+    //USER
+    async session() {
+        const response = await this.request('get', '/user/verify-session', undefined, true);
+        return response.result || response;
+    }
+
+    async user() {
+        const response = await this.request('get', '/user/info', undefined, true);
+        return response.result || response;
+    }
+
+    async verifyEmail() {
+        const response = await this.request('post', '/user/verify-email', undefined, false);
+        return response.result || response;
+    }
+
+    async channel(channel_id: any) {
+        const response = await this.request('get', `/channel/${channel_id}`, undefined, false);
+        return response.result || response;
+    }
+
+    async verifyChannelId(channel_id: any) {
+
+        const response = await this.request('post', `/user/verify-channel`, {
+            channel_id
+        }, false);
+
+        // const response = await this.request( Vue.$axios.post(`/user/verify-channel`, {
+        //     channel_id
+        // }) );
+        return response.result || response;
+    }
+
+    async signUp(name: string) {
+        // Ads.gtag_report_conversion()
+        const response = await this.request('post', `/user/sign-up`, {
+            name
+        }, true);
+        return response.result || response;
+    }
+
+    async signOut() {
+        const response = await this.request('post', `/user/sign-out`, undefined, true);
+        return response.result || response;
+    }
+
+    async updateUser(name: string, state_msg: string, file: File, channel_id: string, description: string) {
+        const formData = new FormData();
+        if (name) { formData.append('name', name); }
+        if (state_msg) { formData.append('state_msg', state_msg); }
+        if (file) { formData.append('file', file); }
+        if (channel_id) { formData.append('channel_id', channel_id); }
+        if (description) { formData.append('description', description); }
+
+        const response = await this.request('post', `/user/update/info`, formData, false);
+        return response.result || response;
+    }
+
+    async updateBanner(file: File) {
+        const formData = new FormData();
+        if (file) { formData.append('file', file); }
+
+        const response = await this.request('post', `/user/update/banner`, formData, false);
+        return response.result || response;
+    }
+
+    async leave(text: string, num: string = '0') {
+
+        const response = await this.request('post', `/user/leave-zempie`, {
+            num,
+            text,
+        }, false);
+
+        return response.result || response;
     }
 
 }

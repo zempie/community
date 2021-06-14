@@ -80,7 +80,49 @@
                 v-for="community in communityList"
                 :key="community.id"
                 :community="community"
-            ></community-card>
+            >
+                <template v-slot:communityState>
+                    <template v-if="community.state === 'public'">
+                        <div class="tag-sticker">
+                            <svg class="tag-sticker-icon icon-public">
+                                <use xlink:href="#svg-public"></use>
+                            </svg>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="tag-sticker">
+                            <svg class="tag-sticker-icon icon-private">
+                                <use xlink:href="#svg-private"></use>
+                            </svg>
+                        </div>
+                    </template>
+                </template>
+                <template v-slot:communityDetail>
+                    <div class="user-stats">
+                        <div class="user-stat">
+                            <p class="user-stat-title">
+                                {{ community.member_cnt }}
+                            </p>
+                            <p class="user-stat-text">members</p>
+                        </div>
+                        <div class="user-stat">
+                            <p class="user-stat-title">
+                                {{ community.posts_cnt }}
+                            </p>
+
+                            <p class="user-stat-text">posts</p>
+                        </div>
+
+                        <div class="user-stat">
+                            <p class="user-stat-title">
+                                {{ community.visit_cnt }}
+                            </p>
+
+                            <p class="user-stat-text">visits</p>
+                        </div>
+                    </div>
+                </template>
+            </community-card>
         </div>
     </div>
 </template>

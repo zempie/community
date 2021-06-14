@@ -9,16 +9,17 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import Navigator from "@/components/layout/Navigator.vue";
-
 import Dropdown from "@/plugins/dropdown";
+
 @Component({
     components: { Navigator },
 })
 export default class App extends Vue {
     private dropdown: Dropdown = new Dropdown();
 
-    mounted() {
+    async mounted() {
         this.dropdown.init();
+        await this.$store.dispatch("loginState");
     }
 }
 </script>
@@ -26,7 +27,7 @@ export default class App extends Vue {
 <style>
 @import "./css/styles.css";
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: Rajdhani,sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
