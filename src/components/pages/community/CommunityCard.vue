@@ -17,7 +17,7 @@
                         medium
                         no-stats
                     "
-                    :to="`/community/${community.id}/`"
+                    :to="`/community/${community.id}/timeline`"
                 >
                     <div class="user-avatar-border">
                         <div class="hexagon-120-130"></div>

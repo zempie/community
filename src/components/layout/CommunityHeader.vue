@@ -24,6 +24,7 @@
                             ></div>
                         </div>
                     </div>
+                   <!-- <span style="color:#fff"> >>{{$route.name}}</span> -->
                     <div
                         class="
                             user-short-description-avatar
