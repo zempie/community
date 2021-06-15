@@ -44,6 +44,20 @@ const routes: Array<RouteConfig> = [
     name: 'Channel',
     component: () => import("@/components/pages/community/Channel.vue"),
   },
+
+  {
+    path: '/channel/:channel_id',
+    name: 'UserChannel',
+    component: () => import( "@/components/layout/UserHeader.vue"),
+    children: [
+      {
+        path: '/channel/:channel_id/timeline',
+        name: 'UserTimeline',
+        component: () => import("@/components/pages/user/UserTimeline.vue"),
+      },
+    ]
+  },
+
   {
     path: '/timeline',
     name: 'Timeline',

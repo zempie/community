@@ -71,7 +71,7 @@
                                 uploaded a <span class="bold">포스팅 타입</span>
                             </p>
 
-                            <p class="user-status-text small">2 minutes ago</p>
+                            <p class="user-status-text small">{{postDate}}</p>
                         </div>
 
                         <p class="widget-box-status-text">{{ feed.content }}</p>
@@ -97,12 +97,14 @@
                                             reaction-item-list
                                         "
                                     >
-                                        <div class="reaction-item">
+                                        <div
+                                            class="
+                                                reaction-item
+                                                reaction-item-dropdown-trigger
+                                            "
+                                        >
                                             <img
-                                                class="
-                                                    reaction-image
-                                                    reaction-item-dropdown-trigger
-                                                "
+                                                class="reaction-image"
                                                 src="../../img/reaction/love.png"
                                                 alt="reaction-love"
                                             />
@@ -121,20 +123,18 @@
                                                         alt="reaction-love"
                                                     />
                                                     <span class="bold"
-                                                        >Love</span
+                                                        >Like</span
                                                     >
                                                 </p>
 
-                                                <p class="simple-dropdown-text">
-                                                    Matt Parker
-                                                </p>
-
-                                                <p class="simple-dropdown-text">
-                                                    Destroy Dex
-                                                </p>
-
-                                                <p class="simple-dropdown-text">
-                                                    The Green Goo
+                                                <p
+                                                    class="simple-dropdown-text"
+                                                    v-for="like in likeList"
+                                                    :key="like.id"
+                                                >
+                                                    <router-link :to="`/channel/${like.user.channel_id}/timeline`" style="color:#fff">{{
+                                                        like.user.name
+                                                    }}</router-link>
                                                 </p>
                                             </div>
                                         </div>
@@ -163,7 +163,14 @@
                     </div>
                 </div>
 
-                <div class="post-options" :style="this.isOpenedComments ? 'border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;' : ''">
+                <div
+                    class="post-options"
+                    :style="
+                        this.isOpenedComments
+                            ? 'border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;'
+                            : ''
+                    "
+                >
                     <div class="post-option-wrap">
                         <div
                             class="
@@ -189,11 +196,11 @@
                     </div>
 
                     <div class="post-option" @click="openComments">
-                        <svg class="post-option-icon icon-comment">
+                        <svg class="post-option-icon icon-comment" :class="isOpenedComments ? 'active' : ''">
                             <use xlink:href="#svg-comment"></use>
                         </svg>
 
-                        <p class="post-option-text">Comment</p>
+                        <p class="post-option-text" :class="isOpenedComments ? 'active' : ''">Comment</p>
                     </div>
 
                     <div class="post-option">
@@ -207,7 +214,7 @@
             </div>
         </div>
         <template v-if="isOpenedComments">
-            <comment></comment>
+            <comment-list :postId='feed.id'></comment-list>
         </template>
     </div>
 </template>
@@ -215,14 +222,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import Comment from "./Comment.vue";
+import CommentList from "./CommentList.vue";
 import Post from "./Post.vue";
 import Popup from "@/components/common/popup.vue";
 
 import Hexagon from "@/plugins/hexagon";
 
 @Component({
-    components: { Comment, Post, Popup },
+    components: { CommentList, Post, Popup },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;
@@ -230,6 +237,8 @@ export default class Feed extends Vue {
     private hexagon: Hexagon = new Hexagon();
     private reportPopup: boolean = false;
     private isOpenedComments: boolean = false;
+    private likeList: any = [];
+    private postDate: Date = new Date(this.feed.created_at)
 
     mounted() {
         this.hexagon.init();
@@ -239,8 +248,13 @@ export default class Feed extends Vue {
     }
     openComments() {
         this.isOpenedComments = !this.isOpenedComments;
-     
     }
+
+    created() {
+        this.likeList = this.$api.likeList(this.feed.id);
+    }
+
+    
 }
 </script>
 
@@ -250,11 +264,15 @@ export default class Feed extends Vue {
     transition: transform 0.4s ease-in-out 0s;
 }
 
-.icon-thumbs-up.active {
+.icon-thumbs-up.active, .icon-comment.active {
     fill: #4ff461;
     opacity: 1;
 }
-.thumbs-up.active {
+.thumbs-up.active, .post-option-text.active {
     color: #fff;
+}
+
+.reaction {
+    top: 5px;
 }
 </style>

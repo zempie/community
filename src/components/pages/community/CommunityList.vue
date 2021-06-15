@@ -28,11 +28,28 @@
                             v-model="searchInput"
                         />
 
-                        <button class="button primary" @click="searchCommunity">
-                            <svg class="icon-magnifying-glass">
-                                <use xlink:href="#svg-magnifying-glass"></use>
-                            </svg>
-                        </button>
+                        <template v-if="isSearched">
+                            <button
+                                class="button primary"
+                                @click="searchReset"
+                            >
+                                <svg class="icon-cross-thin">
+                                    <use xlink:href="#svg-cross-thin"></use>
+                                </svg>
+                            </button>
+                        </template>
+                        <template v-else>
+                            <button
+                                class="button primary"
+                                @click="searchCommunity"
+                            >
+                                <svg class="icon-magnifying-glass">
+                                    <use
+                                        xlink:href="#svg-magnifying-glass"
+                                    ></use>
+                                </svg>
+                            </button>
+                        </template>
                     </div>
 
                     <div class="form-select">
@@ -54,19 +71,28 @@
                 </form>
 
                 <div class="filter-tabs">
-                    <div class="filter-tab active">
+                    <div
+                        class="filter-tab"
+                        :class="filter === 0 ? 'active' : ''"
+                    >
                         <p class="filter-tab-text" @click="filterList(0)">
                             Newly Created
                         </p>
                     </div>
 
-                    <div class="filter-tab">
+                    <div
+                        class="filter-tab"
+                        :class="filter === 1 ? 'active' : ''"
+                    >
                         <p class="filter-tab-text" @click="filterList(1)">
                             Most Members
                         </p>
                     </div>
 
-                    <div class="filter-tab">
+                    <div
+                        class="filter-tab"
+                        :class="filter === 2 ? 'active' : ''"
+                    >
                         <p class="filter-tab-text" @click="filterList(2)">
                             Alphabetical
                         </p>
@@ -141,6 +167,8 @@ export default class Community extends Vue {
     private selectedFilter: number = 0;
     private communityList: any = [];
     private searchInput: string = "";
+    private filter: number = 0;
+    private isSearched: boolean = false;
 
     created() {
         this.communityList = this.$api.getCommunityList();
@@ -151,6 +179,7 @@ export default class Community extends Vue {
     }
 
     filterList(filter: number) {
+        this.filter = filter;
         if (filter == 0) {
             this.communityList = this.$api.getCommunityList(filter);
             console.log(this.communityList);
@@ -162,6 +191,12 @@ export default class Community extends Vue {
     searchCommunity(e: Event) {
         e.preventDefault();
         this.communityList = this.$api.searchCommunity(this.searchInput);
+        if (this.communityList) {
+            this.isSearched = true;
+        }
+    }
+    searchReset(){
+        console.log('search Reset')
     }
 }
 </script>

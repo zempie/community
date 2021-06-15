@@ -10,53 +10,7 @@
         </div>
       </div>
 
-      <div class="section-filters-bar v1">
-        <div class="section-filters-bar-actions">
-          <form class="form">
-            <div class="form-input small with-button">
-              <label for="members-search">Search Members</label>
-              <input type="text" id="members-search" name="members_search" />
-
-              <button class="button secondary">
-                <svg class="icon-magnifying-glass">
-                  <use xlink:href="#svg-magnifying-glass"></use>
-                </svg>
-              </button>
-            </div>
-
-            <div class="form-select">
-              <label for="members-filter-category">Filter By</label>
-              <select
-                id="members-filter-category"
-                name="members_filter_category"
-              >
-                <option value="0">Recently Active</option>
-                <option value="1">Newest Members</option>
-                <option value="2">Alphabetical</option>
-              </select>
-
-              <svg class="form-select-icon icon-small-arrow">
-                <use xlink:href="#svg-small-arrow"></use>
-              </svg>
-            </div>
-          </form>
-
-          <div class="filter-tabs">
-            <div class="filter-tab secondary active">
-              <p class="filter-tab-text">Recently Active</p>
-            </div>
-
-            <div class="filter-tab secondary">
-              <p class="filter-tab-text">Newest Members</p>
-            </div>
-
-            <div class="filter-tab secondary">
-              <p class="filter-tab-text">Alphabetical</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+     
       <div class="grid grid-4-4-4 centered">
         <member-card
           v-for="member in memberList"

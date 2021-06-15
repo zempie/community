@@ -4,7 +4,7 @@
             <figure class="profile-header-cover liquid">
                 <img :src="`${community.banner_img}`" alt="cover-29" />
             </figure>
-
+          
             <div class="profile-header-info">
                 <div class="user-short-description big">
                     <div
@@ -24,7 +24,6 @@
                             ></div>
                         </div>
                     </div>
-                   <!-- <span style="color:#fff"> >>{{$route.name}}</span> -->
                     <div
                         class="
                             user-short-description-avatar
@@ -124,8 +123,11 @@
                 id="section-navigation-medium-slider"
                 class="section-menu secondary"
             >
-            
-                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline`">
+                <router-link
+                    class="section-menu-item"
+                    :to="`/community/${community.id}/timeline`"
+                    :class="$route.name === 'CommunityTimeline' ? 'active' : ''"
+                >
                     <svg class="section-menu-item-icon icon-timeline">
                         <use xlink:href="#svg-timeline"></use>
                     </svg>
@@ -133,10 +135,10 @@
                     <p class="section-menu-item-text">Timeline</p>
                 </router-link>
 
-                
                 <router-link
                     class="section-menu-item"
                     :to="`/community/${community.id}/members`"
+                    :class="$route.name === 'MemberList' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-members">
                         <use xlink:href="#svg-members"></use>
@@ -144,14 +146,6 @@
 
                     <p class="section-menu-item-text">Members</p>
                 </router-link>
-
-                <a class="section-menu-item" href="#">
-                    <svg class="section-menu-item-icon icon-forum">
-                        <use xlink:href="#svg-forum"></use>
-                    </svg>
-
-                    <p class="section-menu-item-text">Forum</p>
-                </a>
 
                 <a class="section-menu-item" href="#">
                     <svg class="section-menu-item-icon icon-photos">
@@ -197,12 +191,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
-
-
-import Tiptap from "@/components/timeline/Tiptap.vue"
+import Tiptap from "@/components/timeline/Tiptap.vue";
 
 @Component({
-    components: {  Tiptap },
+    components: { Tiptap },
 })
 export default class CommunityHeader extends Vue {
     private dropdown: Dropdown = new Dropdown();
@@ -217,6 +209,7 @@ export default class CommunityHeader extends Vue {
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
+        console.log("?")
     }
 }
 </script>

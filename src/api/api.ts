@@ -213,6 +213,7 @@ export default class Api {
         let result = [
             {
                 "id": 1,
+                "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                 "status": "member",
                 "email": "zempie@google.name",
                 "name": "젬파이",
@@ -232,8 +233,9 @@ export default class Api {
                 "mutes_you": false,
                 "is_muted": false,
                 "type": "user"
-            },{
+            }, {
                 "id": 2,
+                "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                 "status": "member2",
                 "email": "zempie2@google.name",
                 "name": "젬파이2",
@@ -269,6 +271,7 @@ export default class Api {
                 "id": 111,
                 "user": {
                     "id": 1,
+                    "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                     "status": "owner ",
                     "email": "zempie@google.name",
                     "name": "젬파이",
@@ -327,6 +330,7 @@ export default class Api {
                 "id": 222,
                 "user": {
                     "id": 1,
+                    "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                     "status": "owner ",
                     "email": "zempie@google.name",
                     "name": "젬파이",
@@ -387,15 +391,72 @@ export default class Api {
 
     }
 
+    likeList(id: number) {
+        let result = [
+            {
+                "post_id": 11,
+                "created_at": 1622615373000,
+                "user": {
+                    "id": 1,
+                    "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                    "email": "zempie@google.name",
+                    "name": "젬파이1",
+                    "nickname": "zempieeee",
+                    "channel_id": 12,
+                    "created_at": 1616117970000,
+                    "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                    "post_cnt": 0,
+                    "liked_cnt": 7,
+                    "followers_cnt": 123,
+                    "followings_cnt": 0,
+                    "follows_you": true,
+                    "is_following": true,
+                    "block_you": false,
+                    "is_blocked": false,
+                    "mutes_you": false,
+                    "is_muted": false,
+                    "type": "user"
+                },
+            },
+
+        ]
+        return result;
+    }
+
     getCommentList(id: number) {
         let result = [
             {
                 "id": 1,
                 "user_id": 1,
+                "user_uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                 "parent_id": null,
                 "post_id": 111,
                 "created_at": 1622615373000,
                 "content": "comment~!",
+                "state": "public",
+                "is_pinned": false,
+                "attatchment_file":
+                {
+                    "id": 123,
+                    "type": "image/png",
+                    "size": 15762,
+                    "data_unit": "bytes",
+                    "url": "https://blush-design.imgix.net/collections/ob0qDoT6RsCX7xcsG6PD/51234a1a-d7ef-41e6-9ec9-75249e850f08.png?w=800&auto=compress&cs=srgb"
+
+                },
+                "like_cnt": 10,
+                "dislike_cnt": 0
+
+
+            },
+            {
+                "id": 2,
+                "user_id": 2,
+                "user_uid": '3HOOG0PhMeNyPjQuAMAQYW6vI7f1',
+                "parent_id": null,
+                "post_id": 222,
+                "created_at": 1622615373000,
+                "content": "comment~22222222222222!",
                 "state": "public",
                 "is_pinned": false,
                 "attatchment_file":
@@ -417,11 +478,11 @@ export default class Api {
     }
 
     //follow
-    follow(){
+    follow() {
 
     }
-    
-    userTimeline(id: number){
+
+    userTimeline(id: number) {
 
     }
 
@@ -500,6 +561,8 @@ export default class Api {
 
         return response.result || response;
     }
+
+
 
 }
 

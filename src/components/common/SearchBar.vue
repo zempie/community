@@ -7,7 +7,7 @@
             placeholder="Search for community"
         />
 
-        <div class="interactive-input-icon-wrap">
+        <div class="interactive-input-icon-wrap" @click="searchCommunity">
             <svg class="interactive-input-icon icon-magnifying-glass">
                 <use xlink:href="#svg-magnifying-glass"></use>
             </svg>
@@ -27,9 +27,12 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({
     components: {},
 })
-export default class SearchBar extends Vue {}
+export default class SearchBar extends Vue {
+    searchCommunity() {
+        console.log("?");
+    }
+}
 </script>
 
 <style scoped>
-
 </style>
