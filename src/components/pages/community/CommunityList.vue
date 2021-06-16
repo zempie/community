@@ -29,10 +29,7 @@
                         />
 
                         <template v-if="isSearched">
-                            <button
-                                class="button primary"
-                                @click="searchReset"
-                            >
+                            <button class="button primary" @click="searchReset">
                                 <svg class="icon-cross-thin">
                                     <use xlink:href="#svg-cross-thin"></use>
                                 </svg>
@@ -171,7 +168,14 @@ export default class Community extends Vue {
     private isSearched: boolean = false;
 
     created() {
-        this.communityList = this.$api.getCommunityList();
+        if (this.$route.query.q) {
+            console.log("yes query");
+            const query: any = this.$route.query.q;
+            this.communityList = this.$api.search(query, "community");
+        } else {
+            console.log("no query");
+            this.communityList = this.$api.getCommunityList();
+        }
     }
 
     mounted() {
@@ -190,13 +194,13 @@ export default class Community extends Vue {
     }
     searchCommunity(e: Event) {
         e.preventDefault();
-        this.communityList = this.$api.searchCommunity(this.searchInput);
+        this.communityList = this.$api.search(this.searchInput, "community");
         if (this.communityList) {
             this.isSearched = true;
         }
     }
-    searchReset(){
-        console.log('search Reset')
+    searchReset() {
+        console.log("search Reset");
     }
 }
 </script>

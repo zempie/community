@@ -71,7 +71,7 @@
                                 uploaded a <span class="bold">포스팅 타입</span>
                             </p>
 
-                            <p class="user-status-text small">{{postDate}}</p>
+                            <p class="user-status-text small">{{ postDate }}</p>
                         </div>
 
                         <p class="widget-box-status-text">{{ feed.content }}</p>
@@ -79,12 +79,12 @@
 
                     <div class="widget-box-status-content">
                         <div class="tag-list">
-                            <a
+                            <router-link
                                 class="tag-item secondary"
-                                href="newsfeed.html"
+                                :to="`/search?hashtag=${hashtag}`"
                                 v-for="hashtag in feed.hashtags"
                                 :key="hashtag.id"
-                                >{{ hashtag }}</a
+                                >{{ hashtag }}</router-link
                             >
                         </div>
 
@@ -132,9 +132,13 @@
                                                     v-for="like in likeList"
                                                     :key="like.id"
                                                 >
-                                                    <router-link :to="`/channel/${like.user.channel_id}/timeline`" style="color:#fff">{{
-                                                        like.user.name
-                                                    }}</router-link>
+                                                    <router-link
+                                                        :to="`/channel/${like.user.channel_id}/timeline`"
+                                                        style="color: #fff"
+                                                        >{{
+                                                            like.user.name
+                                                        }}</router-link
+                                                    >
                                                 </p>
                                             </div>
                                         </div>
@@ -196,11 +200,19 @@
                     </div>
 
                     <div class="post-option" @click="openComments">
-                        <svg class="post-option-icon icon-comment" :class="isOpenedComments ? 'active' : ''">
+                        <svg
+                            class="post-option-icon icon-comment"
+                            :class="isOpenedComments ? 'active' : ''"
+                        >
                             <use xlink:href="#svg-comment"></use>
                         </svg>
 
-                        <p class="post-option-text" :class="isOpenedComments ? 'active' : ''">Comment</p>
+                        <p
+                            class="post-option-text"
+                            :class="isOpenedComments ? 'active' : ''"
+                        >
+                            Comment
+                        </p>
                     </div>
 
                     <div class="post-option">
@@ -214,7 +226,7 @@
             </div>
         </div>
         <template v-if="isOpenedComments">
-            <comment-list :postId='feed.id'></comment-list>
+            <comment-list :postId="feed.id"></comment-list>
         </template>
     </div>
 </template>
@@ -227,21 +239,24 @@ import Post from "./Post.vue";
 import Popup from "@/components/common/popup.vue";
 
 import Hexagon from "@/plugins/hexagon";
+import Dropdown from "@/plugins/dropdown";
 
 @Component({
     components: { CommentList, Post, Popup },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;
-
+    private dropdown: Dropdown = new Dropdown();
     private hexagon: Hexagon = new Hexagon();
     private reportPopup: boolean = false;
     private isOpenedComments: boolean = false;
     private likeList: any = [];
-    private postDate: Date = new Date(this.feed.created_at)
+    private postDate: Date = new Date(this.feed.created_at);
 
     mounted() {
+        this.dropdown.init();
         this.hexagon.init();
+        console.log(this.feed);
     }
     sendLike() {
         console.log("liked!");
@@ -253,8 +268,6 @@ export default class Feed extends Vue {
     created() {
         this.likeList = this.$api.likeList(this.feed.id);
     }
-
-    
 }
 </script>
 
@@ -264,11 +277,13 @@ export default class Feed extends Vue {
     transition: transform 0.4s ease-in-out 0s;
 }
 
-.icon-thumbs-up.active, .icon-comment.active {
+.icon-thumbs-up.active,
+.icon-comment.active {
     fill: #4ff461;
     opacity: 1;
 }
-.thumbs-up.active, .post-option-text.active {
+.thumbs-up.active,
+.post-option-text.active {
     color: #fff;
 }
 

@@ -2,7 +2,10 @@
     <!--  unread reply-2 -->
     <div class="post-comment">
         <!-- {{userInfo}} -->
-        <router-link class="user-avatar small no-outline" :to="`/channel/${userInfo.uid}/timeline`">
+        <router-link
+            class="user-avatar small no-outline"
+            :to="`/channel/${userInfo.uid}/timeline`"
+        >
             <div class="user-avatar-content">
                 <div
                     class="hexagon-image-30-32"
@@ -20,11 +23,20 @@
         </router-link>
 
         <p class="post-comment-text">
-            <a class="post-comment-text-author" href="profile-timeline.html">{{
-                userInfo && userInfo.name
-            }}</a
-            >{{ comment && comment.content }}
+            <template v-if="!isEditing">
+                <a
+                    class="post-comment-text-author"
+                    href="profile-timeline.html"
+                    >{{ userInfo && userInfo.name }}</a
+                >{{ comment && comment.content }}
+            </template>
+            <!-- edit comment -->
+            <template v-else>
+                <comment-input :postId="postId" :editContent="comment.content "></comment-input>
+            </template>
+            <!-- /edit comment -->
         </p>
+
         <div class="content-actions">
             <div class="content-action">
                 <div class="meta-line">
@@ -77,6 +89,9 @@
 
                         <div class="simple-dropdown post-settings-dropdown">
                             <p class="simple-dropdown-link">Report Post</p>
+                            <p class="simple-dropdown-link" @click="editPost">
+                                Edit Post
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -88,18 +103,21 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Hexagon from "@/plugins/hexagon";
-import Form from "@/script/form";
 
+import CommentInput from "@/components/timeline/CommentInput.vue";
 @Component({
-    components: {},
+    components: { CommentInput },
 })
 export default class Comment extends Vue {
     @Prop() comment!: any;
+    @Prop() postId!: any;
     private hexagon: Hexagon = new Hexagon();
     private userInfo: any = [];
+    private content: string = this.comment.content;
+    private isEditing: boolean = false;
+    private isPrivate: boolean = false;
 
     mounted() {
-         Form.formInput();
         console.log(this.comment);
         this.init();
         this.hexagon.init();
@@ -108,11 +126,11 @@ export default class Comment extends Vue {
         const result = await this.$api.channel(this.comment.user_uid);
         this.userInfo = result.target;
     }
+    editPost() {
+        this.isEditing = true;
+    }
 }
 </script>
 
 <style scoped>
-.post-comment-text {
-    text-align: left;
-}
 </style>

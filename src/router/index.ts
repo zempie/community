@@ -37,6 +37,18 @@ const routes: Array<RouteConfig> = [
       },
     ]
   },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import( "@/components/pages/SearchPage.vue"),
+    // children: [
+    //   {
+    //     path: '/search/',
+    //     name: 'CommunityTimeline',
+    //     component: () => import("@/components/pages/community/CommunityTimeline.vue"),
+    //   },
+    // ]
+  },
 
   // /api/v1/timeline/:community_id/channel/:channel_id
   {
