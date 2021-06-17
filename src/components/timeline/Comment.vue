@@ -32,7 +32,11 @@
             </template>
             <!-- edit comment -->
             <template v-else>
-                <comment-input :postId="postId" :editContent="comment.content "></comment-input>
+                <comment-input
+                    @editDone="editDone"
+                    :postId="postId"
+                    :editContent="comment.content"
+                ></comment-input>
             </template>
             <!-- /edit comment -->
         </p>
@@ -57,7 +61,7 @@
                     </p>
                 </div>
 
-                <div class="meta-line">
+                <div class="meta-line" @click="likeComment">
                     <p
                         class="
                             meta-line-link
@@ -74,23 +78,46 @@
                 </div>
 
                 <div class="meta-line">
-                    <p class="meta-line-timestamp">15 min ago</p>
+                    <p class="meta-line-timestamp">
+                        {{
+                            comment &&
+                            new Date(comment.created_at).toLocaleString()
+                        }}
+                    </p>
                 </div>
 
                 <div class="meta-line settings">
                     <div class="post-settings-wrap">
                         <div
                             class="post-settings post-settings-dropdown-trigger"
+                            ref="dropbox"
                         >
                             <svg class="post-settings-icon icon-more-dots">
                                 <use xlink:href="#svg-more-dots"></use>
                             </svg>
                         </div>
 
-                        <div class="simple-dropdown post-settings-dropdown">
-                            <p class="simple-dropdown-link">Report Post</p>
+                        <div
+                            class="simple-dropdown post-settings-dropdown"
+                            ref="dropboxList"
+                        >
+                            <p
+                                class="
+                                    simple-dropdown-link
+                                    popup-event-creation-trigger
+                                "
+                                @click="reportComment"
+                            >
+                                Report Post
+                            </p>
                             <p class="simple-dropdown-link" @click="editPost">
                                 Edit Post
+                            </p>
+                            <p
+                                class="simple-dropdown-link"
+                                @click="deletePost(comment.id)"
+                            >
+                                Delete Post
                             </p>
                         </div>
                     </div>
@@ -103,15 +130,18 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Hexagon from "@/plugins/hexagon";
+import PopupPlugin from "@/plugins/popup";
 
 import CommentInput from "@/components/timeline/CommentInput.vue";
+import Popup from "@/components/common/Popup.vue";
 @Component({
-    components: { CommentInput },
+    components: { CommentInput, Popup },
 })
 export default class Comment extends Vue {
     @Prop() comment!: any;
     @Prop() postId!: any;
     private hexagon: Hexagon = new Hexagon();
+    private popupPlugin: PopupPlugin = new PopupPlugin();
     private userInfo: any = [];
     private content: string = this.comment.content;
     private isEditing: boolean = false;
@@ -121,6 +151,7 @@ export default class Comment extends Vue {
         console.log(this.comment);
         this.init();
         this.hexagon.init();
+        // this.popupPlugin.init();
     }
     async init() {
         const result = await this.$api.channel(this.comment.user_uid);
@@ -128,9 +159,30 @@ export default class Comment extends Vue {
     }
     editPost() {
         this.isEditing = true;
+        (this.$refs.dropbox as HTMLElement).click();
+    }
+    editDone() {
+        this.isEditing = false;
+    }
+
+    deletePost(commentId: number) {
+        const result = this.$api.deleteComment(this.postId, commentId);
+        (this.$refs.dropbox as HTMLElement).click();
+    }
+    reportComment() {
+        (this.$refs.dropbox as HTMLElement).click();
+        this.$emit("openReport", true);
+        this.$emit("commentId", this.comment.id);
+    }
+    likeComment(){
+        
+        const result = this.$api.likeComment(this.comment.id);
     }
 }
 </script>
 
 <style scoped>
+.post-comment-text {
+    text-align: left;
+}
 </style>

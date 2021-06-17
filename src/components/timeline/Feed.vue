@@ -236,13 +236,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 import CommentList from "./CommentList.vue";
 import Post from "./Post.vue";
-import Popup from "@/components/common/popup.vue";
+// import Popup from "@/components/common/Popup.vue";
 
 import Hexagon from "@/plugins/hexagon";
 import Dropdown from "@/plugins/dropdown";
 
 @Component({
-    components: { CommentList, Post, Popup },
+    components: { CommentList, Post },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;

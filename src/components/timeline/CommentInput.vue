@@ -19,7 +19,10 @@
 
         <div class="form-row">
             <div class="form-item">
-                <div class="form-input small" :class="editContent? 'active':''">
+                <div
+                    class="form-input small"
+                    :class="editContent ? 'active' : ''"
+                >
                     <label for="popup-post-reply">Your Reply</label>
                     <input
                         type="text"
@@ -74,6 +77,7 @@ export default class CommentInput extends Vue {
         }
     }
 
+    //수정 , 작성
     sendComment() {
         const result = this.$api.sendComment(
             this.postId,
@@ -83,6 +87,8 @@ export default class CommentInput extends Vue {
         );
 
         this.content = "";
+        this.isPrivate = false;
+        this.$emit("editDone", true);
     }
 }
 </script>

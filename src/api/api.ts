@@ -652,7 +652,26 @@ export default class Api {
         if (is_private) { formData.append('is_private', is_private.toString()); }
         if (content) { formData.append('content', content); }
         if (attached_file) { formData.append('channel_id', attached_file); }
+    }
+    deleteComment(post_id: number, comment_id: number) {
+        console.log("delete", post_id, comment_id)
+        // const response = this.request('post')
+    }
+    likeComment(comment_id: number){
+        console.log('like comment', comment_id)
 
+    }
+
+    sendReport(report_id: number, user_id: number, report_reason: number | string) {
+
+        const formData = new FormData();
+
+        console.log(report_id, user_id, report_reason)
+
+        if (report_id) { formData.append('post_id', report_id.toString()); }
+        if (user_id) { formData.append('user_id', user_id.toString()); }
+        if (report_reason) { formData.append('report_reason', report_reason.toString()); }
+        console.log(formData)
 
 
     }
