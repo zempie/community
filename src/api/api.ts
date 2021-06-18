@@ -54,6 +54,14 @@ export default class Api {
     }
 
     //커뮤니티
+    subscribeCommunity(community_id: number, user_id: number){
+        ///api/v1/community/:community_id/subscribe?user_id=12
+
+        // const response = await this.request('post', '/community', undefined, false);
+        // return response.result || response;
+        return true;
+
+    }
     getCommunityList(sort?: number) {
         let result
 
@@ -644,14 +652,15 @@ export default class Api {
 
     }
 
-    sendComment(post_id: number, user_id: number, is_private: boolean, content?: string, attached_file?: File) {
+    sendComment(post_id: number, user_id: number, is_private: boolean, content?: string, attached_file?: File, parent_id ?: number) {
         const formData = new FormData();
-        console.log(post_id, user_id, is_private, content)
+        console.log(post_id, user_id, is_private, content, parent_id)
         if (post_id) { formData.append('post_id', post_id.toString()); }
         if (user_id) { formData.append('user_id', user_id.toString()); }
         if (is_private) { formData.append('is_private', is_private.toString()); }
         if (content) { formData.append('content', content); }
-        if (attached_file) { formData.append('channel_id', attached_file); }
+        if (attached_file) { formData.append('attached_file', attached_file); }
+        if (parent_id) { formData.append('parent_id', parent_id.toString()); }
     }
     deleteComment(post_id: number, comment_id: number) {
         console.log("delete", post_id, comment_id)
@@ -672,6 +681,8 @@ export default class Api {
         if (user_id) { formData.append('user_id', user_id.toString()); }
         if (report_reason) { formData.append('report_reason', report_reason.toString()); }
         console.log(formData)
+
+        return true;
 
 
     }

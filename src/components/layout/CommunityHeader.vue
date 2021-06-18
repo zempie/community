@@ -4,7 +4,7 @@
             <figure class="profile-header-cover liquid">
                 <img :src="`${community.banner_img}`" alt="cover-29" />
             </figure>
-          
+
             <div class="profile-header-info">
                 <div class="user-short-description big">
                     <div
@@ -99,7 +99,7 @@
                     </svg>
                 </div>
 
-                <div class="profile-header-info-actions">
+                <div class="profile-header-info-actions" @click="subscribe">
                     <p class="profile-header-info-action button secondary">
                         <svg class="icon-join-group">
                             <use xlink:href="#svg-join-group"></use>
@@ -209,7 +209,11 @@ export default class CommunityHeader extends Vue {
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
-        console.log("?")
+    }
+
+    subscribe() {
+        const result = this.$api.subscribeCommunity(this.communityId, 1);
+        console.log("subscribes", result);
     }
 }
 </script>

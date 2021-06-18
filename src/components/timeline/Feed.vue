@@ -214,8 +214,12 @@
                             Comment
                         </p>
                     </div>
-
-                    <div class="post-option">
+                    <div
+                        class="post-option copy-url-tooltip"
+                        @click="copyUrl"
+                        @mouseover="isCopied = false"
+                        data-title="Copy URL"
+                    >
                         <svg class="post-option-icon icon-share">
                             <use xlink:href="#svg-share"></use>
                         </svg>
@@ -240,6 +244,7 @@ import Post from "./Post.vue";
 
 import Hexagon from "@/plugins/hexagon";
 import Dropdown from "@/plugins/dropdown";
+import Tooltip from "@/plugins/tooltip";
 
 @Component({
     components: { CommentList, Post },
@@ -248,14 +253,17 @@ export default class Feed extends Vue {
     @Prop() feed!: any;
     private dropdown: Dropdown = new Dropdown();
     private hexagon: Hexagon = new Hexagon();
+    private tooltip: Tooltip = new Tooltip();
     private reportPopup: boolean = false;
     private isOpenedComments: boolean = false;
     private likeList: any = [];
     private postDate: Date = new Date(this.feed.created_at);
+    private isCopied: boolean = false;
 
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
+        this.tooltip.init();
         console.log(this.feed);
     }
     sendLike() {
@@ -267,6 +275,16 @@ export default class Feed extends Vue {
 
     created() {
         this.likeList = this.$api.likeList(this.feed.id);
+    }
+    copyUrl() {
+        let input = document.body.appendChild(document.createElement("input"));
+        input.value = window.location.href;
+        input.focus();
+        input.select();
+        document.execCommand("copy");
+        input.parentNode?.removeChild(input);
+
+        this.isCopied = true;
     }
 }
 </script>
@@ -289,5 +307,8 @@ export default class Feed extends Vue {
 
 .reaction {
     top: 5px;
+}
+#copied {
+    z-index: 999999;
 }
 </style>

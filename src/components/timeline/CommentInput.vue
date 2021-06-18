@@ -16,20 +16,49 @@
                 <div class="hexagon-border-40-44"></div>
             </div>
         </div>
+        <div class="form-row" v-if="parentId">
+            <div class="form-item reply-container">
+                <div class="user-tag" :class="[parentId ? 'active' : '']">
+                    <router-link :to="`/channel/${userTag}/timeline`"
+                        >@{{ userTag }}</router-link
+                    >
+                </div>
+                <div class="form-input small reply-form">
+                    <label for="popup-post-reply" class="reply-label"
+                        >Your Reply</label
+                    >
+                    <input
+                        class="reply-input"
+                        type="text"
+                        id="popup-post-reply"
+                        v-model="content"
+                    />
+                    <div class="reply-send-wrapper" @click="sendComment">
+                        <svg class="icon-send-message">
+                            <use xlink:href="#svg-send-message"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="form-row">
+        <div class="form-row" v-else>
             <div class="form-item">
                 <div
                     class="form-input small"
-                    :class="editContent ? 'active' : ''"
+                    :class="[
+                        editContent ? 'active' : '',
+                        parentId ? 'active' : '',
+                    ]"
                 >
                     <label for="popup-post-reply">Your Reply</label>
+
                     <input
                         type="text"
                         id="popup-post-reply"
-                        name="popup_post_reply"
                         v-model="content"
                     />
+
                     <div class="reply-send-wrapper" @click="sendComment">
                         <svg class="icon-send-message">
                             <use xlink:href="#svg-send-message"></use>
@@ -65,15 +94,21 @@ import Form from "@/script/form";
 })
 export default class CommentInput extends Vue {
     @Prop() postId!: any;
+    @Prop() parentId!: any;
     @Prop() editContent!: any;
 
     private content: string = "";
     private isPrivate: boolean = false;
-
+    private userTag: string = "";
     mounted() {
         Form.formInput();
         if (this.editContent) {
             this.content = this.editContent;
+        }
+        //대댓글
+        if (this.parentId) {
+            // this.content = `<router-link @${this.parentId}></router-link>`;
+            this.userTag = this.parentId;
         }
     }
 
@@ -83,11 +118,14 @@ export default class CommentInput extends Vue {
             this.postId,
             11,
             this.isPrivate,
-            this.content
+            this.content,
+            undefined,
+            this.parentId
         );
 
         this.content = "";
         this.isPrivate = false;
+
         this.$emit("editDone", true);
     }
 }
@@ -129,4 +167,30 @@ export default class CommentInput extends Vue {
     fill: transparent;
     transition: fill 0.2s ease-in-out;
 }
+.user-tag {
+    font-weight: 700;
+    margin-left: 10px;
+}
+.form-input.small {
+    height: 48px;
+}
+.reply-container {
+    display: flex;
+    align-items: center;
+    background-color: #1d2333;
+    border: 1px solid #3f485f;
+    color: #fff;
+    transition: border-color 0.2s ease-in-out;
+    border-radius: 12px;
+}
+.reply-form {
+    width: 100%;
+}
+.reply-input {
+    border: none;
+    width: 100%;
+}
+/* .reply-label {
+    margin-left: 20%;
+} */
 </style>

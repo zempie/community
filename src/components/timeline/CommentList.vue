@@ -10,6 +10,7 @@
                         :postId="postId"
                         @openReport="openReport"
                         @commentId="selectedComment"
+                        
                     ></comment>
 
                     <!-- <p class="post-comment-heading">

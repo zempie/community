@@ -1,129 +1,138 @@
 <template>
-    <!--  unread reply-2 -->
-    <div class="post-comment">
-        <!-- {{userInfo}} -->
-        <router-link
-            class="user-avatar small no-outline"
-            :to="`/channel/${userInfo.uid}/timeline`"
-        >
-            <div class="user-avatar-content">
-                <div
-                    class="hexagon-image-30-32"
-                    :data-src="userInfo && userInfo.picture"
-                ></div>
-            </div>
+    <div >
+        <!--  unread reply-2 -->
+        <div class="post-comment">
+            <!-- {{userInfo}} -->
+            <router-link
+                class="user-avatar small no-outline"
+                :to="`/channel/${userInfo.uid}/timeline`"
+            >
+                <div class="user-avatar-content">
+                    <div
+                        class="hexagon-image-30-32"
+                        :data-src="userInfo && userInfo.picture"
+                    ></div>
+                </div>
 
-            <div class="user-avatar-progress">
-                <div class="hexagon-progress-40-44"></div>
-            </div>
+                <div class="user-avatar-progress">
+                    <div class="hexagon-progress-40-44"></div>
+                </div>
 
-            <div class="user-avatar-progress-border">
-                <div class="hexagon-border-40-44"></div>
-            </div>
-        </router-link>
+                <div class="user-avatar-progress-border">
+                    <div class="hexagon-border-40-44"></div>
+                </div>
+            </router-link>
 
-        <p class="post-comment-text">
-            <template v-if="!isEditing">
-                <a
-                    class="post-comment-text-author"
-                    href="profile-timeline.html"
-                    >{{ userInfo && userInfo.name }}</a
-                >{{ comment && comment.content }}
-            </template>
-            <!-- edit comment -->
-            <template v-else>
-                <comment-input
-                    @editDone="editDone"
-                    :postId="postId"
-                    :editContent="comment.content"
-                ></comment-input>
-            </template>
-            <!-- /edit comment -->
-        </p>
+            <p class="post-comment-text">
+                <template v-if="!isEditing">
+                    <a
+                        class="post-comment-text-author"
+                        href="profile-timeline.html"
+                        >{{ userInfo && userInfo.name }}</a
+                    >{{ comment && comment.content }}
+                </template>
+                <!-- edit comment -->
+                <template v-else>
+                    <comment-input
+                        @editDone="editDone"
+                        :postId="postId"
+                        :editContent="comment.content"
+                    ></comment-input>
+                </template>
+                <!-- /edit comment -->
+            </p>
 
-        <div class="content-actions">
-            <div class="content-action">
-                <div class="meta-line">
-                    <div class="meta-line-list reaction-item-list small">
-                        <div class="reaction-item"></div>
+            <div class="content-actions">
+                <div class="content-action">
+                    <div class="meta-line">
+                        <div class="meta-line-list reaction-item-list small">
+                            <div class="reaction-item"></div>
 
-                        <div class="reaction-item">
-                            <img
-                                class="reaction-image"
-                                src="../../img/reaction/love.png"
-                                alt="reaction-love"
-                            />
+                            <div class="reaction-item">
+                                <img
+                                    class="reaction-image"
+                                    src="../../img/reaction/love.png"
+                                    alt="reaction-love"
+                                />
+                            </div>
                         </div>
+
+                        <p class="meta-line-text">
+                            {{ comment && comment.like_cnt }}
+                        </p>
                     </div>
 
-                    <p class="meta-line-text">
-                        {{ comment && comment.like_cnt }}
-                    </p>
-                </div>
-
-                <div class="meta-line" @click="likeComment">
-                    <p
-                        class="
-                            meta-line-link
-                            light
-                            reaction-options-small-dropdown-trigger
-                        "
-                    >
-                        Like!
-                    </p>
-                </div>
-
-                <div class="meta-line">
-                    <p class="meta-line-link light">Reply</p>
-                </div>
-
-                <div class="meta-line">
-                    <p class="meta-line-timestamp">
-                        {{
-                            comment &&
-                            new Date(comment.created_at).toLocaleString()
-                        }}
-                    </p>
-                </div>
-
-                <div class="meta-line settings">
-                    <div class="post-settings-wrap">
-                        <div
-                            class="post-settings post-settings-dropdown-trigger"
-                            ref="dropbox"
+                    <div class="meta-line" @click="likeComment">
+                        <p
+                            class="
+                                meta-line-link
+                                light
+                                reaction-options-small-dropdown-trigger
+                            "
                         >
-                            <svg class="post-settings-icon icon-more-dots">
-                                <use xlink:href="#svg-more-dots"></use>
-                            </svg>
-                        </div>
+                            Like!
+                        </p>
+                    </div>
 
-                        <div
-                            class="simple-dropdown post-settings-dropdown"
-                            ref="dropboxList"
-                        >
-                            <p
+                    <div class="meta-line" @click="openReply(comment)">
+                        <p class="meta-line-link light comment" :class="isOpenReply ? 'active' : ''">Reply</p>
+                    </div>
+
+                    <div class="meta-line">
+                        <p class="meta-line-timestamp">
+                            {{
+                                comment &&
+                                new Date(comment.created_at).toLocaleString()
+                            }}
+                        </p>
+                    </div>
+
+                    <div class="meta-line settings">
+                        <div class="post-settings-wrap">
+                            <div
                                 class="
-                                    simple-dropdown-link
-                                    popup-event-creation-trigger
+                                    post-settings post-settings-dropdown-trigger
                                 "
-                                @click="reportComment"
+                                ref="dropbox"
                             >
-                                Report Post
-                            </p>
-                            <p class="simple-dropdown-link" @click="editPost">
-                                Edit Post
-                            </p>
-                            <p
-                                class="simple-dropdown-link"
-                                @click="deletePost(comment.id)"
+                                <svg class="post-settings-icon icon-more-dots">
+                                    <use xlink:href="#svg-more-dots"></use>
+                                </svg>
+                            </div>
+
+                            <div
+                                class="simple-dropdown post-settings-dropdown"
+                                ref="dropboxList"
                             >
-                                Delete Post
-                            </p>
+                                <p
+                                    class="
+                                        simple-dropdown-link
+                                        popup-event-creation-trigger
+                                    "
+                                    @click="reportComment"
+                                >
+                                    Report Post
+                                </p>
+                                <p
+                                    class="simple-dropdown-link"
+                                    @click="editPost"
+                                >
+                                    Edit Post
+                                </p>
+                                <p
+                                    class="simple-dropdown-link"
+                                    @click="deletePost(comment.id)"
+                                >
+                                    Delete Post
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <comment-input v-if="isOpenReply" :postId="postId" :parentId="parentId" class="post-comment unread reply-2"></comment-input>
     </div>
 </template>
 
@@ -146,6 +155,8 @@ export default class Comment extends Vue {
     private content: string = this.comment.content;
     private isEditing: boolean = false;
     private isPrivate: boolean = false;
+    private isOpenReply: boolean = false;
+    private parentId: number = -1;
 
     mounted() {
         console.log(this.comment);
@@ -173,10 +184,15 @@ export default class Comment extends Vue {
         (this.$refs.dropbox as HTMLElement).click();
         this.$emit("openReport", true);
         this.$emit("commentId", this.comment.id);
+        //  document.documentElement.style.overflow = 'hidden'
     }
-    likeComment(){
-        
+    likeComment() {
         const result = this.$api.likeComment(this.comment.id);
+    }
+
+    openReply(comment: any) {
+     this.isOpenReply = !this.isOpenReply
+     this.parentId = this.comment.id
     }
 }
 </script>
@@ -184,5 +200,8 @@ export default class Comment extends Vue {
 <style scoped>
 .post-comment-text {
     text-align: left;
+}
+.comment.active{
+    color: #4ff461;
 }
 </style>

@@ -2,6 +2,7 @@ import XM_Dropdown from "@/script/vendor/xm_dropdown.min.js";
 import XM_Hexagon from "@/script/vendor/xm_hexagon.min.js"
 import XM_Tab from "@/script/vendor/xm_tab.min.js"
 import XM_Popup from "@/script/vendor/xm_popup.min.js"
+import XM_Tooltip from "@/script/vendor/xm_tooltip.min.js"
 
 const existsInDOM = function (selector: any) {
     return document.querySelectorAll(selector).length;
@@ -28,11 +29,17 @@ const plugins = {
             return new XM_Tab(options);
         }
     },
-    createPopup: function (options: any) {        
+    createPopup: function (options: any) {
         if (existsInDOM(options.container) && existsInDOM(options.trigger)) {
             console.log('create popup')
             //@ts-ignore       
             return new XM_Popup(options);
+        }
+    },
+    createTooltip: function (options: any) {
+        if (existsInDOM(options.container)) {
+            //@ts-ignore       
+            return new XM_Tooltip(options);
         }
     },
 }

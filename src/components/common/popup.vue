@@ -8,6 +8,7 @@
                 <use xlink:href="#svg-cross"></use>
             </svg>
         </div>
+        <div v-if="!isReportDone">
         <slot name="popupHeader"></slot>
         <div class="form">
             <div class="form-row">
@@ -109,6 +110,10 @@
                 </button>
             </div>
         </div>
+        </div>
+        <div v-else>
+            <div><h2>신고가 완료되었습니다.</h2></div>
+    </div>
     </div>
 </template>
 
@@ -129,6 +134,7 @@ export default class Popup extends Vue {
     private isOpenTextarea: boolean = false;
     private pickedReason: any = "";
     private reasonText: string = "";
+    private isReportDone: boolean = false;
 
     mounted() {
         console.log("PopupPlugin");
@@ -145,16 +151,21 @@ export default class Popup extends Vue {
         }
     }
     sendReport() {
-        
-
-
         // console.log("send", this.pickedReason, this.postId, this.commentId);
-        const result = this.$api.sendReport( this.commentId, 1, this.pickedReason);
-        this.inputInit();
+        const result = this.$api.sendReport(
+            this.commentId,
+            1,
+            this.pickedReason
+        );
+        console.log('div', result)
+        if (result) {
+            this.isReportDone = true;
+            // this.inputInit();
+        }
     }
 
     inputInit() {
-        (this.$refs.popupClose as HTMLElement).click();
+        // (this.$refs.popupClose as HTMLElement).click();
         this.pickedReason = "";
         this.isOpenTextarea = false;
         (this.$refs.reportReason as HTMLInputElement).checked = false;
