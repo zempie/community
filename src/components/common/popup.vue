@@ -193,4 +193,7 @@ export default class Popup extends Vue {
 .form-input {
     margin-top: 16px;
 }
+.popup-box{
+    height: 500px;
+}
 </style>

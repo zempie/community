@@ -122,12 +122,12 @@
                 </template>
                 <template v-slot:communityDetail>
                     <div class="user-stats">
-                        <div class="user-stat">
+                        <router-link class="user-stat" :to="`/community/${community.id}/members`">
                             <p class="user-stat-title">
                                 {{ community.member_cnt }}
                             </p>
                             <p class="user-stat-text">members</p>
-                        </div>
+                        </router-link>
                         <div class="user-stat">
                             <p class="user-stat-title">
                                 {{ community.posts_cnt }}

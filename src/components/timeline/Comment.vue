@@ -142,9 +142,8 @@ import Hexagon from "@/plugins/hexagon";
 import PopupPlugin from "@/plugins/popup";
 
 import CommentInput from "@/components/timeline/CommentInput.vue";
-import Popup from "@/components/common/Popup.vue";
 @Component({
-    components: { CommentInput, Popup },
+    components: { CommentInput },
 })
 export default class Comment extends Vue {
     @Prop() comment!: any;

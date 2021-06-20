@@ -687,6 +687,12 @@ export default class Api {
 
     }
 
+    //POST
+    deletePost(post_id: number){
+        console.log('delete post')
+
+    }
+
     //USER
     async session() {
         const response = await this.request('get', '/user/verify-session', undefined, true);
