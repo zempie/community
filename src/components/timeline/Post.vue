@@ -23,16 +23,37 @@
         </div>
 
         <div class="quick-post-body">
-            <form class="form">
+            <div class="form">
                 <div class="form-row">
                     <div class="form-item">
                         <div class="form-textarea">
-                            <textarea
+                            <!-- tiptap -->
+                           <tiptap></tiptap>
+
+                            <!-- custom -->
+                            <!-- <div
+                            class="input"
+                                contenteditable="true"
+                                ref="postContent"
+                            ></div>
+                            <input
+                                type="text"
+                                style="
+                                    display: none;
+                                    border: none;
+                                    background: transparent;
+                                    outline: 0;
+                                "
+                            />
+                            <p v-html="textPreview"></p> -->
+
+                            <!-- <vue-editor v-model="content" :editorToolbar="customToolbar"></vue-editor> -->
+                            <!-- <textarea
                                 v-model="postingText"
                                 id="quick-post-text"
                                 name="quick-post-text"
                                 placeholder="Hi Marina! Share your post here..."
-                            ></textarea>
+                            ></textarea> -->
                             <div
                                 v-if="imageSrc.length > 0"
                                 class="upload-image"
@@ -51,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div class="quick-post-footer">
@@ -89,7 +110,7 @@
                 >
                     link
                 </div>
-                
+
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Tag"
@@ -117,10 +138,15 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import FileUpload from "@/components/common/FileUpload.vue";
-import Tiptap from "@/components/timeline/Tiptap.vue";
 
+import { VueEditor } from "vue2-editor";
+
+import { Editor, EditorContent, HTMLElement } from "@tiptap/vue-2";
+import { Extension } from "@tiptap/core";
+import { Bold } from "@tiptap/extension-bold";
+import Tiptap from "@/components/timeline/Tiptap.vue"
 @Component({
-    components: { FileUpload, Tiptap },
+    components: { FileUpload, VueEditor, EditorContent, Tiptap },
 })
 export default class Post extends Vue {
     private postingText: string = "";
@@ -131,6 +157,14 @@ export default class Post extends Vue {
     private filename: string = "";
     private imageSrc: string[] = [];
 
+    private content: string = "";
+    customToolbar = [""];
+    textPreview: any = "";
+    tempKey: string = "";
+    userTag: string = "";
+
+    // tiptap
+  
     @Watch("postText")
     watchChar() {
         if (this.postingText.length > 5000) {
@@ -192,6 +226,7 @@ export default class Post extends Vue {
             }
             this.filename = file.name;
             this.preview(file);
+            console.log(file.imageSrc)
         }
     }
 
@@ -218,7 +253,10 @@ export default class Post extends Vue {
     //포스팅
 
     uploadPost() {
-        console.log(this.imageSrc, this.postingText);
+        // console.log(this.imageSrc, this.content);
+        console.log(this.$refs.postContent);
+        this.textPreview = (this.$refs.postContent as Element).innerHTML;
+        // this.handleImageAdded
     }
 }
 </script>
@@ -235,5 +273,12 @@ export default class Post extends Vue {
 .preview-img {
     max-width: 100%;
     height: 100%;
+}
+.input {
+    height: 150px;
+    color: #fff;
+    text-align: left;
+    padding: 20px;
+    overflow: auto;
 }
 </style>

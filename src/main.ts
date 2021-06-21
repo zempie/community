@@ -10,6 +10,15 @@ import './plugins/axios'
 import 'tiny-slider'
 import '@/script/utils/svg-loader'
 
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "./css/styles.css";
+
+import 'vue2-editor'
+import 'remixicon/fonts/remixicon.css'
+Vue.use(BootstrapVue)
+
 Vue.config.productionTip = false
 
 new Vue({

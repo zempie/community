@@ -191,10 +191,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
-import Tiptap from "@/components/timeline/Tiptap.vue";
-
 @Component({
-    components: { Tiptap },
+    components: {  },
 })
 export default class CommunityHeader extends Vue {
     private dropdown: Dropdown = new Dropdown();
