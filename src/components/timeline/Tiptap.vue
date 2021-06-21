@@ -165,6 +165,8 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 import Image from "@tiptap/extension-image";
+import Placeholder from '@tiptap/extension-placeholder'
+
 @Component({
     components: { EditorContent },
 })
@@ -173,10 +175,9 @@ export default class Tiptap extends Vue {
     private filename: string = "";
     async created() {
         this.editor = new Editor({
-            content: "<p>I’m running tiptap with Vue.js. 🎉</p>",
-            extensions: [StarterKit, Image],
+            content: "",
+            extensions: [StarterKit, Image, Placeholder.configure({placeholder: '안녕하세요'} )],
         });
-        console.log(this.editor);
     }
 
     beforeDestroy() {
@@ -184,7 +185,6 @@ export default class Tiptap extends Vue {
     }
 
     //이미지 업로드
-
     uploadImage() {
         (this.$refs.fileInput as HTMLElement).click();
     }
@@ -214,52 +214,8 @@ export default class Tiptap extends Vue {
 }
 </script>
 
-<style  scoped>
-.ProseMirror > * + * {
-    margin-top: 0.75em;
-}
-.ProseMirror ul,
-.ProseMirror ol {
-    padding: 0 1rem;
-}
-.ProseMirror h1,
-.ProseMirror h2,
-.ProseMirror h3,
-.ProseMirror h4,
-.ProseMirror h5,
-.ProseMirror h6 {
-    line-height: 1.1;
-}
-.ProseMirror code {
-    background-color: rgba(97, 97, 97, 0.1);
-    color: #616161;
-}
-.ProseMirror pre {
-    background: #0d0d0d;
-    color: #fff;
-    font-family: "JetBrainsMono", monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-}
-.ProseMirror pre code {
-    color: inherit;
-    padding: 0;
-    background: none;
-    font-size: 0.8rem;
-}
-.ProseMirror img {
-    max-width: 100%;
-    height: auto;
-}
-.ProseMirror blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(13, 13, 13, 0.1);
-}
-.ProseMirror hr {
-    border: none;
-    border-top: 2px solid rgba(13, 13, 13, 0.1);
-    margin: 2rem 0;
-}
+<style scoped>
+
 .editor-header {
     display: flex;
     align-items: center;
@@ -267,7 +223,7 @@ export default class Tiptap extends Vue {
     flex-wrap: wrap;
     padding: 0.25rem;
     border-bottom: 1px solid #fff;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 .menu-item {
     width: 1.75rem;
@@ -279,4 +235,5 @@ export default class Tiptap extends Vue {
     padding: 0.25rem;
     margin-right: 0.25rem;
 }
+
 </style>

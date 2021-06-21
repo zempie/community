@@ -42,4 +42,20 @@ export default class App extends Vue {
     -khtml-user-select: none;
     user-select: none;
 }
+.ProseMirror img{
+     max-width: 100% !important;
+     height: auto;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #ced4da;
+    pointer-events: none;
+    height: 0;
+  }
+  .ProseMirror{
+      text-align: left;
+      padding: 15px
+  }
 </style>
