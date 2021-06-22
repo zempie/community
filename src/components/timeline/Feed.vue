@@ -271,7 +271,6 @@ export default class Feed extends Vue {
         this.dropdown.init();
         this.hexagon.init();
         this.tooltip.init();
-        console.log(this.feed);
     }
     sendLike() {
         console.log("liked!");

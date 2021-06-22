@@ -49,6 +49,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import CommunityCard from "@/components/pages/community/CommunityCard.vue";
+import Dropdown from "@/plugins/dropdown";
 
 @Component({
     components: { CommunityCard },
@@ -56,9 +57,12 @@ import CommunityCard from "@/components/pages/community/CommunityCard.vue";
 export default class guestPage extends Vue {
     private communityList: any = [];
     private searchInput: string = "";
-
+    private dropdown: Dropdown = new Dropdown();
     created() {
         this.communityList = this.$api.getCommunityList();
+    }
+    mounted() {
+        this.dropdown.init();
     }
     searchCommunity() {
         this.$router.push(`/community/list?q=${this.searchInput}`);

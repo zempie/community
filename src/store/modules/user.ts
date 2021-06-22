@@ -145,6 +145,7 @@ export default {
             context.commit('idToken', null);
             // context.commit('developer', null);
             context.commit('loginState', LoginState.logout);
+            console.log(context.getters.loginState)
         }
     }
 }

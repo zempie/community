@@ -80,8 +80,9 @@ const routes: Array<RouteConfig> = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: '/',
+  scrollBehavior: () => ({ x: 0, y: 0 }),
+  mode: process.env.VUE_ROUTER_MODE,
+  base: process.env.VUE_ROUTER_BASE,
   routes
 })
 

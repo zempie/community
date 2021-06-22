@@ -9,45 +9,45 @@ const app = {
             }
         }
     },
-    query: function (options: any) {
-        const config = {
-            method: 'GET',
-            async: true,
-            header: {
-                type: 'Content-type',
-                value: 'application/json'
-            },
-            data: ''
-        };
+    // query: function (options: any) {
+    //     const config = {
+    //         method: 'GET',
+    //         async: true,
+    //         header: {
+    //             type: 'Content-type',
+    //             value: 'application/json'
+    //         },
+    //         data: ''
+    //     };
 
-        this.deepExtend(config, options);
+    //     this.deepExtend(config, options);
 
-        return new Promise(function (resolve, reject) {
-            const xhttp = new XMLHttpRequest();
+    //     return new Promise(function (resolve, reject) {
+    //         const xhttp = new XMLHttpRequest();
 
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState !== 4) return;
+    //         xhttp.onreadystatechange = function () {
+    //             if (xhttp.readyState !== 4) return;
 
-                if (xhttp.status === 200) {
-                    resolve(xhttp.responseText);
-                } else {
-                    reject({
-                        status: xhttp.status,
-                        statusText: xhttp.statusText
-                    });
-                }
-            };
-            //@ts-ignore
-            xhttp.open(config.method, config.url, config.async);
-            xhttp.setRequestHeader(config.header.type, config.header.value);
+    //             if (xhttp.status === 200) {
+    //                 resolve(xhttp.responseText);
+    //             } else {
+    //                 reject({
+    //                     status: xhttp.status,
+    //                     statusText: xhttp.statusText
+    //                 });
+    //             }
+    //         };
+    //         //@ts-ignore
+    //         xhttp.open(config.method, config.url, config.async);
+    //         xhttp.setRequestHeader(config.header.type, config.header.value);
 
-            if (config.method === 'GET') {
-                xhttp.send();
-            } else if (config.method === 'POST') {
-                xhttp.send(config.data);
-            }
-        });
-    },
+    //         if (config.method === 'GET') {
+    //             xhttp.send();
+    //         } else if (config.method === 'POST') {
+    //             xhttp.send(config.data);
+    //         }
+    //     });
+    // },
     querySelector: function (selector: any, callback: (arg0: NodeListOf<any>) => void) {
         const el = document.querySelectorAll(selector);
 

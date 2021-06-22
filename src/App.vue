@@ -11,6 +11,8 @@ import { Component, Vue } from "vue-property-decorator";
 import Navigator from "@/components/layout/Navigator.vue";
 import Dropdown from "@/plugins/dropdown";
 
+import {LoginState} from "@/store/modules/user";
+
 @Component({
     components: { Navigator },
 })
@@ -19,7 +21,16 @@ export default class App extends Vue {
 
     async mounted() {
         this.dropdown.init();
-        await this.$store.dispatch("loginState");
+        const state = await this.$store.dispatch('loginState');
+
+        //  if( state === LoginState.login ) {
+        //     if( !this.$store.getters.user.is_developer ) {
+        //         await this.$router.replace('/signup').catch(()=>{});
+        //     }
+        // }
+        // else {
+        //     await this.$router.replace('/login');
+        // }
     }
 }
 </script>

@@ -2,6 +2,7 @@ import plugins from './plugins'
 
 export default class dropdown {
   init() {
+    console.log('dropdown init')
     plugins.createDropdown({
       trigger: '.widget-box-post-settings-dropdown-trigger',
       container: '.widget-box-post-settings-dropdown',
