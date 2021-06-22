@@ -11,7 +11,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Navigator from "@/components/layout/Navigator.vue";
 import Dropdown from "@/plugins/dropdown";
 
-import {LoginState} from "@/store/modules/user";
+import { LoginState } from "@/store/modules/user";
 
 @Component({
     components: { Navigator },
@@ -21,7 +21,7 @@ export default class App extends Vue {
 
     async mounted() {
         this.dropdown.init();
-        const state = await this.$store.dispatch('loginState');
+        const state = await this.$store.dispatch("loginState");
 
         //  if( state === LoginState.login ) {
         //     if( !this.$store.getters.user.is_developer ) {
@@ -38,7 +38,7 @@ export default class App extends Vue {
 <style>
 @import "./css/styles.css";
 #app {
-    font-family: Rajdhani,sans-serif;
+    font-family: Rajdhani, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -53,20 +53,70 @@ export default class App extends Vue {
     -khtml-user-select: none;
     user-select: none;
 }
-.ProseMirror img{
-     max-width: 100% !important;
-     height: auto;
+
+
+pre {
+    background: #0d0d0d;
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+pre code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+}
+.hljs-comment,
+.hljs-quote {
+    color: #616161;
 }
 
-.ProseMirror p.is-editor-empty:first-child::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #ced4da;
-    pointer-events: none;
-    height: 0;
-  }
-  .ProseMirror{
-      text-align: left;
-      padding: 15px
-  }
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+    color: #f98181;
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+    color: #fbbc88;
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+    color: #b9f18d;
+}
+
+.hljs-title,
+.hljs-section {
+    color: #faf594;
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+    color: #70cff8;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: 700;
+}
 </style>

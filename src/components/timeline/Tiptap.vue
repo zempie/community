@@ -151,10 +151,11 @@
                 <input type="file" @change="onFileChange" accept= image/*
                 ref="fileInput" name="fileInput" />
             </div>
-            
         </div>
 
         <editor-content :editor="editor" />
+       
+       
     </div>
 </template>
 
@@ -165,7 +166,8 @@ import { Editor, EditorContent } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 import Image from "@tiptap/extension-image";
-import Placeholder from '@tiptap/extension-placeholder'
+import Placeholder from "@tiptap/extension-placeholder";
+import Link from "@tiptap/extension-link";
 
 @Component({
     components: { EditorContent },
@@ -173,10 +175,17 @@ import Placeholder from '@tiptap/extension-placeholder'
 export default class Tiptap extends Vue {
     private editor!: Editor;
     private filename: string = "";
+    private imageSrc: string[] = [];
+
     async created() {
         this.editor = new Editor({
             content: "",
-            extensions: [StarterKit, Image, Placeholder.configure({placeholder: '안녕하세요'} )],
+            extensions: [
+                StarterKit,
+                Image,
+                Placeholder.configure({ placeholder: "안녕하세요" }),
+                Link,
+            ],
         });
     }
 
@@ -215,7 +224,6 @@ export default class Tiptap extends Vue {
 </script>
 
 <style scoped>
-
 .editor-header {
     display: flex;
     align-items: center;
@@ -235,5 +243,4 @@ export default class Tiptap extends Vue {
     padding: 0.25rem;
     margin-right: 0.25rem;
 }
-
 </style>

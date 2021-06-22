@@ -18,7 +18,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/community/list',
     name: 'CommunityList',
-    component: () => import(/* webpackChunkName: "about" */ '@/components/pages/community/CommunityList.vue')
+    component: () => import(/* webpackChunkName: "about" */ '@/components/pages/community/CommunityList.vue'),
+
   },
   {
     path: '/community/:community_id',
@@ -40,7 +41,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/search',
     name: 'Search',
-    component: () => import( "@/components/pages/SearchPage.vue"),
+    component: () => import("@/components/pages/SearchPage.vue"),
     // children: [
     //   {
     //     path: '/search/',
@@ -60,20 +61,29 @@ const routes: Array<RouteConfig> = [
   {
     path: '/channel/:channel_id',
     name: 'UserChannel',
-    component: () => import( "@/components/layout/UserHeader.vue"),
+    component: () => import("@/components/layout/UserHeader.vue"),
+    redirect: '/channel/:channel_id/timeline',
     children: [
       {
         path: '/channel/:channel_id/timeline',
         name: 'UserTimeline',
         component: () => import("@/components/pages/user/UserTimeline.vue"),
       },
+
+
+
     ]
   },
 
   {
     path: '/timeline',
     name: 'Timeline',
-    component: () => import('../views/Timeline.vue')
+    component: () => import('@/views/Timeline.vue')
+  },
+
+  {
+    path: '*',
+    component: () => import('@/views/Error404.vue')
   },
 
 
