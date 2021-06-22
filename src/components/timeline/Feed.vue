@@ -80,10 +80,17 @@
                             <p class="user-status-text small">{{ postDate }}</p>
                         </div>
 
-                        <p class="widget-box-status-text">{{ feed.content }}</p>
+                        <div class="widget-box-status-text" v-html="feed.content">
+                        <!-- {{ feed.content }} -->
+                                
+
+                        </div>
+
                     </div>
 
-                    <div class="widget-box-status-content">
+<!-- <h2>{{feed.attatchment_files}} </h2>         -->
+           <div class="widget-box-status-content">
+
                         <div class="tag-list">
                             <router-link
                                 class="tag-item secondary"

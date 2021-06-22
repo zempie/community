@@ -106,14 +106,14 @@
                         </svg>
                     </p>
 
-                    <a
+                    <router-link
                         class="profile-header-info-action button"
-                        href="hub-group-management.html"
+                        to="group"
                     >
                         <svg class="icon-more-dots">
                             <use xlink:href="#svg-more-dots"></use>
                         </svg>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@
                 <router-link
                     class="section-menu-item"
                     :to="`/community/${community.id}/timeline`"
-                    :class="$route.name === 'CommunityTimeline' ? 'active' : ''"
+                    :class="($route.name === 'CommunityTimeline' && Object.keys($route.query).length === 0 ) ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-timeline">
                         <use xlink:href="#svg-timeline"></use>
@@ -146,22 +146,24 @@
 
                     <p class="section-menu-item-text">Members</p>
                 </router-link>
-
-                <a class="section-menu-item" href="#">
+                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline?media=photo`"
+                 :class="$route.query.media === 'photo' ? 'active' : ''"
+                >
                     <svg class="section-menu-item-icon icon-photos">
                         <use xlink:href="#svg-photos"></use>
                     </svg>
 
                     <p class="section-menu-item-text">Photos</p>
-                </a>
+                </router-link>
 
-                <a class="section-menu-item" href="#">
+                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline?media=video`"
+                  :class="$route.query.media === 'video' ? 'active' : ''">
                     <svg class="section-menu-item-icon icon-videos">
                         <use xlink:href="#svg-videos"></use>
                     </svg>
 
                     <p class="section-menu-item-text">Videos</p>
-                </a>
+                </router-link>
             </div>
 
             <div
