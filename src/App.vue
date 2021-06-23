@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import Navigator from "@/components/layout/Navigator.vue";
+import Navigator from "@/components/layout/navigator/Navigator.vue";
 import Dropdown from "@/plugins/dropdown";
 
 import { LoginState } from "@/store/modules/user";

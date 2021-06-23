@@ -116,7 +116,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 import router from "@/router";
 
-import ProfileMenu from "@/components/layout/header/ProfileMenu.vue";
+import ProfileMenu from "@/components/layout/navigator/ProfileMenu.vue";
 @Component({
     components: { ProfileMenu },
 })

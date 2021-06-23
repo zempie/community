@@ -318,7 +318,7 @@ export default class Api {
                         },
 
                     ],
-                    "content": "test Posting~~",
+                    "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
                     "visibility": "public",
                     "hashtags": ["tag", "tag1"],
                     "user_tag": [],
@@ -621,7 +621,7 @@ export default class Api {
                         },
 
                     ],
-                    "content": "test Posting11111111111111~~",
+                    "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
                     "visibility": "public",
                     "hashtags": ["tag0", "tag1", "tag2"],
                     "user_tag": [],

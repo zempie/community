@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 
 import Post from "@/components/timeline/Post.vue";
@@ -71,6 +71,7 @@ export default class CommunityTimeline extends Vue {
     this.timeline = this.$api.getTimeline(this.communityId);
   }
   mounted() {
+    console.log("?")
     this.dropdown.init();
   }
 
@@ -88,6 +89,10 @@ export default class CommunityTimeline extends Vue {
 
   isActive(id?: any) {
     return id == this.channelId;
+  }
+  @Watch("$route.query")
+  watchQuery(query: any){
+    console.log(query)
   }
 }
 </script>
