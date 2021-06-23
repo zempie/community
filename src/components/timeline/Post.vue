@@ -63,9 +63,36 @@
                             ></textarea> -->
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
-                                accept= image/* ref="fileInput" name="fileInput"
-                                />
+                                accept= image/* ref="photo" name="fileInput" />
                             </div>
+
+                            <div style="height: 0px; overflow: hidden">
+                                <input type="file" @change="onFileChange"
+                                accept= video/* ref="video" />
+                            </div>
+                            <div style="height: 0px; overflow: hidden">
+                                <input type="file" @change="onFileChange"
+                                accept= audio/* ref="sound" />
+                            </div>
+                            <!-- <video
+                                width="320"
+                                height="240"
+                                controls
+                                v-if="videoSrc"
+                            >
+                                <source
+                                    :src="videoSrc"
+                                    :type="`video/${fileExt}`"
+                                    :key="videoSrc"
+                                />
+                            </video> -->
+                            <audio controls v-if="audioSrc">
+                                <source
+                                    :src="audioSrc"
+                                    :type="`audio/${fileExt}`"
+                                    :key="audioSrc"
+                                />
+                            </audio>
                             <p class="form-textarea-limit-text">
                                 {{ this.postingText.length }}/5000
                             </p>
@@ -80,7 +107,7 @@
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Photo"
-                    @click="uploadImage"
+                    @click="uploadFile('photo')"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -96,9 +123,12 @@
                     </svg>
                 </div>
 
+                <!-- upload video -->
+
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Video"
+                    @click="uploadFile('video')"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -114,6 +144,27 @@
                     </svg>
                 </div>
 
+                <!-- /upload video  -->
+                <!-- upload sound -->
+                <div
+                    class="quick-post-footer-action text-tooltip-tft-medium"
+                    data-title="Insert Sound"
+                    @click="uploadFile('sound')"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                    >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                            d="M16 8v2h-3v4.5a2.5 2.5 0 1 1-2-2.45V8h4V4H5v16h14V8h-3zM3 2.992C3 2.444 3.447 2 3.999 2H16l5 5v13.993A1 1 0 0 1 20.007 22H3.993A1 1 0 0 1 3 21.008V2.992z"
+                            fill="rgba(97,106,130,1)"
+                        />
+                    </svg>
+                </div>
+                <!-- /upload sound -->
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Link"
@@ -132,23 +183,6 @@
                     </svg>
                 </div>
 
-                <div
-                    class="quick-post-footer-action text-tooltip-tft-medium"
-                    data-title="Insert Sound"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                    >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path
-                            d="M16 8v2h-3v4.5a2.5 2.5 0 1 1-2-2.45V8h4V4H5v16h14V8h-3zM3 2.992C3 2.444 3.447 2 3.999 2H16l5 5v13.993A1 1 0 0 1 20.007 22H3.993A1 1 0 0 1 3 21.008V2.992z"
-                            fill="rgba(97,106,130,1)"
-                        />
-                    </svg>
-                </div>
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Code Block"
@@ -170,6 +204,7 @@
                         />
                     </svg>
                 </div>
+
                 <!-- 투표 -->
                 <div class="option-item">
                     <svg class="option-item-icon icon-poll">
@@ -208,7 +243,7 @@ import FileUpload from "@/components/common/FileUpload.vue";
 
 import { VueEditor } from "vue2-editor";
 
-import { Editor, EditorContent } from "@tiptap/vue-2";
+import { Editor, EditorContent, mergeAttributes } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 import Image from "@tiptap/extension-image";
@@ -217,9 +252,10 @@ import Link from "@tiptap/extension-link";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
-
 import lowlight from "lowlight";
 
+import Video from "@/script/tiptap/customVideo";
+import Iframe from "@/script/tiptap/iframe";
 @Component({
     components: { FileUpload, VueEditor, EditorContent },
 })
@@ -239,6 +275,11 @@ export default class Post extends Vue {
     textPreview: any = "";
     tempKey: string = "";
     userTag: string = "";
+
+    videoSrc: string = "";
+    audioSrc: string = "";
+    imgSrc: string = "";
+    fileExt: string = "";
 
     // tiptap
 
@@ -262,6 +303,8 @@ export default class Post extends Vue {
                 Link,
                 Highlight,
                 Typography,
+                Video,
+                Iframe,
             ],
         });
     }
@@ -270,68 +313,58 @@ export default class Post extends Vue {
         this.editor.destroy();
     }
 
-    mounted() {
-        this.onYouTubeIframeAPIReady();
+    mounted() {}
+
+    //첨부파일 업로드
+    uploadFile(fileType: string) {
+        console.log(fileType);
+        (this.$refs[fileType] as HTMLElement).click();
     }
 
-    onYouTubeIframeAPIReady() {
-        //@ts-ignore
-        this.player = new YT.Player("player", {
-            height: "360",
-            width: "640",
-            videoId: "M7lc1UVf-VE",
-            events: {
-                onReady: this.onPlayerReady,
-                onStateChange: this.onPlayerStateChange,
-            },
-        });
-    }
-
-    // 4. The API will call this function when the video player is ready.
-    onPlayerReady(event: { target: { playVideo: () => void } }) {
-        event.target.playVideo();
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-
-    onPlayerStateChange(event: { data: any }) {
-        //@ts-ignore
-        if (event.data == YT.PlayerState.PLAYING && !this.done) {
-            setTimeout(this.stopVideo, 6000);
-            this.done = true;
-        }
-    }
-    stopVideo() {
-        this.player.stopVideo();
-    }
-
-    //이미지 업로드
-    uploadImage() {
-        (this.$refs.fileInput as HTMLElement).click();
-    }
-    // 이미지 업로드
+    // 파일 업로드
     onFileChange(event: { target: { files: any } }) {
-        this.inputImageFile(event.target.files);
+        this.inputFile(event.target.files);
         console.log(event.target.files);
     }
 
-    inputImageFile(files: string | any[]) {
+    inputFile(files: string | any[]) {
         if (files.length) {
             let file = files[0];
-            if (!/^image\//.test(file.type)) {
-                alert("이미지 파일만 등록이 가능합니다");
-                return false;
-            }
+            let fileType = file.type.split("/")[0].toLowerCase();
+            this.fileExt = file.type.split("/")[1].toLowerCase();
             this.filename = file.name;
-            console.log(URL.createObjectURL(file));
 
-            this.editor
-                .chain()
-                .focus()
-                .setImage({ src: URL.createObjectURL(file) })
-                .run();
+            console.log(URL.createObjectURL(file), file.type);
+            if (fileType === "video") {
+                this.videoSrc = URL.createObjectURL(file);
+
+                // this.editor
+                //     .chain()
+                //     .focus()
+                //     .setIframe({ src: this.videoSrc })
+                //     .run();
+
+                this.editor
+                    .chain()
+                    .focus()
+                    .setVideo({
+                        src: this.videoSrc,
+                        type: file.type,
+                        width: 360,
+                        height: 240,
+                        controls: true,
+                    })
+                    .run();
+            } else if (fileType === "audio") {
+                this.audioSrc = URL.createObjectURL(file);
+            } else if (fileType === "image") {
+                this.imgSrc = URL.createObjectURL(file);
+                this.editor
+                    .chain()
+                    .focus()
+                    .setImage({ src: this.imgSrc })
+                    .run();
+            }
         }
     }
 
@@ -341,6 +374,7 @@ export default class Post extends Vue {
         this.content = this.editor.getHTML();
 
         console.log(this.stringToHTML(this.content));
+
         // https://www.youtube.com/watch?v=5KG-5kEhzu4
         // console.log(this.imageSrc, this.content);
         // console.log(this.editor.getHTML());
@@ -351,6 +385,7 @@ export default class Post extends Vue {
     stringToHTML = (str: any) => {
         var dom = document.createElement("div");
         dom.innerHTML = str;
+        console.log(str);
         for (let i = 0; i < dom.getElementsByTagName("a").length; i++) {
             this.youtubeLink.push(
                 dom
@@ -409,6 +444,35 @@ export default class Post extends Vue {
 .editor-container {
     text-align: left;
     padding: 15px;
+    .iframe-wrapper {
+        position: relative;
+        padding-bottom: 100/16 * 9%;
+        height: 0;
+        overflow: hidden;
+        width: 100%;
+        height: auto;
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 100/16 * 9%;
+        height: 0;
+        overflow: hidden;
+        width: 360px;
+        height: 240px;
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+    }
 
     .ProseMirror {
         > * + * {
