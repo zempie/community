@@ -146,8 +146,8 @@
 
                     <p class="section-menu-item-text">Members</p>
                 </router-link>
-                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline?media=photo`"
-                 :class="$route.query.media === 'photo' ? 'active' : ''"
+                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline?media=image`"
+                 :class="$route.query.media === 'image' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-photos">
                         <use xlink:href="#svg-photos"></use>
@@ -166,7 +166,7 @@
                 </router-link>
             </div>
 
-            <div
+            <!-- <div
                 id="section-navigation-medium-slider-controls"
                 class="slider-controls"
             >
@@ -181,7 +181,7 @@
                         <use xlink:href="#svg-small-arrow"></use>
                     </svg>
                 </div>
-            </div>
+            </div> -->
         </nav>
         <router-view></router-view>
     </div>

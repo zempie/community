@@ -1,15 +1,20 @@
 <template>
-    <!-- todo: 첨부파일 연결해야됨 -->
-    <!-- <div id="player"></div> -->
     <div class="quick-post">
         <div class="quick-post-header">
             <div class="option-items">
-                <div class="option-item active">
+                 <div class="option-item active">
                     <svg class="option-item-icon icon-status">
                         <use xlink:href="#svg-status"></use>
                     </svg>
 
                     <p class="option-item-title">Post</p>
+                </div>
+                <div class="option-item">
+                    <svg class="option-item-icon icon-status">
+                        <use xlink:href="#svg-status"></use>
+                    </svg>
+
+                    <p class="option-item-title">Blog Post</p>
                 </div>
 
                 <div class="option-item">
@@ -86,13 +91,13 @@
                                     :key="videoSrc"
                                 />
                             </video> -->
-                            <audio controls v-if="audioSrc">
+                            <!-- <audio controls v-if="audioSrc">
                                 <source
                                     :src="audioSrc"
                                     :type="`audio/${fileExt}`"
                                     :key="audioSrc"
                                 />
-                            </audio>
+                            </audio> -->
                             <p class="form-textarea-limit-text">
                                 {{ this.postingText.length }}/5000
                             </p>
@@ -255,6 +260,7 @@ import Typography from "@tiptap/extension-typography";
 import lowlight from "lowlight";
 
 import Video from "@/script/tiptap/customVideo";
+import Audio from "@/script/tiptap/customAudio";
 import Iframe from "@/script/tiptap/iframe";
 @Component({
     components: { FileUpload, VueEditor, EditorContent },
@@ -305,6 +311,7 @@ export default class Post extends Vue {
                 Typography,
                 Video,
                 Iframe,
+                Audio,
             ],
         });
     }
@@ -338,12 +345,6 @@ export default class Post extends Vue {
             if (fileType === "video") {
                 this.videoSrc = URL.createObjectURL(file);
 
-                // this.editor
-                //     .chain()
-                //     .focus()
-                //     .setIframe({ src: this.videoSrc })
-                //     .run();
-
                 this.editor
                     .chain()
                     .focus()
@@ -357,6 +358,15 @@ export default class Post extends Vue {
                     .run();
             } else if (fileType === "audio") {
                 this.audioSrc = URL.createObjectURL(file);
+                this.editor
+                    .chain()
+                    .focus()
+                    .setAudio({
+                        src: this.audioSrc,
+                        type: file.type,
+                        controls: true,
+                    })
+                    .run();
             } else if (fileType === "image") {
                 this.imgSrc = URL.createObjectURL(file);
                 this.editor
@@ -465,10 +475,20 @@ export default class Post extends Vue {
     .video-wrapper {
         position: relative;
         padding-bottom: 100/16 * 9%;
-        height: 0;
+
         overflow: hidden;
         width: 360px;
         height: 240px;
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+    }
+    .audio-wrapper {
+        position: relative;
+
+        overflow: hidden;
+        width: 360px;
+        height: 100px;
         &.ProseMirror-selectednode {
             outline: 3px solid #68cef8;
         }

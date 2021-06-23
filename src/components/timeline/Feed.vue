@@ -164,17 +164,17 @@
                             </div>
 
                             <div class="content-action">
-                                <div class="meta-line">
+                                <div class="meta-line"  @click="openComments">
                                     <p class="meta-line-link">
                                         {{ feed.comment_cnt }} Comments
                                     </p>
                                 </div>
 
-                                <div class="meta-line">
+                                <!-- <div class="meta-line">
                                     <p class="meta-line-text">
                                         {{ feed.shared_cnt }} Shares
                                     </p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
