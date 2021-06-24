@@ -2,14 +2,22 @@
     <div class="quick-post">
         <div class="quick-post-header">
             <div class="option-items">
-                 <div class="option-item active">
+                <div
+                    class="option-item"
+                    @click="isActive('post')"
+                    :class="activeTab === 'post' ? 'active' : ''"
+                >
                     <svg class="option-item-icon icon-status">
                         <use xlink:href="#svg-status"></use>
                     </svg>
 
                     <p class="option-item-title">Post</p>
                 </div>
-                <div class="option-item">
+                <div
+                    class="option-item"
+                    @click="isActive('blog')"
+                    :class="activeTab === 'blog' ? 'active' : ''"
+                >
                     <svg class="option-item-icon icon-status">
                         <use xlink:href="#svg-status"></use>
                     </svg>
@@ -17,7 +25,11 @@
                     <p class="option-item-title">Blog Post</p>
                 </div>
 
-                <div class="option-item">
+                <div
+                    class="option-item"
+                    @click="isActive('schedule')"
+                    :class="activeTab === 'schedule' ? 'active' : ''"
+                >
                     <svg class="option-item-icon icon-blog-posts">
                         <use xlink:href="#svg-blog-posts"></use>
                     </svg>
@@ -26,22 +38,43 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="quick-post-header">
+            <b-dropdown id="dropdown-1" text="My games" class="m-md-2">
+                <b-dropdown-item>First Action</b-dropdown-item>
+                <b-dropdown-item>Second Action</b-dropdown-item>
+            </b-dropdown>
+             <b-dropdown id="dropdown-1" text="Communities" class="m-md-2">
+                <b-dropdown-item>First Action</b-dropdown-item>
+                <b-dropdown-item>Second Action</b-dropdown-item>
+            </b-dropdown>
+             <b-dropdown id="dropdown-1" text="Portfolios" class="m-md-2">
+                <b-dropdown-item>First Action</b-dropdown-item>
+                <b-dropdown-item>Second Action</b-dropdown-item>
+            </b-dropdown>
+        </div> -->
 
+        
         <div class="quick-post-body">
             <div class="form">
                 <div class="form-row">
                     <div class="form-item">
                         <div class="form-textarea">
                             <!-- tiptap -->
+                            <div v-if="activeTab === 'blog'">
+                                <editor-content
+                                    :editor="editor"
+                                    class="editor-container"
+                                    v-model="content"
+                                />
+                            </div>
+                            <div v-if="activeTab === 'post'">
+                                <editor-content
+                                    :editor="editor"
+                                    class="editor-container"
+                                    v-model="content"
+                                />
+                            </div>
 
-                            <editor-content
-                                :editor="editor"
-                                class="editor-container"
-                                v-model="content"
-                            />
-
-                            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/5KG-5kEhzu4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-                            <!-- <iframe src="https://youtu.be/5KG-5kEhzu4"></iframe> -->
                             <!-- custom -->
                             <!-- <div
                             class="input"
@@ -59,7 +92,6 @@
                             />
                             <p v-html="textPreview"></p> -->
 
-                            <!-- <vue-editor v-model="content" :editorToolbar="customToolbar"></vue-editor> -->
                             <!-- <textarea
                                 v-model="postingText"
                                 id="quick-post-text"
@@ -68,7 +100,7 @@
                             ></textarea> -->
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
-                                accept= image/* ref="photo" name="fileInput" />
+                                accept= image/* ref="image" name="fileInput" />
                             </div>
 
                             <div style="height: 0px; overflow: hidden">
@@ -106,13 +138,50 @@
                 </div>
             </div>
         </div>
+        <div class="quick-post-header">
+            <b-dropdown id="dropdown-1" :text="communities" class="m-md-2">
+                <b-dropdown-item
+                    @click="selectCommunity({ name: 'communities' })"
+                    >communities</b-dropdown-item
+                >
+                <b-dropdown-item
+                    @click="selectCommunity(community)"
+                    v-for="community in communityList"
+                    :key="community.id"
+                    >{{ community.name }}</b-dropdown-item
+                >
+            </b-dropdown>
+
+            <b-dropdown
+                id="dropdown-1"
+                :text="channels"
+                class="m-md-2"
+                :style="!isChannelOn ? 'display:none' : ''"
+            >
+                <b-dropdown-item
+                    @click="channels = channel.name"
+                    v-for="channel in channelList"
+                    :key="channel.id"
+                    >{{ channel.name }}</b-dropdown-item
+                >
+            </b-dropdown>
+
+            <b-dropdown id="dropdown-1" text="My games" class="m-md-2">
+                <b-dropdown-item>First Action</b-dropdown-item>
+                <b-dropdown-item>Second Action</b-dropdown-item>
+            </b-dropdown>
+            <b-dropdown id="dropdown-1" text="Portfolios" class="m-md-2">
+                <b-dropdown-item>First Action</b-dropdown-item>
+                <b-dropdown-item>Second Action</b-dropdown-item>
+            </b-dropdown>
+        </div>
 
         <div class="quick-post-footer">
             <div class="quick-post-footer-actions">
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
-                    data-title="Insert Photo"
-                    @click="uploadFile('photo')"
+                    data-title="Insert Image"
+                    @click="uploadFile('image')"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +312,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
+import { mapGetters } from "vuex";
 import FileUpload from "@/components/common/FileUpload.vue";
 
 import { VueEditor } from "vue2-editor";
@@ -262,11 +331,14 @@ import lowlight from "lowlight";
 import Video from "@/script/tiptap/customVideo";
 import Audio from "@/script/tiptap/customAudio";
 import Iframe from "@/script/tiptap/iframe";
+
 @Component({
+    computed: { ...mapGetters(["user"]) },
     components: { FileUpload, VueEditor, EditorContent },
 })
 export default class Post extends Vue {
     private editor!: Editor;
+    private postEditor!: Editor;
     private postingText: string = "";
     private videoTag?: HTMLScriptElement;
     private player: any;
@@ -277,7 +349,15 @@ export default class Post extends Vue {
 
     private content: string = "";
     private youtubeLink: string[] = [];
-    customToolbar = [""];
+
+    private communityList: any[] = [];
+    private isChannelOn: boolean = false;
+    private communities: string = "Communities";
+    private channelList: any[] = [];
+    private channels: string = "Channels";
+
+    private user!: any;
+
     textPreview: any = "";
     tempKey: string = "";
     userTag: string = "";
@@ -286,6 +366,7 @@ export default class Post extends Vue {
     audioSrc: string = "";
     imgSrc: string = "";
     fileExt: string = "";
+    activeTab: string = "post";
 
     // tiptap
 
@@ -320,7 +401,26 @@ export default class Post extends Vue {
         this.editor.destroy();
     }
 
-    mounted() {}
+    async mounted() {
+        console.log("mounted community", this.$store.getters.user);
+
+        if (this.user) {
+            this.communityList = await this.$api.joinedCommunity(this.user.uid);
+        } else {
+            this.$store.subscribe(async ({ type }) => {
+                if (type.toLowerCase() === "user") {
+                    this.communityList = await this.$api.joinedCommunity(
+                        this.user.uid
+                    );
+                }
+            });
+        }
+        // console.log(result)
+    }
+
+    isActive(type: string) {
+        this.activeTab = type;
+    }
 
     //첨부파일 업로드
     uploadFile(fileType: string) {
@@ -407,6 +507,18 @@ export default class Post extends Vue {
         }
         return dom;
     };
+
+    selectCommunity(selectedItem: any) {
+        if (selectedItem.name.toLowerCase() === "communities") {
+            this.isChannelOn = false;
+        } else {
+            this.isChannelOn = true;
+            this.channelList = this.$api.getCommunityInfo(
+                selectedItem.id
+            ).channels;
+        }
+        this.communities = selectedItem.name;
+    }
 }
 </script>
 

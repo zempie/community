@@ -504,7 +504,7 @@ export default class Login extends Vue {
                 return;
             }
 
-            const user = result;
+            const { user } = result;
             this.$store.commit("user", user);
             console.log("user", user);
             await LoginManager.login();

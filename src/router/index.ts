@@ -17,10 +17,17 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/community/list',
-    name: 'CommunityList',
+    name: 'Community',
     component: () => import(/* webpackChunkName: "about" */ '@/components/pages/community/CommunityList.vue'),
 
   },
+  {
+    path: '/community/:community_id/settings',
+    name: 'CommunitySettings',
+    component: () => import("@/components/pages/community/CommunitySettings.vue"),
+  },
+
+
   {
     path: '/community/:community_id',
     name: 'CommunityDetail',
@@ -36,6 +43,7 @@ const routes: Array<RouteConfig> = [
         name: 'MemberList',
         component: () => import("@/components/pages/community/MemberList.vue"),
       },
+
     ]
   },
   {

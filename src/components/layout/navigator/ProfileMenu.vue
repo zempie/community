@@ -2,8 +2,6 @@
     <div class="header-actions">
         <div class="login" @click="logout">logout</div>
         <div class="action-list dark">
-           
-
             <div class="action-list-item-wrap">
                 <div class="action-list-item header-dropdown-trigger">
                     <svg class="action-list-item-icon icon-messages">
@@ -904,11 +902,7 @@
                                     <div class="hexagon-border-40-44"></div>
                                 </div>
 
-                                <div class="user-avatar-badge">
-                                    <div class="user-avatar-badge-border">
-                                        <div class="hexagon-22-24"></div>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </a>
 
@@ -938,12 +932,10 @@
                     > -->
 
                 <a
-                        class="dropdown-navigation-link"
-                        href="hub-profile-messages.html"
-                        >Game Studio</a
-                    > 
-
-                
+                    class="dropdown-navigation-link"
+                    href="hub-profile-messages.html"
+                    >Game Studio</a
+                >
 
                 <p class="dropdown-navigation-category">Account</p>
 
@@ -1024,6 +1016,8 @@ export default class ProfileMenu extends Vue {
     private hexagon: Hexagon = new Hexagon();
     private user = this.$store.getters.user;
     mounted() {
+        // await this.$store.dispatch('loginState');
+
         this.hexagon.init();
         this.dropdown.init();
     }

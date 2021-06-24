@@ -34,6 +34,7 @@ class Login {
                     else {
                         const { user } = result;
                         store.commit('user', user);
+                        console.log('user commit')
                         await Login.login();
                     }
                 }
@@ -88,7 +89,6 @@ class Login {
     }
 
     static async login() {
-        console.log('when??', store.getters.user)
         store.commit('loginState', LoginState.login );
         Cookie.write( cookieName, store.getters.user.uid, 30, process.env.VUE_APP_COOKIE_DOMAIN );
     }
@@ -99,6 +99,7 @@ class Login {
         // await store.commit('clearMail');
         Cookie.delete( cookieName, process.env.VUE_APP_COOKIE_DOMAIN );
     }
+    
 
 }
 

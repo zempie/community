@@ -72,7 +72,10 @@
                         <p class="user-stat-text">{{ community.state }}</p>
                     </div>
 
-                    <router-link class="user-stat big" :to="`/community/${community.id}/members`">
+                    <router-link
+                        class="user-stat big"
+                        :to="`/community/${community.id}/members`"
+                    >
                         <p class="user-stat-title">
                             {{ community.member_cnt }}
                         </p>
@@ -99,21 +102,39 @@
                     </svg>
                 </div>
 
-                <div class="profile-header-info-actions" @click="subscribe">
-                    <p class="profile-header-info-action button secondary">
+                <div class="profile-header-info-actions">
+                    <p
+                        class="profile-header-info-action button secondary"
+                        @click="subscribe"
+                    >
                         <svg class="icon-join-group">
                             <use xlink:href="#svg-join-group"></use>
                         </svg>
                     </p>
 
-                    <router-link
-                        class="profile-header-info-action button"
-                        to="group"
+                    <div
+                        class="
+                            profile-header-info-action
+                            button
+                            group-setting-dropdown-trigger
+                        "
+                        ref="dropbox"
                     >
                         <svg class="icon-more-dots">
                             <use xlink:href="#svg-more-dots"></use>
                         </svg>
-                    </router-link>
+                    </div>
+                    <div>
+                        <div class="simple-dropdown header-settings-dropdown" @click="settings">
+                            <router-link
+                                data-v-799bd4ec=""
+                                class="simple-dropdown-link"
+                                :to="`/community/${community.id}/settings`"
+                            >
+                                Group settings
+                            </router-link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,7 +147,12 @@
                 <router-link
                     class="section-menu-item"
                     :to="`/community/${community.id}/timeline`"
-                    :class="($route.name === 'CommunityTimeline' && Object.keys($route.query).length === 0 ) ? 'active' : ''"
+                    :class="
+                        $route.name === 'CommunityTimeline' &&
+                        Object.keys($route.query).length === 0
+                            ? 'active'
+                            : ''
+                    "
                 >
                     <svg class="section-menu-item-icon icon-timeline">
                         <use xlink:href="#svg-timeline"></use>
@@ -146,8 +172,10 @@
 
                     <p class="section-menu-item-text">Members</p>
                 </router-link>
-                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline?media=image`"
-                 :class="$route.query.media === 'image' ? 'active' : ''"
+                <router-link
+                    class="section-menu-item"
+                    :to="`/community/${community.id}/timeline?media=image`"
+                    :class="$route.query.media === 'image' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-photos">
                         <use xlink:href="#svg-photos"></use>
@@ -156,8 +184,11 @@
                     <p class="section-menu-item-text">Photos</p>
                 </router-link>
 
-                <router-link class="section-menu-item" :to="`/community/${community.id}/timeline?media=video`"
-                  :class="$route.query.media === 'video' ? 'active' : ''">
+                <router-link
+                    class="section-menu-item"
+                    :to="`/community/${community.id}/timeline?media=video`"
+                    :class="$route.query.media === 'video' ? 'active' : ''"
+                >
                     <svg class="section-menu-item-icon icon-videos">
                         <use xlink:href="#svg-videos"></use>
                     </svg>
@@ -194,7 +225,7 @@ import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
 @Component({
-    components: {  },
+    components: {},
 })
 export default class CommunityHeader extends Vue {
     private dropdown: Dropdown = new Dropdown();
@@ -214,6 +245,9 @@ export default class CommunityHeader extends Vue {
     subscribe() {
         const result = this.$api.subscribeCommunity(this.communityId, 1);
         console.log("subscribes", result);
+    }
+    settings(){
+        (this.$refs.dropbox as HTMLElement).click();
     }
 }
 </script>

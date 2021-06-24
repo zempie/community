@@ -14,7 +14,7 @@
                         <div class="all-post-container"></div>
                         <!-- <img  /> -->
                     </div>
-                    <div @click="isActive()">
+                    <div @click="isActive">
                         <channel
                             :channel="channel"
                             v-for="channel in community.channels"
@@ -29,6 +29,7 @@
             </div>
         </div>
         <div class="grid-column">
+            <p>블락으로 인해 포스팅을 작성하실 수 없습니다.</p>
             <post></post>
             <!-- 타임라인 -->
             <template v-if="timeline">
@@ -74,7 +75,6 @@ export default class CommunityTimeline extends Vue {
         this.timeline = this.$api.getTimeline(this.communityId);
     }
     mounted() {
-        console.log("?");
         this.dropdown.init();
     }
 

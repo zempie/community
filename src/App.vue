@@ -21,7 +21,7 @@ export default class App extends Vue {
 
     async mounted() {
         this.dropdown.init();
-        const state = await this.$store.dispatch("loginState");
+        await this.$store.dispatch("loginState");
 
         //  if( state === LoginState.login ) {
         //     if( !this.$store.getters.user.is_developer ) {
