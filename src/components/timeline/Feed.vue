@@ -25,15 +25,24 @@
                             <p class="simple-dropdown-link">포스팅 수정</p>
                             <p
                                 class="simple-dropdown-link"
-                                
                                 @click="deletePost(feed.id)"
                             >
                                 포스팅 삭제
                             </p>
-                            <p class="simple-dropdown-link" v-b-modal="feed.id.toString()" @click="reportPost">
+                            <p
+                                class="simple-dropdown-link"
+                                v-b-modal="feed.id.toString()"
+                                @click="report('post')"
+                            >
                                 포스팅 신고
                             </p>
-                            <p class="simple-dropdown-link">작성자 신고</p>
+                            <p
+                                class="simple-dropdown-link"
+                                v-b-modal="feed.id.toString()"
+                                @click="report('user')"
+                            >
+                                작성자 신고
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -81,6 +90,15 @@
                         >
                             <!-- {{ feed.content }} -->
                         </div>
+                        <!-- <template v-for="file in feed.attatchment_files"> -->
+                            <carousel
+                            
+                                :imgObj="feed.attatchment_files"
+                            ></carousel>
+                        <!-- </template> -->
+                        <!-- 
+                            <img :src='file.url' />
+                        </template> -->
                     </div>
 
                     <!-- <h2>{{feed.attatchment_files}} </h2>         -->
@@ -238,13 +256,36 @@
         </div>
         <modal
             :reportId="feed.id.toString()"
-            :title="modalTitle"
+            :title="userReport ? modalTitle2 : modalTitle1"
             :key="uniqeKey"
         >
             <template v-slot:reason1>욕설</template>
             <template v-slot:reason2>스팸</template>
             <template v-slot:reason3>음란성</template>
+            <template v-slot:userBlock v-if="userReport">
+                <div class="form-row" style="margin-top: 28px">
+                    <div class="checkbox-wrap">
+                        <input
+                            type="checkbox"
+                            id="userBlock"
+                            name="reportReason"
+                            @click="radioBtn()"
+                            v-model="pickedReason"
+                        />
+
+                        <div class="checkbox-box">
+                            <svg class="icon-check">
+                                <use xlink:href="#svg-check"></use>
+                            </svg>
+                        </div>
+                        <label for="userBlock" class="report-reason"
+                            >유저를 블락하시겠습니까?</label
+                        >
+                    </div>
+                </div></template
+            >
         </modal>
+
         <template v-if="isOpenedComments">
             <comment-list :postId="feed.id"></comment-list>
         </template>
@@ -261,9 +302,10 @@ import Hexagon from "@/plugins/hexagon";
 import Dropdown from "@/plugins/dropdown";
 import Tooltip from "@/plugins/tooltip";
 import Modal from "@/components/common/Modal.vue";
+import Carousel from "@/components/common/Carousel.vue";
 
 @Component({
-    components: { CommentList, Modal },
+    components: { CommentList, Modal, Carousel },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;
@@ -276,8 +318,10 @@ export default class Feed extends Vue {
     private postDate: Date = new Date(this.feed.created_at);
     private isCopied: boolean = false;
 
-    private modalTitle: string = "Report Post";
+    private modalTitle1: string = "Report Post";
+    private modalTitle2: string = "Report User";
     private uniqeKey: number = 0;
+    private userReport: boolean = false;
 
     mounted() {
         this.dropdown.init();
@@ -312,8 +356,13 @@ export default class Feed extends Vue {
         console.log(state);
     }
 
-    reportPost() {
+    report(reportType: string) {
         this.uniqeKey = new Date().getTime();
+        if (reportType === "user") {
+            this.userReport = true;
+        } else {
+            this.userReport = false;
+        }
     }
 }
 </script>
@@ -339,5 +388,13 @@ export default class Feed extends Vue {
 }
 #copied {
     z-index: 999999;
+}
+.checkbox-wrap input[type="checkbox"]:checked + .checkbox-box .icon-check,
+.checkbox-wrap input[type="radio"]:checked + .checkbox-box .icon-check {
+    fill: #ffffff;
+}
+.checkbox-wrap .checkbox-box .icon-check {
+    fill: transparent;
+    transition: fill 0.2s ease-in-out;
 }
 </style>

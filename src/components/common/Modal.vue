@@ -113,6 +113,8 @@
                             </div>
                         </div>
                     </div>
+<div><slot name="userBlock"></slot></div>
+                   
 
                     <div class="popup-box-actions medium void">
                         <button
