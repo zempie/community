@@ -19,6 +19,7 @@ import 'vue2-editor'
 import 'remixicon/fonts/remixicon.css'
 import lowlight from 'lowlight'
 
+
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
@@ -26,5 +27,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  
   render: h => h(App)
 }).$mount('#app')

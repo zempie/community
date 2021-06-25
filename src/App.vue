@@ -35,7 +35,7 @@ export default class App extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import "./css/styles.css";
 #app {
     font-family: Rajdhani, sans-serif;
@@ -54,4 +54,28 @@ export default class App extends Vue {
     user-select: none;
 }
 
+.modal-container {
+    > div {
+        display: block;
+        height: 100vh;
+        display: flex;
+        width: 100vw;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .modal-content {
+        background-color: #1d2333;
+        border-radius: 12px;
+        // height: 500px;
+    }
+
+    .modal-header > button {
+        text-align: right;
+        color: #fff;
+        text-shadow: none;
+        width: auto;
+    }
+}
 </style>

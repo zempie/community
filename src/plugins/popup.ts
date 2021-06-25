@@ -51,7 +51,7 @@ export default class Popup {
             trigger: '.popup-event-creation-trigger',
             overlay: {
                 color: '21, 21, 31',
-                opacity: .96
+                opacity: .96,
             },
             animation: {
                 type: 'translate-in-fade',

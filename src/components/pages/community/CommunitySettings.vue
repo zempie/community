@@ -153,7 +153,7 @@
                 </div>
 
                 <div class="upload-box" @click="uploadFile('bannerImg')">
-                     <div style="height: 0px; overflow: hidden">
+                    <div style="height: 0px; overflow: hidden">
                         <input type="file" @change="onFileChange" accept=
                         image/* ref="bannerImg" name="fileInput" />
                     </div>
@@ -198,11 +198,13 @@
                     </div>
                 </div>
             </form>
-            <p class="button small white add-field-button">SAVE</p>
+            <div class="button-container">
+                <p class="button small white add-field-button">SAVE</p>
+            </div>
         </div>
         <div class="form-item delete-container">
             <p class="left">커뮤니티 삭제</p>
-            <p class="button small white add-field-button">DELETE</p>
+            <p class="button small white add-field-button m-0">DELETE</p>
         </div>
     </div>
 </template>
@@ -236,7 +238,7 @@ export default class CommunitySettings extends Vue {
         this.hexagon.init();
         this.dropdown.init();
         this.description = this.community.description;
-        
+
         if (!this.user) {
             this.$store.subscribe(async ({ type }) => {
                 if (type.toLowerCase() === "user") {
@@ -273,9 +275,18 @@ export default class CommunitySettings extends Vue {
     display: flex;
     .left {
         width: 30%;
+        height: auto;
+        display: flex;
+        /* align-content: center; */
+        justify-content: center;
+        align-items: center;
     }
     .right {
         width: 70%;
+    }
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
     }
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
     <div>
-        <template v-if="reportPopup">
-            <popup></popup>
-        </template>
         <div class="grid mobile-prefer-content">
             <div class="widget-box no-padding">
                 <div class="widget-box-settings">
@@ -28,14 +25,12 @@
                             <p class="simple-dropdown-link">포스팅 수정</p>
                             <p
                                 class="simple-dropdown-link"
+                                
                                 @click="deletePost(feed.id)"
                             >
                                 포스팅 삭제
                             </p>
-                            <p
-                                class="simple-dropdown-link"
-                                @click="reportPopup = true"
-                            >
+                            <p class="simple-dropdown-link" v-b-modal="feed.id.toString()" @click="reportPost">
                                 포스팅 신고
                             </p>
                             <p class="simple-dropdown-link">작성자 신고</p>
@@ -80,17 +75,16 @@
                             <p class="user-status-text small">{{ postDate }}</p>
                         </div>
 
-                        <div class="widget-box-status-text" v-html="feed.content">
-                        <!-- {{ feed.content }} -->
-                                
-
+                        <div
+                            class="widget-box-status-text"
+                            v-html="feed.content"
+                        >
+                            <!-- {{ feed.content }} -->
                         </div>
-
                     </div>
 
-<!-- <h2>{{feed.attatchment_files}} </h2>         -->
-           <div class="widget-box-status-content">
-
+                    <!-- <h2>{{feed.attatchment_files}} </h2>         -->
+                    <div class="widget-box-status-content">
                         <div class="tag-list">
                             <router-link
                                 class="tag-item secondary"
@@ -164,7 +158,7 @@
                             </div>
 
                             <div class="content-action">
-                                <div class="meta-line"  @click="openComments">
+                                <div class="meta-line" @click="openComments">
                                     <p class="meta-line-link">
                                         {{ feed.comment_cnt }} Comments
                                     </p>
@@ -241,8 +235,16 @@
                     </div>
                 </div>
             </div>
-            
         </div>
+        <modal
+            :reportId="feed.id.toString()"
+            :title="modalTitle"
+            :key="uniqeKey"
+        >
+            <template v-slot:reason1>욕설</template>
+            <template v-slot:reason2>스팸</template>
+            <template v-slot:reason3>음란성</template>
+        </modal>
         <template v-if="isOpenedComments">
             <comment-list :postId="feed.id"></comment-list>
         </template>
@@ -274,6 +276,9 @@ export default class Feed extends Vue {
     private postDate: Date = new Date(this.feed.created_at);
     private isCopied: boolean = false;
 
+    private modalTitle: string = "Report Post";
+    private uniqeKey: number = 0;
+
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
@@ -302,6 +307,13 @@ export default class Feed extends Vue {
     deletePost(postId: number) {
         (this.$refs.dropbox as HTMLElement).click();
         const result = this.$api.deletePost(postId);
+    }
+    reportDone(state: boolean) {
+        console.log(state);
+    }
+
+    reportPost() {
+        this.uniqeKey = new Date().getTime();
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <!--  unread reply-2 -->
         <div class="post-comment">
             <!-- {{userInfo}} -->
@@ -75,7 +75,12 @@
                     </div>
 
                     <div class="meta-line" @click="openReply(comment)">
-                        <p class="meta-line-link light comment" :class="isOpenReply ? 'active' : ''">Reply</p>
+                        <p
+                            class="meta-line-link light comment"
+                            :class="isOpenReply ? 'active' : ''"
+                        >
+                            Reply
+                        </p>
                     </div>
 
                     <div class="meta-line">
@@ -109,21 +114,22 @@
                                         simple-dropdown-link
                                         popup-event-creation-trigger
                                     "
+                                    v-b-modal="comment.id.toString()"
                                     @click="reportComment"
                                 >
-                                    Report Post
+                                    Report Comment
                                 </p>
                                 <p
                                     class="simple-dropdown-link"
                                     @click="editPost"
                                 >
-                                    Edit Post
+                                    Edit Comment
                                 </p>
                                 <p
                                     class="simple-dropdown-link"
                                     @click="deletePost(comment.id)"
                                 >
-                                    Delete Post
+                                    Delete Comment
                                 </p>
                             </div>
                         </div>
@@ -132,7 +138,21 @@
             </div>
         </div>
 
-        <comment-input v-if="isOpenReply" :postId="postId" :parentId="parentId" class="post-comment unread reply-2"></comment-input>
+        <modal
+            :reportId="comment.id.toString()"
+            :title="modalTitle"
+            :key="uniqeKey"
+        >
+            <template v-slot:reason1>욕설</template>
+            <template v-slot:reason2>스팸</template>
+            <template v-slot:reason3>음란성</template>
+        </modal>
+        <comment-input
+            v-if="isOpenReply"
+            :postId="postId"
+            :parentId="parentId"
+            class="post-comment unread reply-2"
+        ></comment-input>
     </div>
 </template>
 
@@ -141,9 +161,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Hexagon from "@/plugins/hexagon";
 import PopupPlugin from "@/plugins/popup";
 
+import Modal from "@/components/common/Modal.vue";
 import CommentInput from "@/components/timeline/CommentInput.vue";
 @Component({
-    components: { CommentInput },
+    components: { CommentInput, Modal },
 })
 export default class Comment extends Vue {
     @Prop() comment!: any;
@@ -156,6 +177,8 @@ export default class Comment extends Vue {
     private isPrivate: boolean = false;
     private isOpenReply: boolean = false;
     private parentId: number = -1;
+    private modalTitle: string = "Report Comment";
+    private uniqeKey: number = 0;
 
     mounted() {
         console.log(this.comment);
@@ -183,6 +206,7 @@ export default class Comment extends Vue {
         (this.$refs.dropbox as HTMLElement).click();
         this.$emit("openReport", true);
         this.$emit("commentId", this.comment.id);
+        this.uniqeKey = new Date().getTime();
         //  document.documentElement.style.overflow = 'hidden'
     }
     likeComment() {
@@ -190,17 +214,17 @@ export default class Comment extends Vue {
     }
 
     openReply(comment: any) {
-     this.isOpenReply = !this.isOpenReply
-     this.parentId = this.comment.id
+        this.isOpenReply = !this.isOpenReply;
+        this.parentId = this.comment.id;
     }
 }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .post-comment-text {
     text-align: left;
 }
-.comment.active{
+.comment.active {
     color: #4ff461;
 }
 </style>

@@ -10,7 +10,6 @@
                         :postId="postId"
                         @openReport="openReport"
                         @commentId="selectedComment"
-                        
                     ></comment>
 
                     <!-- <p class="post-comment-heading">
@@ -25,15 +24,19 @@
                 class="bordered-top"
             ></comment-input>
         </div>
-        <div v-show="isOpenReport">
+        <!-- <div v-if="isOpenReport">
             <popup :commentId="selectedCommentId" :postId="postId"
-                ><template v-slot:popupHeader
+            @reportDone="reportDone" 
+            :key="uniqeKey"
+                >
+                <template v-slot:popupHeader
                     ><h2 class="popup-header">Report Comment</h2></template
                 >
                 <template v-slot:reason1>욕설</template>
                 <template v-slot:reason2>스팸</template>
+                <template v-slot:reason3>음란성</template>
             </popup>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -69,6 +72,11 @@ export default class CommentList extends Vue {
     selectedComment(val: number) {
         this.selectedCommentId = val;
     }
+    // reportDone(state: boolean) {
+    //     if (state) {
+    //         this.uniqeKey = new Date().getTime();
+    //     }
+    // }
 }
 </script>
 

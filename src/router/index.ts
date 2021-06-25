@@ -26,6 +26,11 @@ const routes: Array<RouteConfig> = [
     name: 'CommunitySettings',
     component: () => import("@/components/pages/community/CommunitySettings.vue"),
   },
+  {
+    path: '/createCommunity',
+    name: 'CreateCommunity',
+    component: () => import("@/components/pages/community/CommunityCreate.vue"),
+  },
 
 
   {
