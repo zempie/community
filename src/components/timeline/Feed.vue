@@ -91,10 +91,11 @@
                             <!-- {{ feed.content }} -->
                         </div>
                         <!-- <template v-for="file in feed.attatchment_files"> -->
-                            <carousel
-                            
-                                :imgObj="feed.attatchment_files"
-                            ></carousel>
+                        <swiper-c
+                            :feedId="feed.id"
+                            :imgObj="feed.attatchment_files"
+                        ></swiper-c>
+
                         <!-- </template> -->
                         <!-- 
                             <img :src='file.url' />
@@ -303,9 +304,10 @@ import Dropdown from "@/plugins/dropdown";
 import Tooltip from "@/plugins/tooltip";
 import Modal from "@/components/common/Modal.vue";
 import Carousel from "@/components/common/Carousel.vue";
+import SwiperC from "@/components/common/SwiperC.vue";
 
 @Component({
-    components: { CommentList, Modal, Carousel },
+    components: { CommentList, Modal, Carousel, SwiperC },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;

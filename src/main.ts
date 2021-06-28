@@ -22,6 +22,7 @@ import lowlight from 'lowlight'
 
 Vue.use(BootstrapVue)
 
+
 Vue.config.productionTip = false
 
 new Vue({
