@@ -2,7 +2,7 @@ import plugins from './plugins'
 
 export default class Hexagon {
     init() {
-console.log("hexagon!!!")
+
         plugins.createHexagon({
             container: '.hexagon-148-164',
             width: 148,

@@ -1,14 +1,13 @@
 <template>
-    <guest-page></guest-page>
+    <router-view></router-view>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PageLoader from "../components/common/PageLoader.vue";
 
-import GuestPage from "@/components/pages/landing/guestPage.vue";
 @Component({
-    components: { PageLoader, GuestPage },
+    components: { PageLoader },
 })
 export default class Home extends Vue {}
 </script>

@@ -511,15 +511,18 @@ export default class Login extends Vue {
             // this.$store.commit('loginState', LoginState.login );
             // await this.$router.replace('/');
             if (this.$store.getters.redirectRouter) {
+                console.log('redirectRouter', this.$store.getters.redirectRouter)
                 const router = this.$store.getters.redirectRouter;
                 this.$store.commit("redirectRouter", null);
                 await this.$router.replace(router);
             } else if (this.$store.getters.redirectUrl) {
+                console.log('redirectUrl', this.$store.getters.redirectUrl)
                 const url = this.$store.getters.redirectUrl;
                 this.$store.commit("redirectUrl", null);
                 window.location.href = url;
             } else {
-                await this.$router.replace("/");
+                console.log("replace")
+                await this.$router.push(`/channel/${this.$store.getters.user.uid}/timeline`);
             }
         }
     }

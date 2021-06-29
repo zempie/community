@@ -37,8 +37,11 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import "./css/styles.css";
+@import "./css/modal.scss";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
 #app {
-    font-family: Rajdhani, sans-serif;
+    font-family: Rajdhani, "Noto Sans KR", "sans-serif";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -52,30 +55,5 @@ export default class App extends Vue {
     -webkit-user-select: none;
     -khtml-user-select: none;
     user-select: none;
-}
-
-.modal-container {
-    > div {
-        display: block;
-        height: 100vh;
-        display: flex;
-        width: 100vw;
-        align-items: center;
-        justify-content: center;
-        align-content: center;
-    }
-
-    .modal-content {
-        background-color: #1d2333;
-        border-radius: 12px;
-        // height: 500px;
-    }
-
-    .modal-header > button {
-        text-align: right;
-        color: #fff;
-        text-shadow: none;
-        width: auto;
-    }
 }
 </style>

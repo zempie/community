@@ -15,7 +15,7 @@ declare module '@tiptap/core' {
             /**
              * Add an image
              */
-            setVideo: (options: { src: string, type: string, width: number, height: number, controls: boolean }) => ReturnType,
+            setVideo: (options: { src: string, type?: string, width?: number, height?: number, controls?: boolean }) => ReturnType,
         }
     }
 }
@@ -72,11 +72,9 @@ export default Node.create({
 
     addCommands() {
         return {
-            setVideo: (options: { src: string, type: string }) => ({ tr, dispatch }) => {
+            setVideo: (options: { src: string, type?: string }) => ({ tr, dispatch }) => {
                 const { selection } = tr
                 const node = this.type.create(options)
-
-                console.log(node)
                 if (dispatch) {
                     tr.replaceRangeWith(selection.from, selection.to, node)
                 }
@@ -85,25 +83,4 @@ export default Node.create({
             },
         }
     },
-
-    // addCommands() {
-    //     return {
-    //         setVideo: options => ({ commands }) => {
-    //             console.log(options)
-    //             return commands.setContent('123')
-    //         },
-    //     }
-    // },
-
-    // v src: options,
-    // poster: { default: null }
-    // addInputRules() {
-    //     return [
-    //         nodeInputRule(inputRegex, this.type, match => {
-    //             const [, alt, src, title] = match
-
-    //             return { src, alt, title }
-    //         }),
-    //     ]
-    // },
 })

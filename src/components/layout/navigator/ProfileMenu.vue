@@ -901,8 +901,6 @@
                                 <div class="user-avatar-progress-border">
                                     <div class="hexagon-border-40-44"></div>
                                 </div>
-
-                               
                             </div>
                         </a>
 
@@ -944,11 +942,10 @@
                         href="hub-account-info.html"
                         >Account Info</a
                     > -->
-
-                <a
+                <router-link
                     class="dropdown-navigation-link"
-                    href="hub-account-password.html"
-                    >Change Password</a
+                    :to="`/user/${user.uid}/changePassword`"
+                    >Change Password</router-link
                 >
 
                 <a

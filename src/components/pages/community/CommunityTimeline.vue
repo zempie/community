@@ -29,7 +29,10 @@
             </div>
         </div>
         <div class="grid-column">
-            <p>블락으로 인해 포스팅을 작성하실 수 없습니다.</p>
+            <!-- todo: 블락회원 진입때 표시  -->
+            <p class="block-alarm">
+                블락으로 인해 포스팅을 작성하실 수 없습니다.
+            </p>
             <post></post>
             <!-- 타임라인 -->
             <template v-if="timeline">
@@ -97,10 +100,8 @@ export default class CommunityTimeline extends Vue {
     watchQuery(query: any) {
         console.log(query);
     }
-    @Watch('timeline')
-    watchTimeline(){
-
-    }
+    @Watch("timeline")
+    watchTimeline() {}
 }
 </script>
 
@@ -140,5 +141,13 @@ export default class CommunityTimeline extends Vue {
 }
 .all-post-container {
     border-radius: 7px;
+}
+.block-alarm {
+    background-color: red;
+    border-radius: 5px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

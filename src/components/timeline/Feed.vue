@@ -22,7 +22,7 @@
                                 widget-box-post-settings-dropdown
                             "
                         >
-                            <p class="simple-dropdown-link">포스팅 수정</p>
+                            <p class="simple-dropdown-link" @click="editPost(feed.id)">포스팅 수정</p>
                             <p
                                 class="simple-dropdown-link"
                                 @click="deletePost(feed.id)"
@@ -87,19 +87,15 @@
                         <div
                             class="widget-box-status-text"
                             v-html="feed.content"
+                            @click="contentClicked"
                         >
-                            <!-- {{ feed.content }} -->
                         </div>
-                        <!-- <template v-for="file in feed.attatchment_files"> -->
+                       
                         <swiper-c
                             :feedId="feed.id"
                             :imgObj="feed.attatchment_files"
                         ></swiper-c>
 
-                        <!-- </template> -->
-                        <!-- 
-                            <img :src='file.url' />
-                        </template> -->
                     </div>
 
                     <!-- <h2>{{feed.attatchment_files}} </h2>         -->
@@ -270,8 +266,7 @@
                             type="checkbox"
                             id="userBlock"
                             name="reportReason"
-                            @click="radioBtn()"
-                            v-model="pickedReason"
+                            v-model="isUserBlock"
                         />
 
                         <div class="checkbox-box">
@@ -305,9 +300,11 @@ import Tooltip from "@/plugins/tooltip";
 import Modal from "@/components/common/Modal.vue";
 import Carousel from "@/components/common/Carousel.vue";
 import SwiperC from "@/components/common/SwiperC.vue";
+import Post from "@/components/timeline/Post.vue";
+
 
 @Component({
-    components: { CommentList, Modal, Carousel, SwiperC },
+    components: { CommentList, Modal, Carousel, SwiperC, Post },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;
@@ -325,6 +322,7 @@ export default class Feed extends Vue {
     private uniqeKey: number = 0;
     private userReport: boolean = false;
 
+    private isUserBlock: boolean = false
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
@@ -350,9 +348,13 @@ export default class Feed extends Vue {
 
         this.isCopied = true;
     }
+    //post
     deletePost(postId: number) {
         (this.$refs.dropbox as HTMLElement).click();
         const result = this.$api.deletePost(postId);
+    }
+    editPost(postId: number){
+
     }
     reportDone(state: boolean) {
         console.log(state);
@@ -366,6 +368,10 @@ export default class Feed extends Vue {
             this.userReport = false;
         }
     }
+    contentClicked(){
+        // this.$router.push()
+    }
+
 }
 </script>
 

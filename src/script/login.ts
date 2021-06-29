@@ -3,6 +3,7 @@ import {LoginState} from "@/store/modules/user";
 import store from "@/store"
 import Cookie from "@/script/cookie";
 import Vue from "vue";
+import router from '@/router';
 // import {firebaseInitStartTime} from "boot/firebase";
 
 const cookieName = process.env.VUE_APP_COOKIE_NAME;
@@ -98,6 +99,7 @@ class Login {
         await store.dispatch('logout');
         // await store.commit('clearMail');
         Cookie.delete( cookieName, process.env.VUE_APP_COOKIE_DOMAIN );
+        router.push('/guestPage')
     }
     
 
