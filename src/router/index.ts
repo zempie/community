@@ -12,6 +12,7 @@ const routes: Array<RouteConfig> = [
     component: Home,
     beforeEnter: async function (to, from, next) {
       const loginState = await store.dispatch("loginState");
+      console.log("next",next)
       switch (loginState) {
         case LoginState.login:
           console.log("login")
@@ -95,6 +96,7 @@ const routes: Array<RouteConfig> = [
     //   },
     // ]
   },
+  
 
   // /api/v1/timeline/:community_id/channel/:channel_id
   {
@@ -130,6 +132,11 @@ const routes: Array<RouteConfig> = [
     name: 'GuestPage',
     component: () => import("@/components/pages/landing/guestPage.vue")
   },
+  {
+    path: '/feedDetail/:feedId',
+    name: 'feedDetail',
+    component: () => import("@/components/timeline/FeedDetail.vue")
+  },
 
   {
     path: '*',
@@ -145,37 +152,5 @@ const router = new VueRouter({
   base: process.env.VUE_ROUTER_BASE,
   routes
 })
-
-
-// router.beforeEach(async (to, from, next) => {
-
-
-
-// switch (loginState) {
-//   case LoginState.login:
-//     if(from.path === '/login')
-//     next({})
-//     next();
-//     break;
-//   // case LoginState.no_user:
-//   //   next('/guestPage')
-//   //   break;
-//   case LoginState.logout:
-//     next('/guestPage')
-//     break;
-
-// }
-//   if (to.path.includes('mastodon/') === true && store.getters.userToken === null) {
-//       next()
-//   }
-//   else if (to.path !== '/login' && store.getters.userToken === null) {
-
-//       next('/login');
-//   }
-//   else {
-//       next()
-//   }
-// })
-
 
 export default router

@@ -1021,6 +1021,7 @@ export default class ProfileMenu extends Vue {
     async logout() {
         this.$store.state.pathName = "logout";
         await Login.logout();
+        this.$router.push('/guestPage')
     }
 }
 </script>

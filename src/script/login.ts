@@ -95,11 +95,12 @@ class Login {
     }
 
     static async logout() {
+        console.log('logout')
         await firebase.auth().signOut();
         await store.dispatch('logout');
         // await store.commit('clearMail');
         Cookie.delete( cookieName, process.env.VUE_APP_COOKIE_DOMAIN );
-        router.push('/guestPage')
+        
     }
     
 

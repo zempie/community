@@ -83,11 +83,12 @@
                         <p class="user-stat-text">members</p>
                     </router-link>
 
-                    <div class="user-stat big">
+                    <router-link class="user-stat big"
+                    :to="`/community/${community.id}/timeline`">
                         <p class="user-stat-title">{{ community.posts_cnt }}</p>
 
                         <p class="user-stat-text">posts</p>
-                    </div>
+                    </router-link>
 
                     <div class="user-stat big">
                         <p class="user-stat-title">{{ community.visit_cnt }}</p>
