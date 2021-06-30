@@ -1,0 +1,16 @@
+// datepicker & timepicker
+.datepicker,
+    .timepicker {
+        width: 48%;
+        background-color: #1d2333;
+        border: 1px solid #616a82;
+        .btn {
+            width: 30% !important;
+        }
+        svg {
+            fill: #616a82;
+        }
+        label {
+            color: #fff !important;
+        }
+    }

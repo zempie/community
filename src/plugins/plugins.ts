@@ -19,7 +19,7 @@ const plugins = {
     },
     createHexagon: function (options: any) {
         if (existsInDOM(options.container) || typeof options.containerElement !== 'undefined') {
-
+console.log("run hexagon")
             return new XM_Hexagon(options);
         }
     },

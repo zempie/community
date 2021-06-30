@@ -50,13 +50,11 @@
                 <div class="user-preview small fixed-height">
                     <figure
                         class="user-preview-cover liquid"
-                        style="
-                            background: url('../../../img/cover/01.jpg') center
-                                center / cover no-repeat;
-                        "
+                        :style="`background: url('${bannerImgSrc}') center
+                                center / cover no-repeat;`"
                     >
                         <img
-                            src="../../../img/cover/01.jpg"
+                            :src="bannerImgSrc"
                             alt="cover-01"
                             style="display: none"
                         />
@@ -71,9 +69,9 @@
                             >
                                 <div class="user-avatar-content">
                                     <div
-                                        :key="imgSrc"
+                                        :key="profileImgSrc"
                                         class="hexagon-image-68-74"
-                                        :data-src="imgSrc"
+                                        :data-src="profileImgSrc"
                                         style="
                                             width: 68px;
                                             height: 74px;
@@ -161,9 +159,107 @@
                         <use xlink:href="#svg-photos"></use>
                     </svg>
 
-                    <p class="upload-box-title">Change Cover</p>
+                    <p class="upload-box-title">Change Banner</p>
 
                     <p class="upload-box-text">1184x300px size minimum</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header-info mt-5">
+            <h2 class="section-title mb-3">관리자</h2>
+        </div>
+        <!-- todo: call manager data -->
+        <div class="form-item">
+            <p class="left">매니저</p>
+            <div class="form-input right">
+                <div class="user-preview small fixed-height">
+                    <figure
+                        class="user-preview-cover liquid"
+                        :style="`background: url('${bannerImgSrc}') center
+                                center / cover no-repeat;`"
+                    >
+                        <img
+                            :src="bannerImgSrc"
+                            alt="cover-01"
+                            style="display: none"
+                        />
+                    </figure>
+
+                    <div class="user-preview-info">
+                        <div class="user-short-description small">
+                            <div
+                                class="
+                                    user-short-description-avatar user-avatar
+                                "
+                            >
+                                <div class="user-avatar-content">
+                                    <div
+                                        :key="profileImgSrc"
+                                        class="hexagon-image-68-74"
+                                        :data-src="profileImgSrc"
+                                        style="
+                                            width: 68px;
+                                            height: 74px;
+                                            position: relative;
+                                        "
+                                    >
+                                        <canvas
+                                            width="68"
+                                            height="74"
+                                            style="
+                                                position: absolute;
+                                                top: 0px;
+                                                left: 0px;
+                                            "
+                                        ></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="user-avatar-progress">
+                                    <div
+                                        class="hexagon-progress-84-92"
+                                        style="
+                                            width: 84px;
+                                            height: 92px;
+                                            position: relative;
+                                        "
+                                    >
+                                        <canvas
+                                            width="84"
+                                            height="92"
+                                            style="
+                                                position: absolute;
+                                                top: 0px;
+                                                left: 0px;
+                                            "
+                                        ></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="user-avatar-progress-border">
+                                    <div
+                                        class="hexagon-border-84-92"
+                                        style="
+                                            width: 84px;
+                                            height: 92px;
+                                            position: relative;
+                                        "
+                                    >
+                                        <canvas
+                                            width="84"
+                                            height="92"
+                                            style="
+                                                position: absolute;
+                                                top: 0px;
+                                                left: 0px;
+                                            "
+                                        ></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -176,45 +272,90 @@
             <form class="form">
                 <div class="form-item">
                     <p class="left">커뮤니티 명</p>
-                    <div class="form-input right">
+                    <div
+                        class="form-input right community-name"
+                        :class="isNameError ? 'active' : ''"
+                    >
                         <input
                             type="text"
                             id="account-recovery-email"
                             name="account_recovery_email"
-                            :value="community.name"
+                            v-model="communityName"
                         />
+                        <p
+                            :class="
+                                isNameError ? 'name-error active' : 'name-error'
+                            "
+                        >
+                            50자 이내로 작성해주세요
+                        </p>
                     </div>
                 </div>
 
                 <div class="form-item mt-4">
                     <p class="left">커뮤니티 설명</p>
                     <div class="form-input right full">
-                        <textarea
-                            id="profile-description"
-                            name="profile_description"
-                            v-model="description"
-                            placeholder="Write a little description about community..."
-                        ></textarea>
+                        <div
+                            class="form-textarea"
+                            :class="isDescError ? 'active' : ''"
+                        >
+                            <textarea
+                                id="profile-description"
+                                name="profile_description"
+                                v-model="description"
+                                placeholder="Write a little description about community..."
+                            ></textarea>
+                            <div
+                                class="limit-text-container"
+                                :style="
+                                    isDescError
+                                        ? ' justify-content: space-between;'
+                                        : 'justify-content: flex-end;'
+                                "
+                            >
+                                <p
+                                    :style="
+                                        isDescError
+                                            ? 'display:block; color:red; padding-left:28px'
+                                            : 'display:none'
+                                    "
+                                >
+                                    2000자 이내로 작성해주세요
+                                </p>
+                                <p class="form-textarea-limit-text">
+                                    {{ this.description.length }}/2000
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
-            <div class="button-container">
-                <p class="button small white add-field-button">SAVE</p>
+            <div class="button-container" @click="saveCommuInfo">
+                <p class="button small white add-field-button save-btn primary">
+                    SAVE
+                </p>
             </div>
         </div>
         <div class="form-item delete-container">
             <p class="left">커뮤니티 삭제</p>
-            <p class="button small white add-field-button m-0">DELETE</p>
+            <p
+                class="button small white add-field-button m-0 tertiary"
+                style="color: #fff"
+                @click="deleteCommunity"
+            >
+                DELETE
+            </p>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { mapGetters } from "vuex";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
+import plugins from "@/plugins/plugins";
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {},
@@ -227,17 +368,25 @@ export default class CommunitySettings extends Vue {
     private communityId = parseInt(this.$route.params.community_id);
     private community: any;
     private description: string = "";
+    private communityName: string = "";
 
     private filename: string = "";
-    private imgSrc: string = "";
+    private profileImgSrc: string = "";
+    private bannerImgSrc: string = "";
+    private imgType: string = "";
+    private isDescError: boolean = false;
+    private isNameError: boolean = false;
+
     created() {
         this.community = this.$api.getCommunityInfo(this.communityId);
-        this.imgSrc = this.community.profile_img;
+        this.profileImgSrc = this.community.profile_img;
+        this.bannerImgSrc = this.community.banner_img;
     }
     mounted() {
         this.hexagon.init();
         this.dropdown.init();
         this.description = this.community.description;
+        this.communityName = this.community.name;
 
         if (!this.user) {
             this.$store.subscribe(async ({ type }) => {
@@ -250,24 +399,103 @@ export default class CommunitySettings extends Vue {
     // 파일 업로드
     onFileChange(event: { target: { files: any } }) {
         this.inputFile(event.target.files);
-        console.log(event.target.files);
     }
     //첨부파일 업로드
     uploadFile(fileType: string) {
-        console.log(fileType);
+        this.imgType = fileType;
         (this.$refs[fileType] as HTMLElement).click();
     }
     inputFile(files: string | any[]) {
         if (files.length) {
             let file = files[0];
             this.filename = file.name;
-            this.imgSrc = URL.createObjectURL(file);
+            if (this.imgType === "bannerImg") {
+                this.bannerImgSrc = URL.createObjectURL(file);
+            } else {
+                this.profileImgSrc = URL.createObjectURL(file);
+            }
+        }
+    }
+    saveCommuInfo() {
+        const result = this.$api.modifiedCommunityInfo(
+            this.communityId,
+            this.communityName,
+            this.description,
+            this.profileImgSrc,
+            this.bannerImgSrc
+        );
+
+        console.log(result);
+    }
+    deleteCommunity(){
+        const result = this.$api.deleteCommunity(this.communityId)
+    }
+
+    @Watch("profileImgSrc")
+    watchImg(val: any) {
+        console.log("watch imgSrc", val);
+        this.$nextTick(() => {
+            plugins.createHexagon({
+                container: ".hexagon-image-68-74",
+                width: 68,
+                height: 74,
+                roundedCorners: true,
+                roundedCornerRadius: 3,
+                clip: true,
+            });
+        });
+    }
+
+    @Watch("description")
+    watchChar() {
+        if (this.description.length > 2000) {
+            this.description = this.description.substring(0, 2000);
+            this.isDescError = true;
+        } else if (this.description.length < 2000) {
+            this.isDescError = false;
+        }
+    }
+
+    @Watch("communityName")
+    watchCommuName() {
+        if (this.communityName.length > 50) {
+            this.communityName = this.communityName.substring(0, 50);
+            this.isNameError = true;
+        } else if (this.communityName.length < 50) {
+            this.isNameError = false;
         }
     }
 }
 </script>
 
 <style lang='scss' scoped>
+.name-error.active {
+    text-align: left;
+    display: block;
+    color: red;
+    padding-left: 28px;
+    margin-top: 10px;
+}
+.name-error {
+    display: none;
+}
+.limit-text-container {
+    display: flex;
+    width: 100%;
+}
+.form-textarea {
+    height: 300px;
+}
+.form-textarea.active {
+    textarea {
+        border: 1px solid red;
+    }
+}
+.community-name.active {
+    input {
+        border: 1px solid red;
+    }
+}
 .simple-tab-items {
     margin-top: 32px;
 }
@@ -284,9 +512,19 @@ export default class CommunitySettings extends Vue {
     .right {
         width: 70%;
     }
-    .button-container {
-        display: flex;
-        justify-content: flex-end;
+}
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+
+    .save-btn {
+        color: #fff;
     }
+}
+.delete-container {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 </style>

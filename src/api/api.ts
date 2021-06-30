@@ -273,6 +273,25 @@ export default class Api {
 
     }
 
+    modifiedCommunityInfo(id: number, name: string, description: string, profileImg: string, bannerImg: string) {
+        const formData = new FormData();
+
+        if (id) { formData.append('community_id', id.toString()); }
+        if (name) { formData.append('name', name); }
+        if (description) { formData.append('description', description); }
+        if (profileImg) { formData.append('profile_img', profileImg); }
+        if (bannerImg) { formData.append('banner_img', bannerImg); }
+
+        return true;
+
+
+    }
+    async deleteCommunity(id: number) {
+        const response = await this.request('delete', `community/${id}/remove`, undefined, false);
+        console.log(response)
+
+    }
+
     // 타임라인
     getTimeline(id: number, channelId?: number) {
         ///api/v1/timeline/:community_id/channel/:channel_id?offset=0&limit=10&sort=popular
@@ -316,7 +335,7 @@ export default class Api {
                             "size": 200,
                             "url": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb"
                         },
-                        
+
 
                     ],
                     "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
@@ -427,6 +446,71 @@ export default class Api {
                     "is_pinned": true
                 }
             ]
+        }
+        return result;
+
+    }
+
+    getFeed(id: number) {
+        const result = {
+            "id": 111,
+            "user": {
+                "id": 1,
+                "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                "status": "owner ",
+                "email": "zempie@google.name",
+                "name": "젬파이",
+                "nickname": "zempieeee",
+                "channel_id": 12,
+                "created_at": 1616117970000,
+                "state": "active || block ",
+                "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                "post_cnt": 0,
+                "liked_cnt": 7,
+                "followers_cnt": 123,
+                "followings_cnt": 0,
+                "follows_you": true,
+                "is_following": true,
+                "block_you": false,
+                "is_blocked": false,
+                "mutes_you": false,
+                "is_muted": false,
+                "type": "user"
+            },
+            "created_at": 1616117970000,
+            "attatchment_files": [
+                {
+                    "id": 111,
+                    "type": "image",
+                    "size": 200,
+                    "url": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb"
+                },
+
+
+            ],
+            "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
+            "visibility": "public",
+            "hashtags": ["tag", "tag1"],
+            "user_tag": [],
+            "liked": true,
+            "like_cnt": 1,
+            "comment_cnt": 5,
+            "read_cnt": 0,
+            "shared_cnt": 0,
+            "posted_at": {
+                "channel_id": 1,
+                "game_id": null,
+                "community": {
+                    "id": 1,
+                    "channel_id": 1,
+                },
+                "portfolio_id": null,
+            },
+            "poll": null,
+            "scheduled_for": null,
+            "status": "active",
+            "is_retweet": false,
+            "is_pinned": false
         }
         return result;
 

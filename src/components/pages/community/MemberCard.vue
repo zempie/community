@@ -80,6 +80,7 @@ export default class MemberCard extends Vue {
 
     mounted() {
         this.hexagon.init();
+        console.log(this.member)
     }
 
     followUser() {

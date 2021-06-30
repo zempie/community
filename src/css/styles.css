@@ -5077,7 +5077,7 @@ figure > img {
 }
 
 .quick-post .quick-post-header .option-items .option-item {
-  width: 33.3333333333%;
+  width:50%;
 }
 
 .quick-post .quick-post-header .option-items .option-item::after {
