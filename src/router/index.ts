@@ -18,14 +18,14 @@ const routes: Array<RouteConfig> = [
           console.log("login")
           next(`/channel/${store.getters.user.uid}/timeline`)
           break;
-        // case LoginState.no_user:
-        //   console.log("no_user")
-        //   next('/guestPage');
-        //   break;
-        // case LoginState.logout:
-        //   console.log("logout")
-        //   next('/guestPage');
-        //   break;
+        case LoginState.no_user:
+          console.log("no_user")
+          next('/guestPage');
+          break;
+        case LoginState.logout:
+          console.log("logout")
+          next('/guestPage');
+          break;
         default:
           next();
 
@@ -44,7 +44,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("@/views/ChangePassword.vue"),
   },
   {
-    path: '/user/:userUid/resetPassword',
+    path: '/user/resetPassword',
     name: 'ResetPassword',
     component: () => import("@/views/ResetPassword.vue"),
   },

@@ -77,7 +77,7 @@
                                 <div class="form-item">
                                     <p class="button full secondary">
                                         <router-link
-                                            :to="`/user/${user.uid}/resetPassword`"
+                                            to="/user/resetPassword"
                                             style="color: #fff"
                                         >
                                             Forgot your Password?</router-link

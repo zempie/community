@@ -52,19 +52,35 @@
 
                 <h2 class="form-box-title">Account Login</h2>
 
-                <form class="form">
+                <b-form @submit.stop.prevent="onSubmit">
                     <div class="form-row">
                         <div class="form-item">
                             <div class="form-input">
-                                <label for="login-username"
-                                    >Username or Email</label
+                                <b-form-group
+                                    label="Username or Email"
+                                    label-for="login-username"
                                 >
-                                <input
-                                    type="text"
-                                    id="login-username"
-                                    name="login_username"
-                                    v-model="email"
-                                />
+                                    <b-form-input
+                                        class="form-control"
+                                        type="text"
+                                        id="login-username"
+                                        name="login-username"
+                                        v-model="$v.form.email.$model"
+                                        :state="
+                                            isClickedLoginBtn
+                                                ? validateState('email')
+                                                : undefined
+                                        "
+                                    ></b-form-input>
+                                    <!-- aria-describedby="input-1-live-feedback" -->
+
+                                    <b-form-invalid-feedback
+                                        id="input-1-live-feedback"
+                                        >This is a required field and must be at
+                                        least 3
+                                        characters.</b-form-invalid-feedback
+                                    >
+                                </b-form-group>
                             </div>
                         </div>
                     </div>
@@ -72,12 +88,31 @@
                     <div class="form-row">
                         <div class="form-item">
                             <div class="form-input">
-                                <label for="login-password">Password</label>
-                                <input
-                                    type="password"
-                                    id="login-password"
-                                    name="login_password"
-                                />
+                                <b-form-group
+                                    label="Password"
+                                    label-for="login-password"
+                                >
+                                    <b-form-input
+                                        class="form-control"
+                                        type="password"
+                                        id="login-password"
+                                        name="login-password"
+                                        v-model="$v.form.password.$model"
+                                        aria-describedby="input-pwd-live-feedback"
+                                        :state="
+                                            isClickedLoginBtn
+                                                ? validateState('password')
+                                                : undefined
+                                        "
+                                    ></b-form-input>
+
+                                    <b-form-invalid-feedback
+                                        id="input-pwd-live-feedback"
+                                        >영문과 최소 1개의 숫자 혹은 특수 문자를
+                                        포함한 6~20자리 비밀번호를
+                                        입력해주세요.</b-form-invalid-feedback
+                                    >
+                                </b-form-group>
                             </div>
                         </div>
                     </div>
@@ -103,18 +138,25 @@
                         </div>
 
                         <div class="form-item">
-                            <a class="form-link" href="#">Forgot Password?</a>
+                            <router-link
+                                to="/user/resetPassword"
+                                style="color: #fff"
+                                >Forgot Password?</router-link
+                            >
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-item">
-                            <button class="button medium secondary">
-                                Login to your Account!
-                            </button>
+                            <b-button
+                                class="button medium secondary login-submit-btn"
+                                type="submit"
+                            >
+                                Login to your Account!</b-button
+                            >
                         </div>
                     </div>
-                </form>
+                </b-form>
 
                 <p class="lined-text">Login with your Social Account</p>
 
@@ -327,7 +369,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
 import Form from "@/script/form";
 
 import firebase from "firebase/app";
@@ -337,14 +378,38 @@ import LoginManager from "@/script/login";
 import { UrlHelper } from "@/script/utils/util";
 import plugins from "@/plugins/plugins";
 
+import { validationMixin } from "vuelidate";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { helpers } from "vuelidate/lib/validators";
+const emailValidator = helpers.regex(
+    "emailValidator",
+    /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+);
+const pwdValidator = helpers.regex(
+    "pwdValidator",
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[!@#\$%\^&\*]).{6,20}$/
+);
 @Component({
     components: {},
+    mixins: [validationMixin],
+    validations: {
+        form: {
+            email: {
+                required,
+                emailValidator,
+            },
+            password: {
+                required,
+                pwdValidator,
+                minLength: minLength(6),
+                maxLength: maxLength(20),
+            },
+        },
+    },
 })
 export default class Login extends Vue {
     private redirect: string = "";
-
-    private email: string = "";
-    private password: string = "";
+    private form = { email: "", password: "" };
 
     private emailError: string = "";
     private passwordError: string = "";
@@ -353,6 +418,84 @@ export default class Login extends Vue {
     private googleUsername: string = "";
     private googleEmail: string = "";
     private googleRegister: boolean = false;
+
+    private isClickedLoginBtn: boolean = false;
+
+    // vuelidate
+    validateState(name) {
+        console.log(this.$v);
+        const { $dirty, $error } = this.$v.form[name]!;
+        return $dirty ? !$error : null;
+    }
+
+   async onSubmit() {
+        this.isClickedLoginBtn = true;
+        this.$v.form.$touch();
+        if (this.$v.form.$anyError) {
+            return;
+        }
+
+            try {
+                const result = await firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password);
+                // console.log(result);
+                // await this.$router.replace('/');
+
+                if(result.user) {
+                    const token = await firebase.auth().currentUser!.getIdToken();
+                    this.$store.commit('idToken', token);
+
+                    const result = await Vue.$api.user();
+                    // if( result.error && result.error && result.error.message === '잘 못 된 유저 아이디입니다' ) {
+                    if( result?.error?.code === 20001 ) {
+                        // alert( this.$t('login.joinError') as string );
+                        this.$store.commit('loginState', LoginState.no_user );
+                        await this.$router.replace('/joinEmailContinue');
+                        return;
+                    }
+
+                    const {user} = result;
+                    this.$store.commit('user', user);
+                    await LoginManager.login();
+                    // this.$store.commit('loginState', LoginState.login );
+
+                    if(this.$store.getters.redirectRouter) {
+                        const router = this.$store.getters.redirectRouter;
+                        this.$store.commit('redirectRouter', null);
+                        await this.$router.replace( router );
+                    }
+                    else if( this.$store.getters.redirectUrl ) {
+                        const url = this.$store.getters.redirectUrl;
+                        this.$store.commit('redirectUrl', null);
+                        window.location.href = url;
+                    }
+                    else {
+                        await this.$router.replace('/');
+                    }
+                }
+
+            }
+            catch (e) {
+                // console.log(e);
+
+                const code = e.code;
+                // console.log(code);
+                if( code ) {
+                    switch (code) {
+                        case 'auth/wrong-password' :
+                            // alert(this.$t('login.firebaseError.password') as string);
+                            // this.passwordError = '잘못된 비밀번호 입니다. 다시 입력하세요.'
+                            break;
+                        case 'auth/user-not-found' :
+                            // alert(this.$t('login.firebaseError.userNotFound') as string);
+                            break;
+                        default:
+                            // alert('잠시 후 다시 시도해주세요.');
+                            break;
+                    }
+                }
+            }
+        
+    }
 
     async mounted() {
         this.createTab();
@@ -381,19 +524,19 @@ export default class Login extends Vue {
         console.log("mounted", this.$store.getters.isLoginComplete);
     }
 
-    @Watch("email")
-    watchEmail() {
-        if (this.email) {
-            this.emailError = "";
-        }
-    }
+    // @Watch("email")
+    // watchEmail() {
+    //     if (this.email) {
+    //         this.emailError = "";
+    //     }
+    // }
 
-    @Watch("password")
-    watchPassword() {
-        if (this.password) {
-            this.passwordError = "";
-        }
-    }
+    // @Watch("password")
+    // watchPassword() {
+    //     if (this.password) {
+    //         this.passwordError = "";
+    //     }
+    // }
 
     async emailLogin() {
         if (!this.email) {
@@ -511,18 +654,23 @@ export default class Login extends Vue {
             // this.$store.commit('loginState', LoginState.login );
             // await this.$router.replace('/');
             if (this.$store.getters.redirectRouter) {
-                console.log('redirectRouter', this.$store.getters.redirectRouter)
+                console.log(
+                    "redirectRouter",
+                    this.$store.getters.redirectRouter
+                );
                 const router = this.$store.getters.redirectRouter;
                 this.$store.commit("redirectRouter", null);
                 await this.$router.replace(router);
             } else if (this.$store.getters.redirectUrl) {
-                console.log('redirectUrl', this.$store.getters.redirectUrl)
+                console.log("redirectUrl", this.$store.getters.redirectUrl);
                 const url = this.$store.getters.redirectUrl;
                 this.$store.commit("redirectUrl", null);
                 window.location.href = url;
             } else {
-                console.log("replace")
-                await this.$router.push(`/channel/${this.$store.getters.user.uid}/timeline`);
+                console.log("replace");
+                await this.$router.push(
+                    `/channel/${this.$store.getters.user.uid}/timeline`
+                );
             }
         }
     }
@@ -549,4 +697,16 @@ export default class Login extends Vue {
 </script>
 
 <style scoped>
+.login-submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form-control:valid {
+    background-color: #1d2333 !important;
+    color: #fff !important;
+}
+.form-control:focus {
+    box-shadow: none;
+}
 </style>
