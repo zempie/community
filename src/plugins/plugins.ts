@@ -19,7 +19,6 @@ const plugins = {
     },
     createHexagon: function (options: any) {
         if (existsInDOM(options.container) || typeof options.containerElement !== 'undefined') {
-console.log("run hexagon")
             return new XM_Hexagon(options);
         }
     },
@@ -31,7 +30,6 @@ console.log("run hexagon")
     },
     createPopup: function (options: any) {
         if (existsInDOM(options.container) && existsInDOM(options.trigger)) {
-            console.log('create popup')
             //@ts-ignore       
             return new XM_Popup(options);
         }
