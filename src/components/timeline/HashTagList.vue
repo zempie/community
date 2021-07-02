@@ -17,7 +17,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 @Component({
     components: {},
 })
-export default class HahstagList extends Vue {
+export default class HashTagList extends Vue {
     private selectedIndex: number = 0;
     @Prop() items!: any;
     @Prop() command!: any;
@@ -27,6 +27,7 @@ export default class HahstagList extends Vue {
         this.selectedIndex = 0;
     }
     onKeyDown({ event }) {
+        console.log(event)
         if (event.key === "ArrowUp") {
             this.upHandler();
             return true;
@@ -55,13 +56,14 @@ export default class HahstagList extends Vue {
     }
 
     enterHandler() {
+        console.log(this.selectedIndex)
         this.selectItem(this.selectedIndex);
     }
 
     selectItem(index) {
         const item = this.items[index];
-
         if (item) {
+            this.$store.commit('hashtagList', item)            
             this.command({ id: item });
         }
     }

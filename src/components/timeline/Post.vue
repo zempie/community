@@ -110,9 +110,28 @@
                                     :key="audioSrc"
                                 />
                             </audio> -->
-                            <p class="form-textarea-limit-text">
-                                {{ this.postingText.length }}/5000
-                            </p>
+                            <div
+                                style="
+                                    display: flex;
+                                    justify-content: space-between;
+                                "
+                            >
+                                <b-form-checkbox
+                                    class="private-checkbox"
+                                    v-model="visibility"
+                                    name="checkbox-1"
+                                    value="private"
+                                    unchecked-value="public"
+                                >
+                                    Private
+                                </b-form-checkbox>
+                                <p
+                                    class="form-textarea-limit-text"
+                                    style="padding-top: 18px"
+                                >
+                                    {{ this.postingText.length }}/5000
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -130,13 +149,6 @@
                                 v-model="postingText"
                                 ref="editorContainer"
                             />
-                            <!-- <textarea
-                                v-model="postingText"
-                                id="quick-post-text"
-                                name="quick-post-text"
-                                :placeholder="`Hi ${user.name}! Share your post here...`"
-                                @keydown="checkText(postingText)"
-                            ></textarea> -->
                             <div
                                 style="
                                     display: flex;
@@ -459,6 +471,8 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import Dropcursor from "@tiptap/extension-dropcursor";
+import Mention from "@tiptap/extension-mention";
+
 import lowlight from "lowlight";
 
 import Video from "@/script/tiptap/customVideo";
@@ -466,8 +480,9 @@ import Audio from "@/script/tiptap/customAudio";
 import Iframe from "@/script/tiptap/iframe";
 import Hashtag from "@/script/tiptap/hashtag";
 
-import HahstagList from './HahstagList.vue'
-import tippy from 'tippy.js';
+import HahstagList from "./HashTagList.vue";
+import MentionList from "./MentionList.vue";
+import tippy from "tippy.js";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
@@ -516,6 +531,33 @@ export default class Post extends Vue {
     imgSrc: string = "";
     activeTab: string = "post";
 
+    hashTagListTest: string[] = [
+        "ahashtag1",
+        "bhashtag2",
+        "chashtag3",
+        "dhashtag4",
+        "ehashtag5",
+        "fhashtag6",
+        "ghashtag7",
+        "해시태그01",
+        "hashtag8",
+        "hashtag9",
+        "hashtag10",
+        "hashtag11",
+        "hashtag12",
+        "hashtag13",
+        "hashtag14",
+        "hashtag15",
+        "hashtag16",
+        "hashtag17",
+        "hashtag18",
+        "hashtag19",
+        "hashtag20",
+    ];
+
+    private hasTagSuggestion: boolean = false;
+    private postedHashtag: string[] = [];
+
     // tiptap
 
     @Watch("postingText")
@@ -550,6 +592,104 @@ export default class Post extends Vue {
                 Hashtag.configure({
                     HTMLAttributes: {
                         class: "hashtag",
+                    },
+                    renderLabel({ options, node }) {
+                        return `${options.suggestion.char}${
+                            node.attrs.label ?? node.attrs.id
+                        }`;
+                    },
+                    suggestion: {
+                        //@ts-ignore
+                        items: (query) => {
+                            if (query.length > 0) {
+                                return this.hashTagListTest
+                                    .filter((item) =>
+                                        item
+                                            .toLowerCase()
+                                            .startsWith(query.toLowerCase())
+                                    )
+                                    .slice(0, 10);
+                            }
+                        },
+                        render: () => {
+                            let component;
+                            let popup;
+
+                            return {
+                                onStart: (props) => {
+                                    component = new VueRenderer(HahstagList, {
+                                        parent: this,
+                                        propsData: props,
+                                    });
+
+                                    popup = tippy("body", {
+                                        getReferenceClientRect:
+                                            props.clientRect,
+                                        appendTo: () => document.body,
+                                        content: component.element,
+                                        showOnCreate: true,
+                                        interactive: false,
+                                        trigger: "manual",
+                                        placement: "bottom-start",
+                                    });
+                                },
+                                onUpdate: (props) => {
+                                    component.updateProps(props);
+                                    if (props.items && props.items.length > 0) {
+                                        this.hasTagSuggestion = true;
+                                    } else {
+                                        this.hasTagSuggestion = false;
+                                    }
+                                    popup[0].setProps({
+                                        getReferenceClientRect:
+                                            props.clientRect,
+                                    });
+                                },
+                                onKeyDown: (props) => {
+                                    // console.log("onKeyDown", props);
+                                    if (
+                                        props.event.key === "Enter" &&
+                                        !this.hasTagSuggestion
+                                    ) {
+                                        let id = {
+                                            id: component.ref?._props.query,
+                                        };
+                                        this.$store.commit(
+                                            "hashtagList",
+                                            component.ref?._props.query
+                                        );
+                                        return component.ref?._props.editor
+                                            .chain()
+                                            .focus()
+                                            .insertContentAt(
+                                                component.ref?._props.range,
+                                                [
+                                                    {
+                                                        type: "hashtag",
+                                                        attrs: id,
+                                                    },
+                                                    {
+                                                        type: "text",
+                                                        text: " ",
+                                                    },
+                                                ]
+                                            )
+                                            .run();
+                                    } else {
+                                        return component.ref?.onKeyDown(props);
+                                    }
+                                },
+                                onExit() {
+                                    popup[0].destroy();
+                                    component.destroy();
+                                },
+                            };
+                        },
+                    },
+                }),
+                Mention.configure({
+                    HTMLAttributes: {
+                        class: "mention",
                     },
                     suggestion: {
                         items: (query) => {
@@ -593,7 +733,7 @@ export default class Post extends Vue {
 
                             return {
                                 onStart: (props) => {
-                                    component = new VueRenderer(HahstagList, {
+                                    component = new VueRenderer(MentionList, {
                                         parent: this,
                                         propsData: props,
                                     });
@@ -647,6 +787,7 @@ export default class Post extends Vue {
         this.audioSrc = "";
         this.videoSrc = "";
         this.editor.commands.clearContent();
+        this.$store.dispatch("resetHashtag");
     }
 
     isActive(type: string) {
@@ -772,6 +913,8 @@ export default class Post extends Vue {
             this.user.uid,
             this.fileList,
             this.visibility,
+            this.$store.getters.hashtagList,
+            this.$store.getters.userTagList,
             this.content,
             this.selectedCommunityId,
             this.selectedChannelId
@@ -961,123 +1104,6 @@ export default class Post extends Vue {
         height: 100px;
         &.ProseMirror-selectednode {
             outline: 3px solid #68cef8;
-        }
-    }
-
-    .ProseMirror {
-        > * + * {
-            margin-top: 0.75em;
-        }
-        img {
-            max-width: 100% !important;
-            height: auto;
-        }
-        p.is-editor-empty:first-child::before {
-            content: attr(data-placeholder);
-            float: left;
-            color: #ced4da;
-            pointer-events: none;
-            height: 0;
-        }
-
-        ul,
-        ol {
-            padding: 0 1rem;
-            color: #fff;
-            list-style: auto;
-        }
-        hr {
-            background-color: #fff;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            line-height: 1.1;
-        }
-
-        code {
-            background-color: rgba(#616161, 0.1);
-            color: #616161;
-        }
-
-        pre {
-            background: #0d0d0d;
-            color: #fff;
-            font-family: "JetBrainsMono", monospace;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-
-            code {
-                color: inherit;
-                padding: 0;
-                background: none;
-                font-size: 0.8rem;
-            }
-
-            .hljs-comment,
-            .hljs-quote {
-                color: #616161;
-            }
-
-            .hljs-variable,
-            .hljs-template-variable,
-            .hljs-attribute,
-            .hljs-tag,
-            .hljs-name,
-            .hljs-regexp,
-            .hljs-link,
-            .hljs-name,
-            .hljs-selector-id,
-            .hljs-selector-class {
-                color: #f98181;
-            }
-
-            .hljs-number,
-            .hljs-meta,
-            .hljs-built_in,
-            .hljs-builtin-name,
-            .hljs-literal,
-            .hljs-type,
-            .hljs-params {
-                color: #fbbc88;
-            }
-
-            .hljs-string,
-            .hljs-symbol,
-            .hljs-bullet {
-                color: #b9f18d;
-            }
-
-            .hljs-title,
-            .hljs-section {
-                color: #faf594;
-            }
-
-            .hljs-keyword,
-            .hljs-selector-tag {
-                color: #70cff8;
-            }
-
-            .hljs-emphasis {
-                font-style: italic;
-            }
-
-            .hljs-strong {
-                font-weight: 700;
-            }
-        }
-
-        hr {
-            margin: 1rem 0;
-        }
-
-        blockquote {
-            padding-left: 1rem;
-            border-left: 2px solid rgba(#0d0d0d, 0.1);
         }
     }
 

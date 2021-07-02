@@ -22,6 +22,7 @@ export default Node.create<HashtagOptions>({
     suggestion: {
       char: '#',
       command: ({ editor, range, props }) => {
+        console.log(range)
         editor
           .chain()
           .focus()
@@ -119,6 +120,7 @@ export default Node.create<HashtagOptions>({
 
   addKeyboardShortcuts() {
     return {
+
       Backspace: () => this.editor.commands.command(({ tr, state }) => {
         let isHashtag = false
         const { selection } = state
@@ -139,6 +141,9 @@ export default Node.create<HashtagOptions>({
 
         return isHashtag
       }),
+
+
+
     }
   },
 
