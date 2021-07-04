@@ -128,13 +128,13 @@
                     <div>
                         <div
                             class="simple-dropdown header-settings-dropdown"
-                            @click="settings"
+                            @click="setting"
                         >
                             <router-link
                                 class="simple-dropdown-link"
-                                :to="`/community/${community.id}/settings`"
+                                :to="`/community/${community.id}/setting`"
                             >
-                                Group settings
+                                Group setting
                             </router-link>
 
                             <router-link class="simple-dropdown-link" to="/createCommunity">
@@ -253,7 +253,7 @@ export default class CommunityHeader extends Vue {
         const result = this.$api.subscribeCommunity(this.communityId, 1);
         console.log("subscribes", result);
     }
-    settings() {
+    setting() {
         (this.$refs.dropbox as HTMLElement).click();
     }
 }

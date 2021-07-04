@@ -458,7 +458,7 @@ input[type="password"],
 textarea,
 select,
 button {
-  font-family: "Rajdhani", sans-serif;
+  font-family: "Rajdhani", sans-serif !important;
 }
 
 label {
@@ -474,10 +474,10 @@ input[type="email"],
 textarea,
 select,
 button {
-  width: 100%;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 700;
+  width: 100% !important;
+  border-radius: 12px !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
 }
 
 input[type="text"],
@@ -485,10 +485,10 @@ input[type="password"],
 input[type="email"],
 textarea,
 select {
-  background-color: #1d2333;
-  border: 1px solid #3f485f;
-  color: #fff;
-  transition: border-color .2s ease-in-out;
+  background-color: #1d2333 !important;
+  border: 1px solid #3f485f !important;
+  color: #fff!important; 
+  transition: border-color .2s ease-in-out !important;
 }
 
 input[type="text"]:focus,
