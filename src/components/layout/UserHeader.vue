@@ -75,18 +75,17 @@
 
             <div class="user-stats">
                 <div class="user-stat big">
-                    <p class="user-stat-title">930</p>
+                    <router-link class="user-stat-title" :to="`/channel/${userInfo.uid}/timeline`">930</router-link>
 
                     <p class="user-stat-text">posts</p>
                 </div>
 
                 <div class="user-stat big">
-                    <p class="user-stat-title">82</p>
-
+                    <router-link class="user-stat-title" :to="`/channel/${userInfo.uid}/follwers`">{{followerCnt}}</router-link>
                     <p class="user-stat-text">Followers</p>
                 </div>
                   <div class="user-stat big">
-                    <p class="user-stat-title">20</p>
+                    <router-link class="user-stat-title" :to="`/channel/${userInfo.uid}/followings`">{{followingCnt}}</router-link>
 
                     <p class="user-stat-text">Followings</p>
                 </div>
@@ -103,70 +102,7 @@
             </div>
         </div>
     </div>
-        <nav class="section-navigation">
-            
-            <div
-                id="section-navigation-medium-slider"
-                class="section-menu secondary"
-            >
-                <router-link
-                    class="section-menu-item"
-                    :to="`/channel/${userInfo.id}/timeline`"
-                    :class="$route.name === 'UserTimeline' ? 'active' : ''"
-                >
-                    <svg class="section-menu-item-icon icon-timeline">
-                        <use xlink:href="#svg-timeline"></use>
-                    </svg>
-
-                    <p class="section-menu-item-text">Timeline</p>
-                </router-link>
-
-                <!-- <router-link
-                    class="section-menu-item"
-                    :to="`/channel/${community.id}/members`"
-                    :class="$route.name === 'MemberList' ? 'active' : ''"
-                >
-                    <svg class="section-menu-item-icon icon-members">
-                        <use xlink:href="#svg-members"></use>
-                    </svg>
-
-                    <p class="section-menu-item-text">Members</p>
-                </router-link> -->
-
-                <a class="section-menu-item" href="#">
-                    <svg class="section-menu-item-icon icon-photos">
-                        <use xlink:href="#svg-photos"></use>
-                    </svg>
-
-                    <p class="section-menu-item-text">Photos</p>
-                </a>
-
-                <a class="section-menu-item" href="#">
-                    <svg class="section-menu-item-icon icon-videos">
-                        <use xlink:href="#svg-videos"></use>
-                    </svg>
-
-                    <p class="section-menu-item-text">Videos</p>
-                </a>
-            </div>
-
-            <div
-                id="section-navigation-medium-slider-controls"
-                class="slider-controls"
-            >
-                <div class="slider-control left">
-                    <svg class="slider-control-icon icon-small-arrow">
-                        <use xlink:href="#svg-small-arrow"></use>
-                    </svg>
-                </div>
-
-                <div class="slider-control right">
-                    <svg class="slider-control-icon icon-small-arrow">
-                        <use xlink:href="#svg-small-arrow"></use>
-                    </svg>
-                </div>
-            </div>
-        </nav>
+      
         <router-view></router-view>
     </div>
 </template>
@@ -184,11 +120,18 @@ export default class UserHeader extends Vue {
 
     private channelId = this.$route.params.channel_id;
     private userInfo: any = [];
+    private followingCnt: number = 0;
+    private followerCnt: number = 0;
 
-    mounted() {
+    
+
+    async mounted() {
         this.hexagon.init();
         
         this.init();
+
+        this.followingCnt = await this.$api.followingCnt(this.userInfo.user_uid);
+        this.followerCnt = await this.$api.follwerCnt(this.userInfo.user_uid);
     }
 
     async init() {

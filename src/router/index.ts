@@ -128,7 +128,16 @@ const routes: Array<RouteConfig> = [
         name: 'UserTimeline',
         component: () => import("@/components/pages/user/UserTimeline.vue"),
       },
-
+      {
+        path: '/channel/:channel_id/follwers',
+        name: 'FollowerList',
+        component: () => import("@/components/pages/user/FollowerList.vue"),
+      },
+      {
+        path: '/channel/:channel_id/followings',
+        name: 'FollowingList',
+        component: () => import("@/components/pages/user/FollowingList.vue"),
+      },
 
 
     ]

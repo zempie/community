@@ -977,6 +977,62 @@ export default class Api {
         return result;
     }
 
+    async followingCnt(user_uid: string) {
+        const result = 5;
+        return result;
+    }
+    async followerList(user_uid: string) {
+        const result = [
+            {
+                "id": 222,
+                "uid": "fdfs312fdsfsdf",
+                "email": "zempie@google.name",
+                "name": "followers2",
+                "nickname": "zempieeee",
+                "channel_id": 12,
+                "created_at": 1616117970000,
+                "profile_img": "http://wwww.ewqeqwe2.png",
+                "post_cnt": 0,
+                "liked_cnt": 7,
+                "followers_cnt": 123,
+                "followings_cnt": 0,
+                "follows_you": true || false,
+                "is_following": true || false,
+                "block_you": true || false,
+                "is_blocked": true || false,
+                "mutes_you": true || false,
+                "is_muted": true || false,
+                "type": "user"
+            },
+            {
+                "id":3333,
+                "uid": "fdfs312fdsfsdf",
+                "email": "zempie@google.name",
+                "name": "followers2",
+                "nickname": "followers2",
+                "channel_id": 12,
+                "created_at": 1616117970000,
+                "profile_img": "http://wwww.ewqeqwe2.png",
+                "post_cnt": 0,
+                "liked_cnt": 7,
+                "followers_cnt": 123,
+                "followings_cnt": 0,
+                "follows_you": true || false,
+                "is_following": true || false,
+                "block_you": true || false,
+                "is_blocked": true || false,
+                "mutes_you": true || false,
+                "is_muted": true || false,
+                "type": "user || developer || admin"
+            },
+        ]
+        return result;
+    }
+  
+    async follwerCnt(user_uid: string) {
+        const result = 10;
+        return result;
+    }
 
 
 }
