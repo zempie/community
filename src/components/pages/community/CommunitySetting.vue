@@ -100,68 +100,27 @@
       <h2 class="section-title mb-3">관리자</h2>
     </div>
     <!-- todo: call manager data -->
-    <div class="form-item">
-      <p class="left">매니저</p>
-      <div class="form-input right">
-        <div class="user-preview small fixed-height">
-          <figure
-            class="user-preview-cover liquid"
-            :style="`background: url('${bannerImgSrc}') center
-                                center / cover no-repeat;`"
-          >
-            <img :src="bannerImgSrc" alt="cover-01" style="display: none" />
-          </figure>
-
-          <div class="user-preview-info">
-            <div class="user-short-description small">
-              <div class="user-short-description-avatar user-avatar">
-                <div class="user-avatar-content">
-                  <div
-                    :key="profileImgSrc"
-                    class="hexagon-image-68-74"
-                    :data-src="profileImgSrc"
-                    style="width: 68px; height: 74px; position: relative"
-                  >
-                    <canvas
-                      width="68"
-                      height="74"
-                      style="position: absolute; top: 0px; left: 0px"
-                    ></canvas>
-                  </div>
-                </div>
-
-                <div class="user-avatar-progress">
-                  <div
-                    class="hexagon-progress-84-92"
-                    style="width: 84px; height: 92px; position: relative"
-                  >
-                    <canvas
-                      width="84"
-                      height="92"
-                      style="position: absolute; top: 0px; left: 0px"
-                    ></canvas>
-                  </div>
-                </div>
-
-                <div class="user-avatar-progress-border">
-                  <div
-                    class="hexagon-border-84-92"
-                    style="width: 84px; height: 92px; position: relative"
-                  >
-                    <canvas
-                      width="84"
-                      height="92"
-                      style="position: absolute; top: 0px; left: 0px"
-                    ></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div>
+      <div class="form-item">
+        <div class="form-input small dropbox-container">
+          <p>manager</p>
+          <b-dropdown text="manager" class="dropbox">
+            <b-dropdown-item>First Action</b-dropdown-item>
+          </b-dropdown>
         </div>
       </div>
     </div>
 
+    <div class="form-row">
+      <div class="form-item">
+        <div class="form-input small dropbox-container">
+          <p>sub-manager</p>
+          <b-dropdown text="sub-manager" class="dropbox">
+            <b-dropdown-item>First Action</b-dropdown-item>
+          </b-dropdown>
+        </div>
+      </div>
+    </div>
     <div class="section-header-info mt-5">
       <h2 class="section-title mb-3">정보</h2>
     </div>
@@ -225,15 +184,26 @@
         <p class="button small white add-field-button save-btn primary">SAVE</p>
       </div>
     </div>
-    <div class="form-item delete-container">
-      <p class="left">커뮤니티 삭제</p>
-      <p
-        class="button small white add-field-button m-0 tertiary"
-        style="color: #fff"
-        @click="deleteCommunity"
-      >
-        DELETE
-      </p>
+    <div style="border: 1px solid red">
+      <p style="color: red">Danger zone</p>
+      <div class="form-item delete-container">
+        <p class="left">커뮤니티 삭제</p>
+        <p
+          class="button small white add-field-button m-0 tertiary"
+          style="color: #fff"
+          @click="deleteCommunity"
+        >
+          DELETE
+        </p>
+      </div>
+      <div class="form-row">
+        <div class="form-item">
+          <div class="form-input small dropbox-container">
+            <p>state</p>
+            public/privat toggle button
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -415,5 +385,16 @@ export default class CommunitySetting extends Vue {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.dropbox-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 48px;
+  font-size: 1rem;
+}
+.dropbox {
+  width: 50%;
 }
 </style>
