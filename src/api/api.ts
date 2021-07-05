@@ -338,7 +338,7 @@ export default class Api {
 
 
                     ],
-                    "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
+                    "content": "<pre><code>ㄴㅇㅁㅇㅁㅇㅁㅇㅁ</code></pre>",
                     "visibility": "public",
                     "hashtags": ["tag", "tag1"],
                     "user_tag": [],
@@ -421,7 +421,7 @@ export default class Api {
                         },
 
                     ],
-                    "content": "test Posting11111111111111~~",
+                    "content": `<p><span data-mention="" class="mention" data-id="following1" channel-id="wjZpvIjDEMWUBdXKsUQyR33RWrx2">@following1</span> <span data-hashtag="" class="hashtag" data-id="hashtag8">#hashtag8</span> </p>`,
                     "visibility": "public",
                     "hashtags": ["tag0", "tag1", "tag2"],
                     "user_tag": [],
@@ -802,6 +802,38 @@ export default class Api {
 
     }
 
+    uploadpost(user_uid: string, FileList: File[], visibility: string, content: string, hashtags?: string[], userTags?: string[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?:number) {
+        const formData = new FormData();
+
+        if (user_uid) { formData.append('user_uid', user_uid); }
+
+        for (let i = 0; i < FileList.length; i++) {
+            let file = FileList[i];
+            formData.append('files[' + i + ']', file);
+        }
+        if (visibility) { formData.append('visibility', visibility); }
+        if (content) { formData.append('content', content); }
+        if (hashtags) {
+            for (let i = 0; i < hashtags.length; i++) {
+                formData.append('hashtags[' + i + ']', hashtags[i]);
+            }
+        }
+        if (userTags) {
+            for (let i = 0; i < userTags.length; i++) {
+                formData.append('userTags[' + i + ']', userTags[i]);
+            }
+        }
+        if (communityId) { formData.append('community_id', communityId.toString()); }
+        if (channelId) { formData.append('channel_id', channelId.toString()); }
+        if (gameId) { formData.append('game_ id', gameId.toString()); }
+        if (portfolioId) { formData.append('portfolio_id', portfolioId.toString()); }
+        if (scheduled_for) { formData.append('scheduled_for', scheduled_for.toString()); }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+    }
+
     //USER
     async session() {
         const response = await this.request('get', '/user/verify-session', undefined, true);
@@ -895,6 +927,54 @@ export default class Api {
         ]
         return result;
 
+    }
+
+    async followingList(user_uid: string) {
+        const result = [
+            {
+                "id": 1111,
+                "uid": "fdfs312fdsfsdf",
+                "email": "zempie@google.name",
+                "name": "following1",
+                "nickname": "zempieeee",
+                "channel_id": 12,
+                "created_at": 1616117970000,
+                "profile_img": "http://wwww.ewqeqwe2.png",
+                "post_cnt": 0,
+                "liked_cnt": 7,
+                "followers_cnt": 123,
+                "followings_cnt": 0,
+                "follows_you": true || false,
+                "is_following": true || false,
+                "block_you": true || false,
+                "is_blocked": true || false,
+                "mutes_you": true || false,
+                "is_muted": true || false,
+                "type": "user || developer || admin"
+            },
+            {
+                "id": 2,
+                "uid": "fdfs312fdsfsdf",
+                "email": "zempie@google.name",
+                "name": "following2",
+                "nickname": "following2",
+                "channel_id": 12,
+                "created_at": 1616117970000,
+                "profile_img": "http://wwww.ewqeqwe2.png",
+                "post_cnt": 0,
+                "liked_cnt": 7,
+                "followers_cnt": 123,
+                "followings_cnt": 0,
+                "follows_you": true || false,
+                "is_following": true || false,
+                "block_you": true || false,
+                "is_blocked": true || false,
+                "mutes_you": true || false,
+                "is_muted": true || false,
+                "type": "user || developer || admin"
+            },
+        ]
+        return result;
     }
 
 

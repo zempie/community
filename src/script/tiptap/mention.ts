@@ -2,18 +2,17 @@ import { Node, mergeAttributes } from '@tiptap/core'
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
-export type HashtagOptions = {
+export type MentionOptions = {
   HTMLAttributes: Record<string, any>,
   renderLabel: (props: {
-    options: HashtagOptions,
+    options: MentionOptions,
     node: ProseMirrorNode,
   }) => string,
   suggestion: Omit<SuggestionOptions, 'editor'>,
 }
 
-export default Node.create<HashtagOptions>({
-  name: 'hashtag',
-  
+export default Node.create<MentionOptions>({
+  name: 'mention',
 
   defaultOptions: {
     HTMLAttributes: {},
@@ -21,14 +20,14 @@ export default Node.create<HashtagOptions>({
       return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
     },
     suggestion: {
-      char: '#',
+      char: '@',
       command: ({ editor, range, props }) => {
         editor
           .chain()
           .focus()
           .insertContentAt(range, [
             {
-              type: 'hashtag',
+              type: 'mention',
               attrs: props,
             },
             {
@@ -39,7 +38,7 @@ export default Node.create<HashtagOptions>({
           .run()
       },
       allow: ({ editor, range }) => {
-        return editor.can().insertContentAt(range, { type: 'hashtag' })
+        return editor.can().insertContentAt(range, { type: 'mention' })
       },
     },
   },
@@ -71,6 +70,23 @@ export default Node.create<HashtagOptions>({
           }
         },
       },
+      channel: {
+        default: null,
+        parseHTML: element => {
+          return {
+            channel: element.getAttribute('channel-id'),
+          }
+        },
+        renderHTML: attributes => {
+          if (!attributes.channel) {
+            return {}
+          }
+
+          return {
+            'channel-id': attributes.channel,
+          }
+        },
+      },
 
       label: {
         default: null,
@@ -89,15 +105,13 @@ export default Node.create<HashtagOptions>({
           }
         },
       },
-
-     
     }
   },
 
   parseHTML() {
     return [
       {
-        tag: 'span[data-hashtag]',
+        tag: 'span[data-mention]',
       },
     ]
   },
@@ -105,7 +119,7 @@ export default Node.create<HashtagOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       'span',
-      mergeAttributes({ 'data-hashtag': '' }, this.options.HTMLAttributes, HTMLAttributes),
+      mergeAttributes({ 'data-mention': '' }, this.options.HTMLAttributes, HTMLAttributes),
       this.options.renderLabel({
         options: this.options,
         node,
@@ -122,9 +136,8 @@ export default Node.create<HashtagOptions>({
 
   addKeyboardShortcuts() {
     return {
-
       Backspace: () => this.editor.commands.command(({ tr, state }) => {
-        let isHashtag = false
+        let isMention = false
         const { selection } = state
         const { empty, anchor } = selection
 
@@ -134,18 +147,15 @@ export default Node.create<HashtagOptions>({
 
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
           if (node.type.name === this.name) {
-            isHashtag = true
+            isMention = true
             tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
 
             return false
           }
         })
 
-        return isHashtag
+        return isMention
       }),
-
-
-
     }
   },
 

@@ -7,7 +7,7 @@
             :key="index"
             @click="selectItem(index)"
         >
-            {{ item }}
+            {{ item.name }}
         </button>
     </div>
 </template>
@@ -56,8 +56,8 @@ export default class MentinList extends Vue {
     selectItem(index) {
         const item = this.items[index];
         if (item) {
-        this.$store.commit('userTagList', item)        
-            this.command({ id: item });
+        this.$store.commit('userTagList', item.name)  
+            this.command({ id: item.name, channel:item.uid });
         }
     }
 }

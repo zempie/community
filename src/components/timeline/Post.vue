@@ -85,7 +85,7 @@
 
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
-                                multiple accept= video/* ref="video" />
+                                accept= video/* ref="video" />
                             </div>
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
@@ -179,7 +179,7 @@
                                 >
                                     <svg
                                         class="icon-cross"
-                                        @click="deletePrevieImg(idx)"
+                                        @click="deletePreviewImg(idx)"
                                     >
                                         <use xlink:href="#svg-cross-thin"></use>
                                     </svg>
@@ -200,7 +200,7 @@
                             </div>
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
-                                multiple accept= audio/* ref="sound" />
+                                multiple accept= audio/* ref="audio" />
                             </div>
                             <video
                                 width="320"
@@ -210,14 +210,18 @@
                                 :key="videoSrc"
                                 v-if="videoSrc"
                             ></video>
-
-                            <!-- <audio controls v-if="audioSrc">
-                                <source
-                                    :src="audioSrc"
-                                    :type="`audio/${fileExt}`"
-                                    :key="audioSrc"
-                                />
-                            </audio> -->
+                            <div
+                                v-for="(audio, idx) in audioPreviewArr"
+                                :key="idx"
+                            >
+                                <svg
+                                    class="icon-cross"
+                                    @click="deletePreviewAudio(idx)"
+                                >
+                                    <use xlink:href="#svg-cross-thin"></use>
+                                </svg>
+                                <audio controls :src="audio"></audio>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -316,11 +320,11 @@
                 </div>
 
                 <!-- /upload video  -->
-                <!-- upload sound -->
+                <!-- upload audio -->
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
-                    data-title="Insert Sound"
-                    @click="uploadFile('sound')"
+                    data-title="Insert Audio"
+                    @click="uploadFile('audio')"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -335,7 +339,7 @@
                         />
                     </svg>
                 </div>
-                <!-- /upload sound -->
+                <!-- /upload audio -->
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Link"
@@ -404,9 +408,17 @@
             </div>
         </div>
         <div v-if="isScheduledPost" class="date-container">
-            <b-form-datepicker today-button class="datepicker">
+            <b-form-datepicker
+                today-button
+                :min="minDate"
+                class="datepicker"
+                v-model="reserved_date"
+            >
             </b-form-datepicker>
-            <b-timepicker v-model="time" class="timepicker"></b-timepicker>
+            <b-form-timepicker
+                class="timepicker"
+                v-model="reserved_time"
+            ></b-form-timepicker>
         </div>
         <iframe
             v-for="link in youtubeLink"
@@ -471,7 +483,6 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import Dropcursor from "@tiptap/extension-dropcursor";
-import Mention from "@tiptap/extension-mention";
 
 import lowlight from "lowlight";
 
@@ -479,10 +490,12 @@ import Video from "@/script/tiptap/customVideo";
 import Audio from "@/script/tiptap/customAudio";
 import Iframe from "@/script/tiptap/iframe";
 import Hashtag from "@/script/tiptap/hashtag";
+import Mention from "@/script/tiptap/mention";
 
 import HahstagList from "./HashTagList.vue";
 import MentionList from "./MentionList.vue";
 import tippy from "tippy.js";
+import moment from "moment";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
@@ -502,9 +515,12 @@ export default class Post extends Vue {
     private channelList: any[] = [];
     private channels: string = "Channels";
 
+    // 첨부파일
     private imgPreviewArr: any[] = [];
     private fileList: any[] = [];
     private remainFileSize: number = 20971520; //20mb (binary);
+    private audioPreviewArr: any[] = [];
+    private remainAudioSize: number = 41943040; //40mb
 
     private user!: any;
 
@@ -521,6 +537,11 @@ export default class Post extends Vue {
     private selectedChannelId: number = -1;
     private selectedGameId: number = -1;
     private selectedPfId: number = -1;
+
+    // 예약 포스팅
+    private minDate = new Date();
+    private reserved_date: string = "";
+    private reserved_time: string = "";
 
     textPreview: any = "";
     tempKey: string = "";
@@ -554,9 +575,12 @@ export default class Post extends Vue {
         "hashtag19",
         "hashtag20",
     ];
-
+    // 해시태그 멘션
     private hasTagSuggestion: boolean = false;
     private postedHashtag: string[] = [];
+
+    private hasMentionSuggestion: boolean = false;
+    mentionList: any[] = [];
 
     // tiptap
 
@@ -571,9 +595,17 @@ export default class Post extends Vue {
     @Watch("user")
     async watchUser() {
         this.communityList = await this.$api.joinedCommunity(this.user.uid);
+        this.mentionList = await this.$api.followingList(this.user.uid);
+        // if (temp) {
+        //     for (let i in temp) {
+        //         this.mentionList.push(temp[i].nickname);
+        //     }
+        // }
+        // console.log(this.mentionList);
     }
 
-    created() {
+    async created() {
+        // this.$nextTick(async () => {});
         this.editor = new Editor({
             extensions: [
                 StarterKit,
@@ -649,7 +681,8 @@ export default class Post extends Vue {
                                     // console.log("onKeyDown", props);
                                     if (
                                         props.event.key === "Enter" &&
-                                        !this.hasTagSuggestion
+                                        !this.hasTagSuggestion &&
+                                        component.ref?._props.query
                                     ) {
                                         let id = {
                                             id: component.ref?._props.query,
@@ -693,35 +726,9 @@ export default class Post extends Vue {
                     },
                     suggestion: {
                         items: (query) => {
-                            return [
-                                "Lea Thompson",
-                                "Cyndi Lauper",
-                                "Tom Cruise",
-                                "Madonna",
-                                "Jerry Hall",
-                                "Joan Collins",
-                                "Winona Ryder",
-                                "Christina Applegate",
-                                "Alyssa Milano",
-                                "Molly Ringwald",
-                                "Ally Sheedy",
-                                "Debbie Harry",
-                                "Olivia Newton-John",
-                                "Elton John",
-                                "Michael J. Fox",
-                                "Axl Rose",
-                                "Emilio Estevez",
-                                "Ralph Macchio",
-                                "Rob Lowe",
-                                "Jennifer Grey",
-                                "Mickey Rourke",
-                                "John Cusack",
-                                "Matthew Broderick",
-                                "Justine Bateman",
-                                "Lisa Bonet",
-                            ]
+                            return this.mentionList
                                 .filter((item) =>
-                                    item
+                                    item.nickname
                                         .toLowerCase()
                                         .startsWith(query.toLowerCase())
                                 )
@@ -748,17 +755,58 @@ export default class Post extends Vue {
                                         trigger: "manual",
                                         placement: "bottom-start",
                                     });
+                                    if (props.items && props.items.length > 0) {
+                                        this.hasMentionSuggestion = true;
+                                    } else {
+                                        this.hasMentionSuggestion = false;
+                                    }
                                 },
-                                onUpdate(props) {
+                                onUpdate: (props) => {
                                     component.updateProps(props);
+                                    if (props.items && props.items.length > 0) {
+                                        this.hasMentionSuggestion = true;
+                                    } else {
+                                        this.hasMentionSuggestion = false;
+                                    }
 
                                     popup[0].setProps({
                                         getReferenceClientRect:
                                             props.clientRect,
                                     });
                                 },
-                                onKeyDown(props) {
-                                    return component.ref?.onKeyDown(props);
+                                onKeyDown: (props) => {
+                                    if (
+                                        props.event.key === "Enter" &&
+                                        !this.hasMentionSuggestion &&
+                                        component.ref?._props.query
+                                    ) {
+                                        let id = {
+                                            id: component.ref?._props.query,
+                                        };
+                                        this.$store.commit(
+                                            "userTagList",
+                                            component.ref?._props.query
+                                        );
+                                        return component.ref?._props.editor
+                                            .chain()
+                                            .focus()
+                                            .insertContentAt(
+                                                component.ref?._props.range,
+                                                [
+                                                    {
+                                                        type: "mention",
+                                                        attrs: id,
+                                                    },
+                                                    {
+                                                        type: "text",
+                                                        text: " ",
+                                                    },
+                                                ]
+                                            )
+                                            .run();
+                                    } else {
+                                        return component.ref?.onKeyDown(props);
+                                    }
                                 },
                                 onExit() {
                                     popup[0].destroy();
@@ -786,6 +834,12 @@ export default class Post extends Vue {
         this.imgSrc = "";
         this.audioSrc = "";
         this.videoSrc = "";
+        this.imgPreviewArr = [];
+        this.audioPreviewArr = [];
+        this.remainFileSize = 20971520;
+        this.remainAudioSize = 41943040;
+        this.fileList = [];
+
         this.editor.commands.clearContent();
         this.$store.dispatch("resetHashtag");
     }
@@ -826,15 +880,21 @@ export default class Post extends Vue {
     }
 
     //미리보기 사진 삭제
-    deletePrevieImg(idx: number) {
+    deletePreviewImg(idx: number) {
         this.remainFileSize += this.fileList[idx].size;
         this.imgPreviewArr.splice(idx, 1);
         this.fileList.splice(idx, 1);
     }
 
+    deletePreviewAudio(idx: number) {
+        this.remainAudioSize += this.fileList[idx].size;
+        this.audioPreviewArr.splice(idx, 1);
+        this.fileList.splice(idx, 1);
+    }
+
     //파일 용량 & 개수 체크
-    checkFile(files: any) {
-        console.log("imgPreviewArr", this.imgPreviewArr);
+    checkImgFile(files: any) {
+        console.log("this.imgPreviewArr.length", this.imgPreviewArr.length);
 
         if (files.length > 5 || this.imgPreviewArr.length >= 5) {
             alert("이미지 개수는 최대 5개입니다");
@@ -852,54 +912,110 @@ export default class Post extends Vue {
                 }
             }
         }
+        return this.fileList;
+    }
 
-        console.log(this.remainFileSize);
+    checkVideoFile(files: any) {
+        let videoFile: File | null = null;
+        if (files[0].size / 1024 / 1024 > 40) {
+            alert("동영상의 최대 파일크기는 40mb를 넘을 수 없습니다.");
+        } else {
+            this.fileList.push(files);
+            videoFile = files;
+        }
+        return videoFile;
+    }
+
+    checkAudioFile(files: any) {
+        if (files.length > 5 || this.audioPreviewArr.length >= 5) {
+            alert("오디오 파일 개수는 최대 5개입니다");
+        } else {
+            if (files.length <= 5 && this.selectedFileType === "audio") {
+                for (let i = 0; i < files.length; i++) {
+                    this.remainAudioSize -= files[i].size;
+                    this.fileList.push(files[i]);
+                    if (this.remainAudioSize < 0) {
+                        alert("최대 파일 용량을 넘었습니다.(최대 40mb)");
+                        this.remainAudioSize += files[i].size;
+                        break;
+                    }
+                    this.audioPreviewArr.push(URL.createObjectURL(files[i]));
+                }
+            }
+        }
         return this.fileList;
     }
 
     inputFile(files: any) {
-        // let fileArr: any[] = files;
-        let fileArr: any[] = this.checkFile(files);
+        let fileArr: any[] | any = [];
 
-        if (fileArr.length) {
+        if (this.selectedFileType === "image") {
+            fileArr = this.checkImgFile(files);
+        } else if (this.selectedFileType === "video") {
+            fileArr = this.checkVideoFile(files);
+        } else if (this.selectedFileType === "audio") {
+            fileArr = this.checkAudioFile(files);
+        }
+
+        if (fileArr && fileArr.length) {
             for (let i = 0; i < fileArr.length; i++) {
                 let file = fileArr[i];
 
                 if (this.selectedFileType === "video") {
                     this.videoSrc = URL.createObjectURL(file);
-                    this.editor
-                        .chain()
-                        .focus("end")
-                        .setVideo({
-                            src: this.videoSrc,
-                            type: file.type,
-                            width: 360,
-                            height: 240,
-                            controls: true,
-                        })
-                        .run();
+                    if (this.activeTab === "blog") {
+                        this.editor
+                            .chain()
+                            .focus("end")
+                            .setVideo({
+                                src: this.videoSrc,
+                                type: file.type,
+                                width: 360,
+                                height: 240,
+                                controls: true,
+                            })
+                            .run();
+                    }
                 } else if (this.selectedFileType === "audio") {
                     this.audioSrc = URL.createObjectURL(file);
-                    this.editor
-                        .chain()
-                        .focus("end")
-                        .setAudio({
-                            src: this.audioSrc,
-                            type: file.type,
-                            controls: true,
-                        })
-                        .run();
+                    if (this.activeTab === "blog") {
+                        this.editor
+                            .chain()
+                            .focus("end")
+                            .setAudio({
+                                src: this.audioSrc,
+                                type: file.type,
+                                controls: true,
+                            })
+                            .run();
+                    }
                 } else if (this.selectedFileType === "image") {
                     this.imgSrc = URL.createObjectURL(file);
 
-                    this.imageSrcArr.push(file);
-
-                    this.editor
-                        .chain()
-                        .focus("end")
-                        .setImage({ src: this.imgSrc })
-                        .run();
+                    if (this.activeTab === "blog") {
+                        this.editor
+                            .chain()
+                            .focus("end")
+                            .setImage({ src: this.imgSrc })
+                            .run();
+                    } else {
+                        this.imageSrcArr.push(file);
+                    }
                 }
+            }
+        }
+    }
+
+    @Watch("reserved_time")
+    watchTime(time: Date) {
+        let today = moment().format("yyyy-MM-DD");
+        let currentTime = moment().format("HH:MM:SS");
+        let newTime = moment().add(1, "h").format("HH:MM:SS");
+
+        if (today === this.reserved_date) {
+            if (currentTime >= this.reserved_time) {
+                alert("현재시간 이전은 선택이 불가능합니다.");
+                this.reserved_time = newTime;
             }
         }
     }
@@ -909,16 +1025,36 @@ export default class Post extends Vue {
     uploadPost() {
         this.content = this.editor.getHTML();
 
-        console.log(
+        let date = this.reserved_date + 'T'+  this.reserved_time;
+        let scheduledTime = moment(date).valueOf();
+        
+
+        const result = this.$api.uploadpost(
             this.user.uid,
             this.fileList,
             this.visibility,
+            this.content,
             this.$store.getters.hashtagList,
             this.$store.getters.userTagList,
-            this.content,
             this.selectedCommunityId,
-            this.selectedChannelId
+            this.selectedChannelId,
+            this.selectedChannelId,
+            this.selectedPfId,
+            scheduledTime
         );
+        this.init();
+        // console.log(result)
+
+        // console.log(
+        //     this.user.uid,
+        //     this.fileList,
+        //     this.visibility,
+        //     this.$store.getters.hashtagList,
+        //     this.$store.getters.userTagList,
+        //     this.content,
+        //     this.selectedCommunityId,
+        //     this.selectedChannelId
+        // );
     }
 
     stringToHTML = (str: any) => {
@@ -976,7 +1112,7 @@ export default class Post extends Vue {
         border: 1px solid #616a82;
 
         .btn {
-            width: 30% !important;
+            // width: 30% !important;
         }
 
         label {
@@ -985,6 +1121,9 @@ export default class Post extends Vue {
 
         svg {
             fill: #616a82;
+        }
+        .dropdown-menu .show {
+            width: 100% !important;
         }
     }
 }

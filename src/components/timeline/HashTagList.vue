@@ -27,7 +27,7 @@ export default class HashTagList extends Vue {
         this.selectedIndex = 0;
     }
     onKeyDown({ event }) {
-        console.log(event)
+        console.log(event);
         if (event.key === "ArrowUp") {
             this.upHandler();
             return true;
@@ -56,15 +56,17 @@ export default class HashTagList extends Vue {
     }
 
     enterHandler() {
-        console.log(this.selectedIndex)
+        console.log(this.selectedIndex);
         this.selectItem(this.selectedIndex);
     }
 
     selectItem(index) {
-        const item = this.items[index];
-        if (item) {
-            this.$store.commit('hashtagList', item)            
-            this.command({ id: item });
+        if (this.items) {
+            const item = this.items[index];
+            if (item) {
+                this.$store.commit("hashtagList", item);
+                this.command({ id: item });
+            }
         }
     }
 }

@@ -40,13 +40,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+// import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import "swiper/css/swiper.css";
 
 import ModalImg from "@/components/common/ModalImg.vue";
 
 @Component({
-    components: { Swiper, SwiperSlide, ModalImg },
+    components: { ModalImg },
 })
 export default class SwiperC extends Vue {
     @Prop() imgObj!: any;
