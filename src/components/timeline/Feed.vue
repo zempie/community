@@ -2,55 +2,7 @@
     <div>
         <div class="grid mobile-prefer-content">
             <div class="widget-box no-padding">
-                <div class="widget-box-settings">
-                    <div class="post-settings-wrap">
-                        <div
-                            class="
-                                post-settings
-                                widget-box-post-settings-dropdown-trigger
-                            "
-                            ref="dropbox"
-                        >
-                            <svg class="post-settings-icon icon-more-dots">
-                                <use xlink:href="#svg-more-dots"></use>
-                            </svg>
-                        </div>
-
-                        <div
-                            class="
-                                simple-dropdown
-                                widget-box-post-settings-dropdown
-                            "
-                        >
-                            <p
-                                class="simple-dropdown-link"
-                                @click="editPost(feed.id)"
-                            >
-                                포스팅 수정
-                            </p>
-                            <p
-                                class="simple-dropdown-link"
-                                @click="deletePost(feed.id)"
-                            >
-                                포스팅 삭제
-                            </p>
-                            <p
-                                class="simple-dropdown-link"
-                                v-b-modal="feed.id.toString()"
-                                @click="report('post')"
-                            >
-                                포스팅 신고
-                            </p>
-                            <p
-                                class="simple-dropdown-link"
-                                v-b-modal="feed.id.toString()"
-                                @click="report('user')"
-                            >
-                                작성자 신고
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <post-dropdown :feedId="feed.id"></post-dropdown>
 
                 <div class="widget-box-status">
                     <div class="widget-box-status-content">
@@ -95,10 +47,10 @@
                             @click="contentClicked"
                         ></div>
 
-                        <swiper-c
+                        <!-- <swiper-c
                             :feedId="feed.id"
                             :imgObj="feed.attatchment_files"
-                        ></swiper-c>
+                        ></swiper-c> -->
                     </div>
 
                     <!-- <h2>{{feed.attatchment_files}} </h2>         -->
@@ -254,36 +206,6 @@
                 </div>
             </div>
         </div>
-        <modal
-            :reportId="feed.id.toString()"
-            :title="userReport ? modalTitle2 : modalTitle1"
-            :key="uniqeKey"
-        >
-            <template v-slot:reason1>욕설</template>
-            <template v-slot:reason2>스팸</template>
-            <template v-slot:reason3>음란성</template>
-            <template v-slot:userBlock v-if="userReport">
-                <div class="form-row" style="margin-top: 28px">
-                    <div class="checkbox-wrap">
-                        <input
-                            type="checkbox"
-                            id="userBlock"
-                            name="reportReason"
-                            v-model="isUserBlock"
-                        />
-
-                        <div class="checkbox-box">
-                            <svg class="icon-check">
-                                <use xlink:href="#svg-check"></use>
-                            </svg>
-                        </div>
-                        <label for="userBlock" class="report-reason"
-                            >유저를 블락하시겠습니까?</label
-                        >
-                    </div>
-                </div></template
-            >
-        </modal>
 
         <template v-if="isOpenedComments">
             <comment-list :postId="feed.id"></comment-list>
@@ -300,13 +222,13 @@ import CommentList from "./CommentList.vue";
 import Hexagon from "@/plugins/hexagon";
 import Dropdown from "@/plugins/dropdown";
 import Tooltip from "@/plugins/tooltip";
-import Modal from "@/components/common/Modal.vue";
 import Carousel from "@/components/common/Carousel.vue";
-import SwiperC from "@/components/common/SwiperC.vue";
+// import SwiperC from "@/components/common/SwiperC.vue";
 import Post from "@/components/timeline/Post.vue";
+import PostDropdown from "@/components/layout/dropdown/PostDropdown.vue";
 
 @Component({
-    components: { CommentList, Modal, Carousel, SwiperC, Post },
+    components: { CommentList, Carousel, Post, PostDropdown },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;
@@ -319,12 +241,6 @@ export default class Feed extends Vue {
     private postDate: Date = new Date(this.feed.created_at);
     private isCopied: boolean = false;
 
-    private modalTitle1: string = "Report Post";
-    private modalTitle2: string = "Report User";
-    private uniqeKey: number = 0;
-    private userReport: boolean = false;
-
-    private isUserBlock: boolean = false;
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
@@ -353,23 +269,7 @@ export default class Feed extends Vue {
         this.isCopied = true;
     }
     //post
-    deletePost(postId: number) {
-        (this.$refs.dropbox as HTMLElement).click();
-        const result = this.$api.deletePost(postId);
-    }
-    editPost(postId: number) {}
-    reportDone(state: boolean) {
-        console.log(state);
-    }
 
-    report(reportType: string) {
-        this.uniqeKey = new Date().getTime();
-        if (reportType === "user") {
-            this.userReport = true;
-        } else {
-            this.userReport = false;
-        }
-    }
     contentClicked(e: any) {
         if (e.target.matches(".hashtag")) {
             this.$router.push(
@@ -418,6 +318,4 @@ export default class Feed extends Vue {
     fill: transparent;
     transition: fill 0.2s ease-in-out;
 }
-
-
 </style>
