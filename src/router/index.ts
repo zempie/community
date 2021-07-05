@@ -55,9 +55,21 @@ const routes: Array<RouteConfig> = [
 
   },
   {
-    path: '/community/:community_id/settings',
-    name: 'CommunitySettings',
-    component: () => import("@/components/pages/community/CommunitySettings.vue"),
+    path: '/community/:community_id/setting',
+    name: 'CommunitySettingHeader',
+    component: () => import("@/components/layout/CommunitySettingHeader.vue"),
+    children:[
+      {
+        path: '/community/:community_id/setting',
+        name: 'CommunitySetting',
+        component: () => import("@/components/pages/community/communitySetting.vue"),
+      },
+      {
+        path: '/community/:community_id/setting/member',
+        name: 'CommunitySettingMember',
+        component: () => import("@/components/pages/community/communitySettingMember.vue"),
+      },
+    ]
   },
   {
     path: '/createCommunity',

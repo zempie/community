@@ -1,36 +1,57 @@
 // datepicker & timepicker
 .datepicker,
-    .timepicker {
-        width: 48%;
-        background-color: #1d2333;
-        border: 1px solid #616a82;
-        .btn {
-            width: 30% !important;
-        }
-        svg {
-            fill: #616a82;
-        }
-        label {
-            color: #fff !important;
-        }
+.timepicker {
+    width: 48%;
+    background-color: #1d2333;
+    border: 1px solid #616a82;
+
+    .btn {
+        width: 30% !important;
     }
 
-    .dropdown {
-        .dropdown-item, .btn  {
-            overflow: hidden;
-            word-wrap: normal;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
+    svg {
+        fill: #616a82;
     }
 
-    .private-checkbox{       
-        padding-top: 10px;
-        height: 40px;
-        color: #9aa4bf;
-        padding-left: 28px;
-        font-size: 0.75rem;
-        font-weight: 500;        
+    label {
+        color: #fff !important;
+    }
+}
+
+.dropdown {
+
+    .dropdown-item,
+    .btn {
+        overflow: hidden;
+        word-wrap: normal;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.private-checkbox {
+    padding-top: 10px;
+    height: 40px;
+    color: #9aa4bf;
+    padding-left: 28px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: right;
+    margin-left: 28px;
+
+    label {
+        padding-top: 7px;
+    }
+
+}
+
+
+.saveToast {
+    background-color: red;
+    margin-top: 80px;
+
+    .close {
+
         text-align: right;
         margin-left: 28px;   
         label{
@@ -39,10 +60,29 @@
       
     }
 
-    
+  
+}  
 .hashtag {
     color: #A975FF;
     background-color: rgba(#A975FF, 0.1);
     border-radius: 0.3rem;
     padding: 0.1rem 0.3rem;
+    cursor: pointer;
   }
+  .mention{
+    color: #A975FF;
+    // background-color: rgba(#A975FF, 0.1);
+    border-radius: 0.3rem;
+    padding: 0.1rem 0.3rem;
+    cursor: pointer;
+  }
+
+  pre {
+      
+    background: #0d0d0d !important;
+    color: #fff !important;
+    font-family: "JetBrainsMono", monospace !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 0.5rem !important;
+    text-align: left !important;
+}
