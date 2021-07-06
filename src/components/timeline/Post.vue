@@ -171,7 +171,8 @@
                                     {{ this.postingText.length }}/300
                                 </p>
                             </div>
-                            <div class="img-preview-container">
+                            <image-preview></image-preview>
+                            <!-- <div class="img-preview-container">
                                 <div
                                     class="img-preview"
                                     v-for="(img, idx) in imgPreviewArr"
@@ -186,7 +187,8 @@
 
                                     <b-img :src="img"></b-img>
                                 </div>
-                            </div>
+                            </div> -->
+                            
 
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
@@ -279,24 +281,7 @@
         <div class="quick-post-footer">
             <div class="quick-post-footer-actions">
                 <!-- upload pic -->
-                <div
-                    class="quick-post-footer-action text-tooltip-tft-medium"
-                    data-title="Insert Image"
-                    @click="uploadFile('image')"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                    >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path
-                            d="M4.828 21l-.02.02-.021-.02H2.992A.993.993 0 0 1 2 20.007V3.993A1 1 0 0 1 2.992 3h18.016c.548 0 .992.445.992.993v16.014a1 1 0 0 1-.992.993H4.828zM20 15V5H4v14L14 9l6 6zm0 2.828l-6-6L6.828 19H20v-1.172zM8 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
-                            fill="rgba(97,106,130,1)"
-                        />
-                    </svg>
-                </div>
+                <image-uploader-btn></image-uploader-btn>
 
                 <!-- upload video -->
 
@@ -496,12 +481,22 @@ import HahstagList from "./HashTagList.vue";
 import MentionList from "./MentionList.vue";
 import tippy from "tippy.js";
 import moment from "moment";
-
+import { FileLoader, mbToByte } from "@/script/fileLoader";
+import ImageUploaderBtn from "@/components/timeline/post/ImageUploaderBtn.vue";
+import ImagePreview from "@/components/timeline/post/ImagePreview.vue"
 @Component({
     computed: { ...mapGetters(["user"]) },
-    components: { FileUpload, VueEditor, EditorContent, Modal },
+    components: {
+        FileUpload,
+        VueEditor,
+        EditorContent,
+        Modal,
+        ImageUploaderBtn,
+        ImagePreview,
+    },
 })
 export default class Post extends Vue {
+    private fileLoader: FileLoader = new FileLoader();
     private editor!: Editor;
     private postEditor!: Editor;
     private postingText: string = "";
@@ -825,6 +820,7 @@ export default class Post extends Vue {
             this.communityList = await this.$api.joinedCommunity(this.user.uid);
         }
     }
+
     beforeDestroy() {
         this.editor.destroy();
     }
@@ -879,12 +875,7 @@ export default class Post extends Vue {
         this.inputFile(event.target.files);
     }
 
-    //미리보기 사진 삭제
-    deletePreviewImg(idx: number) {
-        this.remainFileSize += this.fileList[idx].size;
-        this.imgPreviewArr.splice(idx, 1);
-        this.fileList.splice(idx, 1);
-    }
+   
 
     deletePreviewAudio(idx: number) {
         this.remainAudioSize += this.fileList[idx].size;
@@ -908,10 +899,13 @@ export default class Post extends Vue {
                         this.remainFileSize += files[i].size;
                         break;
                     }
-                    this.imgPreviewArr.push(URL.createObjectURL(files[i]));
+
+                    this.fileLoader.imgLoad(files[i]);
                 }
             }
         }
+        console.log(this.$store.getters.previewImgArr);
+        this.imgPreviewArr = this.$store.getters.previewImgArr;
         return this.fileList;
     }
 
@@ -921,6 +915,7 @@ export default class Post extends Vue {
             alert("동영상의 최대 파일크기는 40mb를 넘을 수 없습니다.");
         } else {
             this.fileList.push(files);
+            this.fileLoader.videoLoad(files[0]);
             videoFile = files;
         }
         return videoFile;
@@ -939,10 +934,11 @@ export default class Post extends Vue {
                         this.remainAudioSize += files[i].size;
                         break;
                     }
-                    this.audioPreviewArr.push(URL.createObjectURL(files[i]));
+                    this.fileLoader.audioLoad(files[i]);
                 }
             }
         }
+        this.audioPreviewArr = this.$store.getters.previewAudioArr;
         return this.fileList;
     }
 
@@ -990,7 +986,7 @@ export default class Post extends Vue {
                             .run();
                     }
                 } else if (this.selectedFileType === "image") {
-                    this.imgSrc = URL.createObjectURL(file);
+                    // this.imgSrc = URL.createObjectURL(file);
 
                     if (this.activeTab === "blog") {
                         this.editor
@@ -1025,9 +1021,8 @@ export default class Post extends Vue {
     uploadPost() {
         this.content = this.editor.getHTML();
 
-        let date = this.reserved_date + 'T'+  this.reserved_time;
+        let date = this.reserved_date + "T" + this.reserved_time;
         let scheduledTime = moment(date).valueOf();
-        
 
         const result = this.$api.uploadpost(
             this.user.uid,

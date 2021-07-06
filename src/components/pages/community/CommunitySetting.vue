@@ -101,26 +101,38 @@
     </div>
     <!-- todo: call manager data -->
     <div>
-      <div class="form-item">
-        <div class="form-input small dropbox-container">
-          <p>manager</p>
-          <b-dropdown text="manager" class="dropbox">
-            <b-dropdown-item>First Action</b-dropdown-item>
-          </b-dropdown>
-        </div>
-      </div>
+     
+                    <div class="form-row">
+                        <div class="form-item">
+                            <div class="form-select dropbox-container">
+                                <p class="dropbox-label">manager</p>
+                                <select class="dropbox">
+                                    <option value="0">Regular</option>
+                                    <option value="1">Extended</option>
+                                </select>
+
+                                <svg class="form-select-icon icon-small-arrow">
+                                    <use xlink:href="#svg-small-arrow"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
     </div>
 
     <div class="form-row">
-      <div class="form-item">
-        <div class="form-input small dropbox-container">
-          <p>sub-manager</p>
-          <b-dropdown text="sub-manager" class="dropbox">
-            <b-dropdown-item>First Action</b-dropdown-item>
-          </b-dropdown>
-        </div>
-      </div>
-    </div>
+                        <div class="form-item">
+                            <div class="form-select dropbox-container">
+                                <p class="dropbox-label">sub-manager</p>
+                                <select class="dropbox">
+                                    <option value="0">Regular</option>
+                                    <option value="1">Extended</option>
+                                </select>
+                                <svg class="form-select-icon icon-small-arrow">
+                                    <use xlink:href="#svg-small-arrow"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
     <div class="section-header-info mt-5">
       <h2 class="section-title mb-3">정보</h2>
     </div>

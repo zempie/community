@@ -273,14 +273,14 @@ export default class Api {
 
     }
 
-    modifiedCommunityInfo(id: number, name: string, description: string, profileImg: string, bannerImg: string) {
+    modifiedCommunityInfo(id: number, name: string, description: string, profile_img: string, banner_img: string) {
         const formData = new FormData();
 
         if (id) { formData.append('community_id', id.toString()); }
         if (name) { formData.append('name', name); }
         if (description) { formData.append('description', description); }
-        if (profileImg) { formData.append('profile_img', profileImg); }
-        if (bannerImg) { formData.append('banner_img', bannerImg); }
+        if (profile_img) { formData.append('profile_img', profile_img); }
+        if (banner_img) { formData.append('banner_img', banner_img); }
 
         return true;
 
@@ -290,6 +290,23 @@ export default class Api {
         const response = await this.request('delete', `community/${id}/remove`, undefined, false);
         console.log(response)
 
+    }
+    async createCommunity(user_uid: string, name: string, url: string, description: string, is_private: boolean, profile_img?: string, banner_img?: string) {
+        const formData = new FormData();
+
+        if (user_uid) { formData.append('user_uid', user_uid.toString()); }
+        if (name) { formData.append('name', name); }
+        if (url) { formData.append('url', url); }
+        if (description) { formData.append('description', description); }
+        formData.append('is_private', is_private.toString());
+        if (profile_img) { formData.append('profile_img', profile_img); }
+        if (banner_img) { formData.append('banner_img', banner_img); }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+
+        return true;
     }
 
     // 타임라인
@@ -802,7 +819,7 @@ export default class Api {
 
     }
 
-    uploadpost(user_uid: string, FileList: File[], visibility: string, content: string, hashtags?: string[], userTags?: string[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?:number) {
+    uploadpost(user_uid: string, FileList: File[], visibility: string, content: string, hashtags?: string[], userTags?: string[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?: number) {
         const formData = new FormData();
 
         if (user_uid) { formData.append('user_uid', user_uid); }
@@ -1005,7 +1022,7 @@ export default class Api {
                 "type": "user"
             },
             {
-                "id":3333,
+                "id": 3333,
                 "uid": "fdfs312fdsfsdf",
                 "email": "zempie@google.name",
                 "name": "followers2",
@@ -1028,7 +1045,7 @@ export default class Api {
         ]
         return result;
     }
-  
+
     async follwerCnt(user_uid: string) {
         const result = 10;
         return result;

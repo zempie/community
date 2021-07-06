@@ -49,6 +49,12 @@ const routes: Array<RouteConfig> = [
     component: () => import("@/views/ResetPassword.vue"),
   },
   {
+    path: '/user/:userUid/settings',
+    name: 'UserSettings',
+    component: () => import("@/components/pages/user/UserSettings.vue"),
+  },
+
+  {
     path: '/community/list',
     name: 'Community',
     component: () => import(/* webpackChunkName: "about" */ '@/components/pages/community/CommunityList.vue'),

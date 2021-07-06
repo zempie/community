@@ -948,10 +948,10 @@
                     >Change Password</router-link
                 >
 
-                <a
+                <router-link
                     class="dropdown-navigation-link"
-                    href="hub-account-settings.html"
-                    >General Settings</a
+                   :to="`/user/${user.uid}/settings`"
+                    >General Settings</router-link
                 >
 
                 <p class="dropdown-navigation-category">Groups</p>

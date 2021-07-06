@@ -1,7 +1,7 @@
 <template>
     <article class="post-open">
         <div class="post-open-body" style="margin-top: 150px">
-           <post-dropdown class="dropdown" :feedId="feed.id"></post-dropdown>
+            <post-dropdown class="dropdown" :feedId="feed.id"></post-dropdown>
             <div class="post-open-heading">
                 <p class="post-open-timestamp">
                     <span class="highlighted">2 days ago</span>5 mins read
@@ -75,6 +75,11 @@
                             </div>
                         </div>
                     </div>
+                    <p class="forum-post-user-title">
+                        <router-link :to="`${feed.user.uid}`">{{
+                            feed.user.name
+                        }}</router-link>
+                    </p>
                 </div>
 
                 <div class="post-open-content-body">
@@ -185,5 +190,14 @@ export default class FeedDetail extends Vue {
     display: flex;
     justify-content: flex-end;
     margin-right: 28px;
+}
+
+.post-open-content-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .forum-post-user-title{
+        margin-top:16px;
+    }
 }
 </style>

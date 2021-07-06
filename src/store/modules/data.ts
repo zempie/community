@@ -1,7 +1,10 @@
 export default {
     state: {
         hashtagList: [],
-        userTagList: []
+        userTagList: [],
+        previewImgArr: [],
+        previewAudioArr: [],
+        previewVideo: '',
     },
     getters: {
         hashtagList(state: any) {
@@ -9,7 +12,16 @@ export default {
         },
         userTagList(state: any) {
             return state.userTagList;
-        }
+        },
+        previewImgArr(state: any) {
+            return state.previewImgArr;
+        },
+        previewAudioArr(state: any) {
+            return state.previewAudioArr;
+        },
+        previewVideo(state: any) {
+            return state.previewVideo;
+        },
     },
 
     mutations: {
@@ -18,6 +30,15 @@ export default {
         },
         userTagList(state: any, payload: any) {
             state.userTagList.push(payload);
+        },
+        previewImgArr(state: any, payload: any) {
+            state.previewImgArr.push(payload);
+        },
+        previewAudioArr(state: any, payload: any) {
+            state.previewAudioArr.push(payload);
+        },
+        previewVideo(state: any, payload: any) {
+            state.previewVideo = payload;
         },
     },
     actions: {
