@@ -101,118 +101,120 @@
     </div>
     <!-- todo: call manager data -->
     <div>
-     
-                    <div class="form-row">
-                        <div class="form-item">
-                            <div class="form-select dropbox-container">
-                                <p class="dropbox-label">manager</p>
-                                <select class="dropbox">
-                                    <option value="0">Regular</option>
-                                    <option value="1">Extended</option>
-                                </select>
+      <div class="form-row mt-4">
+        <div class="form-item">
+          <div class="form-select dropbox-container">
+            <b-form-group label="Manager" label-for="manager">
+              <b-form-select name="manager" class="dropbox">
+                <b-form-select-option>Regular</b-form-select-option>
+                <b-form-select-option>Extended</b-form-select-option>
+              </b-form-select>
+              <svg class="form-select-icon icon-small-arrow">
+                <use xlink:href="#svg-small-arrow"></use>
+              </svg>
 
-                                <svg class="form-select-icon icon-small-arrow">
-                                    <use xlink:href="#svg-small-arrow"></use>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
+              <svg class="form-select-icon icon-small-arrow">
+                <use xlink:href="#svg-small-arrow"></use>
+              </svg>
+            </b-form-group>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="form-row">
-                        <div class="form-item">
-                            <div class="form-select dropbox-container">
-                                <p class="dropbox-label">sub-manager</p>
-                                <select class="dropbox">
-                                    <option value="0">Regular</option>
-                                    <option value="1">Extended</option>
-                                </select>
-                                <svg class="form-select-icon icon-small-arrow">
-                                    <use xlink:href="#svg-small-arrow"></use>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
+    <div class="form-row mt-4">
+      <div class="form-item">
+        <div class="form-select dropbox-container">
+          <b-form-group label="Sub-manager" label-for="sub-manager">
+            <b-form-select name="sub-manager" class="dropbox">
+              <b-form-select-option>Regular</b-form-select-option>
+              <b-form-select-option>Extended</b-form-select-option>
+            </b-form-select>
+            <svg class="form-select-icon icon-small-arrow">
+              <use xlink:href="#svg-small-arrow"></use>
+            </svg>
+          </b-form-group>
+        </div>
+      </div>
+    </div>
     <div class="section-header-info mt-5">
       <h2 class="section-title mb-3">정보</h2>
     </div>
 
     <div class="widget-box-content">
       <form class="form">
-        <div class="form-item">
-          <p class="left">커뮤니티 명</p>
-          <div
-            class="form-input right community-name"
-            :class="isNameError ? 'active' : ''"
-          >
-            <input
+        <div
+          class="form-input right community-name"
+          :class="communityName.length > 0 ? 'active' : ''"
+        >
+          <b-form-group label="Group name" label-for="communityName">
+            <b-form-input
               type="text"
-              id="account-recovery-email"
-              name="account_recovery_email"
+              id="communityName"
               v-model="communityName"
-            />
-            <p :class="isNameError ? 'name-error active' : 'name-error'">
-              50자 이내로 작성해주세요
-            </p>
-          </div>
+            ></b-form-input>
+            <b-form-invalid-feedback
+              >필수 입력사항입니다. 50자 이내로
+              작성해주세요</b-form-invalid-feedback
+            >
+          </b-form-group>
         </div>
 
-        <div class="form-item mt-4">
-          <p class="left">커뮤니티 설명</p>
-          <div class="form-input right full">
-            <div class="form-textarea" :class="isDescError ? 'active' : ''">
-              <textarea
-                id="profile-description"
-                name="profile_description"
-                v-model="description"
-                placeholder="Write a little description about community..."
-              ></textarea>
-              <div
-                class="limit-text-container"
-                :style="
-                  isDescError
-                    ? ' justify-content: space-between;'
-                    : 'justify-content: flex-end;'
-                "
-              >
-                <p
-                  :style="
-                    isDescError
-                      ? 'display:block; color:red; padding-left:28px'
-                      : 'display:none'
-                  "
-                >
-                  2000자 이내로 작성해주세요
-                </p>
-                <p class="form-textarea-limit-text">
-                  {{ this.description.length }}/2000
-                </p>
-              </div>
-            </div>
-          </div>
+        <div
+          class="form-input right community-name form-textarea"
+          :class="description.length > 0 ? 'active' : ''"
+        >
+          <b-form-group label="Description" label-for="description">
+            <b-form-textarea
+              style="height: 300px"
+              id="description"
+              name="description"
+              v-model="description"
+            ></b-form-textarea>
+
+            <b-form-invalid-feedback
+              >필수 입력사항입니다. 2000자 이내로
+              작성해주세요</b-form-invalid-feedback
+            >
+          </b-form-group>
+          <p class="form-textarea-limit-text">
+            {{ this.description.length }}/2000
+          </p>
         </div>
       </form>
       <div class="button-container" @click="saveCommuInfo">
         <p class="button small white add-field-button save-btn primary">SAVE</p>
       </div>
     </div>
-    <div style="border: 1px solid red">
-      <p style="color: red">Danger zone</p>
-      <div class="form-item delete-container">
-        <p class="left">커뮤니티 삭제</p>
-        <p
-          class="button small white add-field-button m-0 tertiary"
-          style="color: #fff"
-          @click="deleteCommunity"
-        >
-          DELETE
-        </p>
-      </div>
-      <div class="form-row">
-        <div class="form-item">
-          <div class="form-input small dropbox-container">
-            <p>state</p>
-            public/privat toggle button
+
+    <div class="danger-zone-conianer form-input active">
+      <label class="danger-zone-label">Danger zone</label>
+      <div class="danger-zone-table">
+        <div class="form-item delete-container">
+          <p class="left">커뮤니티 삭제</p>
+          <p
+            class="button small white add-field-button m-0 tertiary"
+            style="color: #fff"
+            @click="deleteCommunity"
+          >
+            DELETE
+          </p>
+        </div>
+
+        <div class="switch-option">
+          <div class="toggle-container">
+            <p class="switch-option-title">Public community</p>
+
+            <p class="switch-option-text">
+              zempie에 방문하는 모든 회원에게 커뮤니티 공개
+            </p>
+          </div>
+          <div
+            class="form-switch"
+            @click="isPrivate = !isPrivate"
+            :class="isPrivate ? '' : 'active'"
+          >
+            <div class="form-switch-button"></div>
           </div>
         </div>
       </div>
@@ -343,46 +345,9 @@ export default class CommunitySetting extends Vue {
 </script>
 
 <style lang='scss' scoped>
-.name-error.active {
-  text-align: left;
-  display: block;
-  color: red;
-  padding-left: 28px;
-  margin-top: 10px;
-}
-.name-error {
-  display: none;
-}
 .limit-text-container {
   display: flex;
   width: 100%;
-}
-.form-textarea {
-  height: 300px;
-}
-.form-textarea.active {
-  textarea {
-    border: 1px solid red;
-  }
-}
-.community-name.active {
-  input {
-    border: 1px solid red;
-  }
-}
-.form-item {
-  display: flex;
-  .left {
-    width: 30%;
-    height: auto;
-    display: flex;
-    /* align-content: center; */
-    justify-content: center;
-    align-items: center;
-  }
-  .right {
-    width: 70%;
-  }
 }
 .button-container {
   display: flex;
@@ -393,9 +358,9 @@ export default class CommunitySetting extends Vue {
   }
 }
 .delete-container {
-  margin-top: 100px;
+  margin: 30px 0px 30px 0px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -405,8 +370,35 @@ export default class CommunitySetting extends Vue {
   justify-content: space-around;
   height: 48px;
   font-size: 1rem;
+  .dropbox {
+    height: 54px;
+  }
 }
-.dropbox {
-  width: 50%;
+.form-group {
+  width: 100%;
+}
+.danger-zone-conianer {
+  border: 1px solid red;
+  border-radius: 12px;
+  .danger-zone-label {
+    color: red;
+    font-size: 30px;
+    top: -13px;
+  }
+  .switch-option {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+  .danger-zone-table {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-switch{
+    
+  }
 }
 </style>
