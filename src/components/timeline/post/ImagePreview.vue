@@ -7,34 +7,33 @@
 
             <b-img :src="img"></b-img>
         </div>
-         <div style="height: 0px; overflow: hidden">
-            <input type="file" @change="onFileChange" multiple accept= image/*
-            ref="image" name="fileInput" />
-        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
+import { bus } from "@/main";
 @Component({
     components: {},
 })
 export default class ImagePreview extends Vue {
     private imgPreviewArr: any[] = [];
+    private fileLoader: any;
 
-    @Watch("$store.getters.previewImgArr")
-    watchPreviewImg() {
-        this.imgPreviewArr = this.$store.getters.previewImgArr;
-        console.log(this.imgPreviewArr);
+    beforeDestroy() {
+        bus.$off("fileLoder");
     }
-
+    mounted() {
+        bus.$on("fileLoader", (fileLoader: any) => {
+            this.fileLoader = fileLoader;
+            this.imgPreviewArr = fileLoader.previewImgArr;
+        });
+    }
+    
     //미리보기 사진 삭제
     deletePreviewImg(idx: number) {
-        console.log(idx)
-        // this.remainFileSize += this.fileList[idx].size;
-        // this.imgPreviewArr.splice(idx, 1);
-        // this.fileList.splice(idx, 1);
+        this.fileLoader.deletePreviewImg(idx);
     }
 }
 </script>

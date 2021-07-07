@@ -5,6 +5,7 @@ export default {
         previewImgArr: [],
         previewAudioArr: [],
         previewVideo: '',
+        imageList: [],
     },
     getters: {
         hashtagList(state: any) {
@@ -21,6 +22,9 @@ export default {
         },
         previewVideo(state: any) {
             return state.previewVideo;
+        },
+        imageList(state: any) {
+            return state.imageList;
         },
     },
 
@@ -39,6 +43,10 @@ export default {
         },
         previewVideo(state: any, payload: any) {
             state.previewVideo = payload;
+        },
+
+        imageList(state: any, payload: any) {
+            state.imageList.push(payload);
         },
     },
     actions: {

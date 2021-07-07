@@ -17,13 +17,17 @@
                 fill="rgba(97,106,130,1)"
             />
         </svg>
-       
+        <div style="height: 0px; overflow: hidden">
+            <input type="file" @change="onFileChange" multiple accept= image/*
+            ref="image" name="fileInput" />
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { mbToByte, FileLoader } from "@/script/fileLoader";
+import { bus } from "@/main";
 @Component({
     components: {},
 })
@@ -33,38 +37,14 @@ export default class ImageUploaderBtn extends Vue {
     private fileList: any[] = [];
 
     uploadFile() {
-        (this.$refs[fileType] as HTMLElement).click();
+        (this.$refs.image as HTMLElement).click();
     }
 
     // 파일 업로드
     onFileChange(event: { target: { accept: any; files: any } }) {
-        this.inputFile(event.target.files);
-    }
-    inputFile(files: any) {
-        let fileArr: any[] | any = [];
-        this.checkImgFile(files)
-    } 
-    //파일 용량 & 개수 체크
-    checkImgFile(files: any) {
-        if (files.length > 5 || this.$store.getters.previewImgArr.length >= 5) {
-            alert("이미지 개수는 최대 5개입니다");
-        } else {
-            if (files.length <= 5) {
-                for (let i = 0; i < files.length; i++) {
-                    this.remainFileSize -= files[i].size;
-                    this.fileList.push(files[i]);
-                    if (this.remainFileSize < 0) {
-                        alert("최대 파일 용량을 넘었습니다.(최대 20mb)");
-                        this.remainFileSize += files[i].size;
-                        break;
-                    }
-
-                    this.fileLoader.imgLoad(files[i]);
-                }
-            }
-        }
-
-        return this.fileList;
+        this.fileLoader.checkImgFile(event.target.files);
+        //preview 전달
+        bus.$emit("fileLoader", this.fileLoader);
     }
 }
 </script>

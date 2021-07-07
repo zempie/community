@@ -46,37 +46,11 @@
                     <div class="form-item">
                         <div class="form-textarea">
                             <!-- tiptap -->
-                            <div v-if="activeTab === 'blog'">
-                                <editor-content
-                                    :editor="editor"
-                                    class="editor-container"
-                                    v-model="content"
-                                    ref="editorContainer"
-                                />
-                            </div>
-                            <!-- custom -->
-                            <!-- <div
-                            class="input"
-                                contenteditable="true"
-                                ref="postContent"
-                            ></div>
-                            <input
-                                type="text"
-                                style="
-                                    display: none;
-                                    border: none;
-                                    background: transparent;
-                                    outline: 0;
-                                "
-                            />
-                            <p v-html="textPreview"></p> -->
-
-                            <!-- <textarea
-                                v-model="postingText"
-                                id="quick-post-text"
-                                name="quick-post-text"
-                                placeholder="Hi Marina! Share your post here..."
-                            ></textarea> -->
+                            <tiptap
+                                :postType="activeTab"
+                                @isEmpty="editorState"
+                                :key="activeTab"
+                            ></tiptap>
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
                                 multiple accept= image/* ref="image"
@@ -143,12 +117,10 @@
                 <div class="form-row">
                     <div class="form-item">
                         <div class="form-textarea">
-                            <editor-content
-                                :editor="editor"
-                                class="editor-container"
-                                v-model="postingText"
-                                ref="editorContainer"
-                            />
+                            <tiptap
+                                @isEmpty="editorState"
+                                :key="activeTab"
+                            ></tiptap>
                             <div
                                 style="
                                     display: flex;
@@ -172,29 +144,6 @@
                                 </p>
                             </div>
                             <image-preview></image-preview>
-                            <!-- <div class="img-preview-container">
-                                <div
-                                    class="img-preview"
-                                    v-for="(img, idx) in imgPreviewArr"
-                                    :key="idx"
-                                >
-                                    <svg
-                                        class="icon-cross"
-                                        @click="deletePreviewImg(idx)"
-                                    >
-                                        <use xlink:href="#svg-cross-thin"></use>
-                                    </svg>
-
-                                    <b-img :src="img"></b-img>
-                                </div>
-                            </div> -->
-                            
-
-                            <div style="height: 0px; overflow: hidden">
-                                <input type="file" @change="onFileChange"
-                                multiple accept= image/* ref="image"
-                                name="fileInput" />
-                            </div>
 
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
@@ -231,41 +180,40 @@
         </div>
 
         <div class="quick-post-footer">
-            <b-dropdown
-                id="dropdown-1"
-                :text="communities"
-                class="m-md-2 dropdown"
-                style="width: 25%"
-            >
-                <b-dropdown-item
-                    class="dropdown-item"
-                    @click="selectCommunity({ name: 'communities' })"
-                    >communities</b-dropdown-item
-                >
-                <b-dropdown-item
-                    class="dropdown-item"
-                    @click="selectCommunity(community)"
-                    v-for="community in communityList"
-                    :key="community.id"
-                    >{{ community.name }}</b-dropdown-item
-                >
-            </b-dropdown>
+            <div class="form-select dropdown-container">
+                <select class="dropbox dropdown-item" @change="selectCommunity">
+                    <option value="communities">communities</option>
 
-            <b-dropdown
-                id="dropdown-1"
-                :text="channels"
-                class="m-md-2"
-                :style="!isChannelOn ? 'display:none' : ''"
-            >
-                <b-dropdown-item
-                    class="dropdown-item"
-                    @click="selectChannel(channel)"
-                    v-for="channel in channelList"
-                    :key="channel.id"
-                    >{{ channel.name }}</b-dropdown-item
+                    <option
+                        v-for="community in communityList"
+                        :key="community.id"
+                        :value="community.name"
+                    >
+                        {{ community.name }}
+                    </option>
+                </select>
+                <!-- <div class="form-select dropdown-container"> -->
+                <select
+                    class="dropbox dropdown-item"
+                    id="dropdown-1"
+                    :text="channels"
+                    :style="!isChannelOn ? 'display:none' : ''"
                 >
-            </b-dropdown>
+                    <option
+                        value="0"
+                        class="dropdown-item"
+                        @click="selectChannel(channel)"
+                        v-for="channel in channelList"
+                        :key="channel.id"
+                    >
+                        {{ channel.name }}
+                    </option>
+                </select>
+            <!-- </div> -->
 
+            </div>
+
+            
             <b-dropdown id="dropdown-1" text="My games" class="m-md-2">
                 <b-dropdown-item class="dropdown-item"
                     >First Action</b-dropdown-item
@@ -281,7 +229,10 @@
         <div class="quick-post-footer">
             <div class="quick-post-footer-actions">
                 <!-- upload pic -->
-                <image-uploader-btn></image-uploader-btn>
+
+                <image-uploader-btn
+                    @fileList="getFileList"
+                ></image-uploader-btn>
 
                 <!-- upload video -->
 
@@ -454,9 +405,8 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { mapGetters } from "vuex";
 import FileUpload from "@/components/common/FileUpload.vue";
+import Tiptap from "@/components/timeline/Tiptap.vue";
 import Modal from "@/components/common/Modal.vue";
-
-import { VueEditor } from "vue2-editor";
 
 import { Editor, EditorContent, VueRenderer } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
@@ -480,19 +430,20 @@ import Mention from "@/script/tiptap/mention";
 import HahstagList from "./HashTagList.vue";
 import MentionList from "./MentionList.vue";
 import tippy from "tippy.js";
+
 import moment from "moment";
 import { FileLoader, mbToByte } from "@/script/fileLoader";
 import ImageUploaderBtn from "@/components/timeline/post/ImageUploaderBtn.vue";
-import ImagePreview from "@/components/timeline/post/ImagePreview.vue"
+import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {
         FileUpload,
-        VueEditor,
         EditorContent,
         Modal,
         ImageUploaderBtn,
         ImagePreview,
+        Tiptap,
     },
 })
 export default class Post extends Vue {
@@ -500,6 +451,7 @@ export default class Post extends Vue {
     private editor!: Editor;
     private postEditor!: Editor;
     private postingText: string = "";
+    private isEditorEmpty: boolean = true;
 
     private content: string = "";
     private youtubeLink: string[] = [];
@@ -575,7 +527,7 @@ export default class Post extends Vue {
     private postedHashtag: string[] = [];
 
     private hasMentionSuggestion: boolean = false;
-    mentionList: any[] = [];
+    private mentionList: any[] = [];
 
     // tiptap
 
@@ -841,14 +793,13 @@ export default class Post extends Vue {
     }
 
     isActive(type: string) {
-        console.log(this.editor.isEmpty);
         this.tempType = type;
         if (
             this.postingText ||
             this.imgSrc ||
             this.audioSrc ||
             this.videoSrc ||
-            !this.editor.isEmpty
+            !this.isEditorEmpty
         ) {
             (this.$refs["alertModal"] as any).show();
         } else {
@@ -874,8 +825,6 @@ export default class Post extends Vue {
     onFileChange(event: { target: { accept: any; files: any } }) {
         this.inputFile(event.target.files);
     }
-
-   
 
     deletePreviewAudio(idx: number) {
         this.remainAudioSize += this.fileList[idx].size;
@@ -1069,8 +1018,9 @@ export default class Post extends Vue {
     };
 
     // select category
-    selectCommunity(selectedItem: any) {
-        if (selectedItem.name.toLowerCase() === "communities") {
+    selectCommunity(e) {
+        let selectedItem = e.target.value;
+        if (selectedItem.toLowerCase() === "communities") {
             this.isChannelOn = false;
         } else {
             this.isChannelOn = true;
@@ -1091,6 +1041,15 @@ export default class Post extends Vue {
     // keyup
     checkText(text: string) {
         console.log(text);
+    }
+
+    //emit
+    getFileList(files: any) {
+        console.log(files);
+    }
+
+    editorState(state: boolean) {
+        this.isEditorEmpty = state;
     }
 }
 </script>
@@ -1242,5 +1201,15 @@ export default class Post extends Vue {
     }
 
     // modal
+}
+.dropdown-container {
+    width: 25%;
+    height: 25px;
+    .dropdown-item {
+        font-size: 15px !important;
+        font-weight: 100 !important;
+        padding: 0px 20px 0px 20px;
+        text-overflow: ellipsis;
+    }
 }
 </style>

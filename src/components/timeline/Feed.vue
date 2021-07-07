@@ -127,81 +127,53 @@
                                 </div>
                             </div>
 
-                            <div class="content-action">
-                                <div class="meta-line" @click="openComments">
-                                    <p class="meta-line-link">
-                                        {{ feed.comment_cnt }} Comments
-                                    </p>
+                            <div
+                                :style="
+                                    this.isOpenedComments
+                                        ? 'border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;'
+                                        : ''
+                                "
+                            >
+                                <div class="post-option" @click="openComments">
+                                    <svg
+                                        class="post-option-icon icon-comment"
+                                        :class="
+                                            isOpenedComments ? 'active' : ''
+                                        "
+                                    >
+                                        <use xlink:href="#svg-comment"></use>
+                                    </svg>
                                 </div>
-
-                                <!-- <div class="meta-line">
-                                    <p class="meta-line-text">
-                                        {{ feed.shared_cnt }} Shares
-                                    </p>
-                                </div> -->
+                            </div>
+                            <div class="post-option-wrap">
+                                <div
+                                    class="
+                                        post-option
+                                        reaction-options-dropdown-trigger
+                                    "
+                                    @click="sendLike"
+                                >
+                                    <svg
+                                        class="post-option-icon icon-thumbs-up"
+                                        :class="
+                                            feed.liked === true ? 'active' : ''
+                                        "
+                                    >
+                                        <use xlink:href="#svg-thumbs-up"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div
+                                class="post-option copy-url-tooltip"
+                                @click="copyUrl"
+                                @mouseover="isCopied = false"
+                                data-title="Copy URL"
+                            >
+                                <svg class="post-option-icon icon-share">
+                                    <use xlink:href="#svg-share"></use>
+                                </svg>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div
-                    class="post-options"
-                    :style="
-                        this.isOpenedComments
-                            ? 'border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;'
-                            : ''
-                    "
-                >
-                    <div class="post-option-wrap">
-                        <div
-                            class="
-                                post-option
-                                reaction-options-dropdown-trigger
-                            "
-                            @click="sendLike"
-                        >
-                            <svg
-                                class="post-option-icon icon-thumbs-up"
-                                :class="feed.liked === true ? 'active' : ''"
-                            >
-                                <use xlink:href="#svg-thumbs-up"></use>
-                            </svg>
-
-                            <p
-                                class="post-option-text thumbs-up"
-                                :class="feed.liked === true ? 'active' : ''"
-                            >
-                                좋아요
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="post-option" @click="openComments">
-                        <svg
-                            class="post-option-icon icon-comment"
-                            :class="isOpenedComments ? 'active' : ''"
-                        >
-                            <use xlink:href="#svg-comment"></use>
-                        </svg>
-
-                        <p
-                            class="post-option-text"
-                            :class="isOpenedComments ? 'active' : ''"
-                        >
-                            Comment
-                        </p>
-                    </div>
-                    <div
-                        class="post-option copy-url-tooltip"
-                        @click="copyUrl"
-                        @mouseover="isCopied = false"
-                        data-title="Copy URL"
-                    >
-                        <svg class="post-option-icon icon-share">
-                            <use xlink:href="#svg-share"></use>
-                        </svg>
-
-                        <p class="post-option-text">Share</p>
                     </div>
                 </div>
             </div>

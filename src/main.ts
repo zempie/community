@@ -16,9 +16,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import "./css/styles.css";
 import 'remixicon/fonts/remixicon.css'
 import Vuelidate from 'vuelidate'
+
+export const bus = new Vue();
+
 Vue.use(Vuelidate)
-
-
 Vue.use(BootstrapVue)
 
 

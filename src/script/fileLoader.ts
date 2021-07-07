@@ -2,11 +2,15 @@ import store from "@/store";
 
 class FileLoader {
 
+    private remainImgFileSize: number = mbToByte(20); //20mb (binary);
+    previewImgArr: any[] = [];
+    fileList: File[] = [];
+
     imgLoad(file: File) {
         let reader = new FileReader();
 
         reader.onload = (e) => {
-            store.commit('previewImgArr', e.target!.result);
+            this.previewImgArr.push(e.target!.result)
         }
 
         reader.readAsDataURL(file);
@@ -28,7 +32,34 @@ class FileLoader {
             store.commit('previewAudioArr', e.target!.result);
         }
         reader.readAsDataURL(file);
+    }
 
+    checkImgFile(files: any) {
+        let totalImgCnt = files.length + this.previewImgArr.length;
+        if (files.length > 5 || totalImgCnt > 5) {
+            alert("이미지 개수는 최대 5개입니다");
+        } else {
+            if (files.length <= 5) {
+                for (let i = 0; i < files.length; i++) {
+                    this.remainImgFileSize -= files[i].size;
+                    if (this.remainImgFileSize < 0) {
+                        alert("최대 파일 용량을 넘었습니다.(최대 20mb)");
+                        this.remainImgFileSize += files[i].size;
+                        break;
+                    }
+
+                    this.fileList.push(files[i]);
+                    this.imgLoad(files[i]);
+                }
+            }
+        }
+        return this.fileList;
+    }
+    //미리보기 사진 삭제
+    deletePreviewImg(idx: number) {
+        this.remainImgFileSize += this.fileList[idx].size;
+        this.previewImgArr.splice(idx, 1);
+        this.fileList.splice(idx, 1);
     }
 }
 
