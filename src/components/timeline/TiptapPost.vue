@@ -13,7 +13,6 @@ import { mapGetters } from "vuex";
 import { Editor, EditorContent, VueRenderer } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
-import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
@@ -23,11 +22,13 @@ import Dropcursor from "@tiptap/extension-dropcursor";
 
 import lowlight from "lowlight";
 
+//custom tiptap
 import Video from "@/script/tiptap/customVideo";
 import Audio from "@/script/tiptap/customAudio";
 import Iframe from "@/script/tiptap/iframe";
 import Hashtag from "@/script/tiptap/hashtag";
 import Mention from "@/script/tiptap/mention";
+import Image from "@/script/tiptap/image"
 
 import HahstagList from "./HashTagList.vue";
 import MentionList from "./MentionList.vue";
@@ -38,7 +39,7 @@ import { bus } from "@/main";
     computed: { ...mapGetters(["user"]) },
     components: { EditorContent },
 })
-export default class Tiptap extends Vue {
+export default class TiptapPost extends Vue {
     @Prop() postType !:any;
     private imgPreviewArr: any[] = [];
     private postingText: string = "";

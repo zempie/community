@@ -46,11 +46,11 @@
                     <div class="form-item">
                         <div class="form-textarea">
                             <!-- tiptap -->
-                            <tiptap
+                            <tiptap-post
                                 :postType="activeTab"
                                 @isEmpty="editorState"
                                 :key="activeTab"
-                            ></tiptap>
+                            ></tiptap-post>
                             <div style="height: 0px; overflow: hidden">
                                 <input type="file" @change="onFileChange"
                                 multiple accept= image/* ref="image"
@@ -85,20 +85,8 @@
                                 />
                             </audio> -->
                             <div
-                                style="
-                                    display: flex;
-                                    justify-content: space-between;
-                                "
+                                style="display: flex; justify-content: flex-end"
                             >
-                                <b-form-checkbox
-                                    class="private-checkbox"
-                                    v-model="visibility"
-                                    name="checkbox-1"
-                                    value="private"
-                                    unchecked-value="public"
-                                >
-                                    Private
-                                </b-form-checkbox>
                                 <p
                                     class="form-textarea-limit-text"
                                     style="padding-top: 18px"
@@ -117,25 +105,13 @@
                 <div class="form-row">
                     <div class="form-item">
                         <div class="form-textarea">
-                            <tiptap
+                            <tiptap-sns
                                 @isEmpty="editorState"
                                 :key="activeTab"
-                            ></tiptap>
+                            ></tiptap-sns>
                             <div
-                                style="
-                                    display: flex;
-                                    justify-content: space-between;
-                                "
+                                style="display: flex; justify-content: flex-end"
                             >
-                                <b-form-checkbox
-                                    class="private-checkbox"
-                                    v-model="visibility"
-                                    name="checkbox-1"
-                                    value="private"
-                                    unchecked-value="public"
-                                >
-                                    Private
-                                </b-form-checkbox>
                                 <p
                                     class="form-textarea-limit-text"
                                     style="padding-top: 18px"
@@ -192,16 +168,16 @@
                         {{ community.name }}
                     </option>
                 </select>
-                <!-- <div class="form-select dropdown-container"> -->
-                <select
-                    class="dropbox dropdown-item"
-                    id="dropdown-1"
-                    :text="channels"
-                    :style="!isChannelOn ? 'display:none' : ''"
-                >
+            </div>
+            <div class="form-select dropdown-container">
+                <select class="dropbox dropdown-item" :text="channels">
+                    <!-- :style="!isChannelOn ? 'display:none' : ''" -->
+                    <!-- class="dropdown-item" -->
+                    <option v-if="!isChannelOn">
+                        <p>select community first</p>
+                    </option>
                     <option
-                        value="0"
-                        class="dropdown-item"
+                        v-else
                         @click="selectChannel(channel)"
                         v-for="channel in channelList"
                         :key="channel.id"
@@ -209,21 +185,22 @@
                         {{ channel.name }}
                     </option>
                 </select>
-            <!-- </div> -->
-
             </div>
 
-            
-            <b-dropdown id="dropdown-1" text="My games" class="m-md-2">
-                <b-dropdown-item class="dropdown-item"
-                    >First Action</b-dropdown-item
-                >
-            </b-dropdown>
-            <b-dropdown id="dropdown-1" text="Portfolios" class="m-md-2">
-                <b-dropdown-item class="dropdown-item"
-                    >First Action</b-dropdown-item
-                >
-            </b-dropdown>
+            <div class="form-select dropdown-container">
+                <select class="dropbox dropdown-item" @change="selectCommunity">
+                    <option value="communities">My games</option>
+
+                    <option>game</option>
+                </select>
+            </div>
+            <div class="form-select dropdown-container">
+                <select class="dropbox dropdown-item" @change="selectCommunity">
+                    <option value="communities">Portfolios</option>
+
+                    <option>Portfolio</option>
+                </select>
+            </div>
         </div>
 
         <div class="quick-post-footer">
@@ -276,7 +253,7 @@
                     </svg>
                 </div>
                 <!-- /upload audio -->
-                <div
+                <!-- <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
                     data-title="Insert Link"
                 >
@@ -292,7 +269,7 @@
                             fill="rgba(97,106,130,1)"
                         />
                     </svg>
-                </div>
+                </div> -->
 
                 <div
                     class="quick-post-footer-action text-tooltip-tft-medium"
@@ -338,7 +315,22 @@
             </div>
 
             <div class="quick-post-footer-actions">
-                <p class="button small void">임시 저장</p>
+                <div class="checkbox-wrap">
+                    <input
+                        type="checkbox"
+                        id="event-add-end-time"
+                        name="event_add-end-time"
+                    />
+
+                    <div class="checkbox-box">
+                        <svg class="icon-cross">
+                            <use xlink:href="#svg-cross"></use>
+                        </svg>
+                    </div>
+
+                    <label for="event-add-end-time">private</label>
+                </div>
+                <p class="button small">임시 저장</p>
 
                 <p class="button small secondary" @click="uploadPost">Post</p>
             </div>
@@ -405,7 +397,8 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { mapGetters } from "vuex";
 import FileUpload from "@/components/common/FileUpload.vue";
-import Tiptap from "@/components/timeline/Tiptap.vue";
+import TiptapSns from "@/components/timeline/TiptapSns.vue";
+import TiptapPost from "@/components/timeline/TiptapPost.vue";
 import Modal from "@/components/common/Modal.vue";
 
 import { Editor, EditorContent, VueRenderer } from "@tiptap/vue-2";
@@ -443,7 +436,8 @@ import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
         Modal,
         ImageUploaderBtn,
         ImagePreview,
-        Tiptap,
+        TiptapSns,
+        TiptapPost,
     },
 })
 export default class Post extends Vue {
@@ -1203,13 +1197,21 @@ export default class Post extends Vue {
     // modal
 }
 .dropdown-container {
-    width: 25%;
+    flex: 1;
     height: 25px;
     .dropdown-item {
         font-size: 15px !important;
         font-weight: 100 !important;
         padding: 0px 20px 0px 20px;
         text-overflow: ellipsis;
+        border-radius: 5px !important;
     }
+}
+.quick-post-footer {
+    border-top: 0px;
+    min-height: 45px;
+}
+.checkbox-wrap {
+    margin-right: 5px;
 }
 </style>

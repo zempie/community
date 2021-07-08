@@ -61,6 +61,29 @@ class FileLoader {
         this.previewImgArr.splice(idx, 1);
         this.fileList.splice(idx, 1);
     }
+
+
+}
+
+async function urlToFile(url: string) {
+    console.log(url)
+
+    let blob = await fetch(url).then(r => r.blob())
+        .then(blobFile => new File([blobFile], 'text'));
+
+    console.log(blob)
+
+}
+
+async function getFileFromUrl(url, name, defaultType = 'image/jpeg') {
+    const response = await fetch(url);
+    const data = await response.blob();
+    let file =  new File([data], name, {
+        type: response.headers.get('content-type') || defaultType,
+    });
+
+    return file
+    // console.log(file)
 }
 
 function mbToByte(mb = 1) {
@@ -75,4 +98,5 @@ export {
     FileLoader,
     mbToByte,
     kbToByte,
+    getFileFromUrl
 }
