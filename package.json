@@ -8,6 +8,9 @@
     "build-dev": "vue-cli-service build --mode development"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/vue-fontawesome": "^2.0.2",
     "@tiptap/extension-character-count": "*",
     "@tiptap/extension-code-block": "*",
     "@tiptap/extension-code-block-lowlight": "*",

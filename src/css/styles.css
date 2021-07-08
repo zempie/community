@@ -12275,8 +12275,6 @@ figure > img {
 .content-actions {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
   -ms-flex-align: center;
       align-items: center;
   height: 52px;
