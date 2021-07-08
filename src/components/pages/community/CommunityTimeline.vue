@@ -47,7 +47,9 @@
                 <h2>No Result</h2>
             </template>
         </div>
-        <div class="grid-column"></div>
+        <div class="grid-column">
+            <desctiption :community="community"></desctiption>
+        </div>
     </div>
 </template>
 
@@ -57,10 +59,11 @@ import Dropdown from "@/plugins/dropdown";
 
 import Post from "@/components/timeline/Post.vue";
 import Channel from "@/components/pages/community/Channel.vue";
+import Desctiption from "@/components/pages/community/CommunityDescBox.vue";
 import Feed from "@/components/timeline/Feed.vue";
 
 @Component({
-    components: { Post, Channel, Feed },
+    components: { Post, Channel, Feed, Desctiption },
 })
 export default class CommunityTimeline extends Vue {
     private dropdown: Dropdown = new Dropdown();

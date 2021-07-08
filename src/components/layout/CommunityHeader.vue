@@ -45,13 +45,16 @@
                         </div>
                     </div>
 
-                    <p class="user-short-description-title">
+                    <p
+                        class="user-short-description-title"
+                        style="margin-top: 10px"
+                    >
                         {{ community.name }}
                     </p>
-
+                    <!-- 
                     <p class="user-short-description-text">
                         {{ community.description }}
-                    </p>
+                    </p> -->
                 </div>
 
                 <div class="user-stats">
@@ -83,8 +86,10 @@
                         <p class="user-stat-text">members</p>
                     </router-link>
 
-                    <router-link class="user-stat big"
-                    :to="`/community/${community.id}/timeline`">
+                    <router-link
+                        class="user-stat big"
+                        :to="`/community/${community.id}/timeline`"
+                    >
                         <p class="user-stat-title">{{ community.posts_cnt }}</p>
 
                         <p class="user-stat-text">posts</p>
@@ -137,7 +142,10 @@
                                 Group setting
                             </router-link>
 
-                            <router-link class="simple-dropdown-link" to="/createCommunity">
+                            <router-link
+                                class="simple-dropdown-link"
+                                to="/createCommunity"
+                            >
                                 Create group
                             </router-link>
                         </div>
@@ -166,6 +174,31 @@
                     </svg>
 
                     <p class="section-menu-item-text">Timeline</p>
+                </router-link>
+
+                <router-link
+                    class="section-menu-item"
+                    :to="`/community/${community.id}/timeline?media=video`"
+                    :class="$route.query.media === 'video' ? 'active' : ''"
+                >
+                    <svg class="section-menu-item-icon icon-forums">
+                        <use xlink:href="#svg-forums"></use>
+                    </svg>
+                    <p class="section-menu-item-text">SNS</p>
+
+                </router-link>
+
+
+                <router-link
+                    class="section-menu-item"
+                    :to="`/community/${community.id}/timeline?media=video`"
+                    :class="$route.query.media === 'video' ? 'active' : ''"
+                >
+                    <svg class="section-menu-item-icon icon-forum">
+                        <use xlink:href="#svg-forum"></use>
+                    </svg>
+
+                    <p class="section-menu-item-text">Blog</p>
                 </router-link>
 
                 <router-link
