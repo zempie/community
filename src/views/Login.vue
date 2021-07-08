@@ -52,7 +52,7 @@
 
                 <h2 class="form-box-title">Account Login</h2>
 
-                <b-form @submit.stop.prevent="onSubmit">
+                <b-form @submit.stop.prevent="onSubmit" style="margin-top: 76px;">
                     <div class="form-row">
                         <div class="form-item">
                             <div class="form-input">
@@ -160,12 +160,13 @@
 
                 <p class="lined-text">Login with your Social Account</p>
 
-                <div class="social-links" @click="google">
-                    <a class="social-link google">
-                        <svg class="icon-google">
+                <div class="social-links" @click="google" @mouseenter="goolgeBtnHover" @mouseout="goolgeBtnOut" >
+                    <!-- <a class="social-link google" style="width:100%"> -->
+                        <b-img :src="googleBtn" ></b-img>
+                        <!-- <svg class="icon-google">
                             <use xlink:href="#svg-google"></use>
-                        </svg>
-                    </a>
+                        </svg> -->
+                    <!-- </a> -->
                 </div>
             </div>
 
@@ -420,6 +421,15 @@ export default class Login extends Vue {
     private googleRegister: boolean = false;
 
     private isClickedLoginBtn: boolean = false;
+
+    private googleBtn: string = 'image/btn_google_signin_dark_normal_web.png'
+
+    goolgeBtnHover(){
+        this.googleBtn = "image/btn_google_signin_dark_focus_web.png";
+    }
+    goolgeBtnOut(){
+        this.googleBtn = 'image/btn_google_signin_dark_normal_web.png';
+    }
 
     // vuelidate
     validateState(name) {

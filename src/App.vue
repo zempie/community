@@ -1,6 +1,8 @@
 <template>
     <div id="app" class="no-drag">
-        <navigator></navigator>
+        <template v-if="$route.name && $route.name.toLowerCase() !== 'login'">
+            <navigator></navigator>
+        </template>
         <router-view />
     </div>
 </template>
@@ -20,6 +22,7 @@ export default class App extends Vue {
     private dropdown: Dropdown = new Dropdown();
 
     async mounted() {
+        console.log(this.$route.name);
         this.dropdown.init();
         // await this.$store.dispatch("loginState");
 

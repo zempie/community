@@ -8,6 +8,7 @@
         align-items: center;
         justify-content: center;
         align-content: center;
+        
     }
 
     .modal-content {
@@ -30,6 +31,11 @@
         display: none;
         // background-color: red;
     }
+}
+
+.modal-alert-content{
+    background-color: #1d2333 !important;
+    border-radius: 12px !important;
 }
 
 .ProseMirror {
