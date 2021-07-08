@@ -52,7 +52,10 @@
 
                 <h2 class="form-box-title">Account Login</h2>
 
-                <b-form @submit.stop.prevent="onSubmit" style="margin-top: 76px;">
+                <b-form
+                    @submit.stop.prevent="onSubmit"
+                    style="margin-top: 76px"
+                >
                     <div class="form-row">
                         <div class="form-item">
                             <div class="form-input">
@@ -75,7 +78,6 @@
                                     <!-- aria-describedby="input-1-live-feedback" -->
 
                                     <b-form-invalid-feedback
-                                        id="input-1-live-feedback"
                                         >This is a required field and must be at
                                         least 3
                                         characters.</b-form-invalid-feedback
@@ -160,10 +162,15 @@
 
                 <p class="lined-text">Login with your Social Account</p>
 
-                <div class="social-links" @click="google" @mouseenter="goolgeBtnHover" @mouseout="goolgeBtnOut" >
+                <div
+                    class="social-links"
+                    @click="google"
+                    @mouseenter="goolgeBtnHover"
+                    @mouseout="goolgeBtnOut"
+                >
                     <!-- <a class="social-link google" style="width:100%"> -->
-                        <b-img :src="googleBtn" ></b-img>
-                        <!-- <svg class="icon-google">
+                    <b-img :src="googleBtn"></b-img>
+                    <!-- <svg class="icon-google">
                             <use xlink:href="#svg-google"></use>
                         </svg> -->
                     <!-- </a> -->
@@ -224,29 +231,6 @@
 
                     <div class="form-row">
                         <div class="form-item">
-                            <div class="checkbox-wrap">
-                                <input
-                                    type="checkbox"
-                                    id="register-newsletter"
-                                    name="register_newsletter"
-                                    checked
-                                />
-
-                                <div class="checkbox-box">
-                                    <svg class="icon-cross">
-                                        <use xlink:href="#svg-cross"></use>
-                                    </svg>
-                                </div>
-
-                                <label for="register-newsletter"
-                                    >Send me news and updates via email</label
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-item">
                             <button class="button medium primary">
                                 Register Now!
                             </button>
@@ -261,109 +245,9 @@
                 </p>
             </div>
             <!-- /google register -->
-
-            <div class="form-box login-register-form-element">
-                <img
-                    class="form-box-decoration"
-                    src="../img/landing/rocket.png"
-                    alt="rocket"
-                />
-
-                <h2 class="form-box-title">Create your Account!</h2>
-
-                <form class="form">
-                    <div class="form-row">
-                        <div class="form-item">
-                            <div class="form-input">
-                                <label for="register-email">Your Email</label>
-                                <input
-                                    type="text"
-                                    id="register-email"
-                                    name="register_email"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-item">
-                            <div class="form-input">
-                                <label for="register-username">Username</label>
-                                <input
-                                    type="text"
-                                    id="register-username"
-                                    name="register_username"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-item">
-                            <div class="form-input">
-                                <label for="register-password">Password</label>
-                                <input
-                                    type="password"
-                                    id="register-password"
-                                    name="register_password"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-item">
-                            <div class="form-input">
-                                <label for="register-password-repeat"
-                                    >Repeat Password</label
-                                >
-                                <input
-                                    type="password"
-                                    id="register-password-repeat"
-                                    name="register_password_repeat"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-item">
-                            <div class="checkbox-wrap">
-                                <input
-                                    type="checkbox"
-                                    id="register-newsletter"
-                                    name="register_newsletter"
-                                    checked
-                                />
-
-                                <div class="checkbox-box">
-                                    <svg class="icon-cross">
-                                        <use xlink:href="#svg-cross"></use>
-                                    </svg>
-                                </div>
-
-                                <label for="register-newsletter"
-                                    >Send me news and updates via email</label
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-item">
-                            <button class="button medium primary">
-                                Register Now!
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <p class="form-text">
-                    You'll receive a confirmation email in your inbox with a
-                    link to activate your account. If you have any problems,
-                    <a href="#">contact us</a>!
-                </p>
-            </div>
+            <!-- zempie register -->
+            <register></register>
+            <!-- /zempie register -->
         </div>
     </div>
 </template>
@@ -382,16 +266,19 @@ import plugins from "@/plugins/plugins";
 import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
+import Register from "@/components/pages/login/Register.vue";
+
 const emailValidator = helpers.regex(
     "emailValidator",
     /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
 );
+
 const pwdValidator = helpers.regex(
     "pwdValidator",
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[!@#\$%\^&\*]).{6,20}$/
 );
 @Component({
-    components: {},
+    components: { Register },
     mixins: [validationMixin],
     validations: {
         form: {
@@ -422,13 +309,13 @@ export default class Login extends Vue {
 
     private isClickedLoginBtn: boolean = false;
 
-    private googleBtn: string = 'image/btn_google_signin_dark_normal_web.png'
+    private googleBtn: string = "image/btn_google_signin_dark_normal_web.png";
 
-    goolgeBtnHover(){
+    goolgeBtnHover() {
         this.googleBtn = "image/btn_google_signin_dark_focus_web.png";
     }
-    goolgeBtnOut(){
-        this.googleBtn = 'image/btn_google_signin_dark_normal_web.png';
+    goolgeBtnOut() {
+        this.googleBtn = "image/btn_google_signin_dark_normal_web.png";
     }
 
     // vuelidate
@@ -438,73 +325,73 @@ export default class Login extends Vue {
         return $dirty ? !$error : null;
     }
 
-   async onSubmit() {
+    async onSubmit() {
         this.isClickedLoginBtn = true;
         this.$v.form.$touch();
         if (this.$v.form.$anyError) {
             return;
         }
 
-            try {
-                const result = await firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password);
-                // console.log(result);
-                // await this.$router.replace('/');
+        try {
+            const result = await firebase
+                .auth()
+                .signInWithEmailAndPassword(
+                    this.form.email,
+                    this.form.password
+                );
+            // console.log(result);
+            // await this.$router.replace('/');
 
-                if(result.user) {
-                    const token = await firebase.auth().currentUser!.getIdToken();
-                    this.$store.commit('idToken', token);
+            if (result.user) {
+                const token = await firebase.auth().currentUser!.getIdToken();
+                this.$store.commit("idToken", token);
 
-                    const result = await Vue.$api.user();
-                    // if( result.error && result.error && result.error.message === '잘 못 된 유저 아이디입니다' ) {
-                    if( result?.error?.code === 20001 ) {
-                        // alert( this.$t('login.joinError') as string );
-                        this.$store.commit('loginState', LoginState.no_user );
-                        await this.$router.replace('/joinEmailContinue');
-                        return;
-                    }
-
-                    const {user} = result;
-                    this.$store.commit('user', user);
-                    await LoginManager.login();
-                    // this.$store.commit('loginState', LoginState.login );
-
-                    if(this.$store.getters.redirectRouter) {
-                        const router = this.$store.getters.redirectRouter;
-                        this.$store.commit('redirectRouter', null);
-                        await this.$router.replace( router );
-                    }
-                    else if( this.$store.getters.redirectUrl ) {
-                        const url = this.$store.getters.redirectUrl;
-                        this.$store.commit('redirectUrl', null);
-                        window.location.href = url;
-                    }
-                    else {
-                        await this.$router.replace('/');
-                    }
+                const result = await Vue.$api.user();
+                // if( result.error && result.error && result.error.message === '잘 못 된 유저 아이디입니다' ) {
+                if (result?.error?.code === 20001) {
+                    // alert( this.$t('login.joinError') as string );
+                    this.$store.commit("loginState", LoginState.no_user);
+                    await this.$router.replace("/joinEmailContinue");
+                    return;
                 }
 
-            }
-            catch (e) {
-                // console.log(e);
+                const { user } = result;
+                this.$store.commit("user", user);
+                await LoginManager.login();
+                // this.$store.commit('loginState', LoginState.login );
 
-                const code = e.code;
-                // console.log(code);
-                if( code ) {
-                    switch (code) {
-                        case 'auth/wrong-password' :
-                            // alert(this.$t('login.firebaseError.password') as string);
-                            // this.passwordError = '잘못된 비밀번호 입니다. 다시 입력하세요.'
-                            break;
-                        case 'auth/user-not-found' :
-                            // alert(this.$t('login.firebaseError.userNotFound') as string);
-                            break;
-                        default:
-                            // alert('잠시 후 다시 시도해주세요.');
-                            break;
-                    }
+                if (this.$store.getters.redirectRouter) {
+                    const router = this.$store.getters.redirectRouter;
+                    this.$store.commit("redirectRouter", null);
+                    await this.$router.replace(router);
+                } else if (this.$store.getters.redirectUrl) {
+                    const url = this.$store.getters.redirectUrl;
+                    this.$store.commit("redirectUrl", null);
+                    window.location.href = url;
+                } else {
+                    await this.$router.replace("/");
                 }
             }
-        
+        } catch (e) {
+            // console.log(e);
+
+            const code = e.code;
+            // console.log(code);
+            if (code) {
+                switch (code) {
+                    case "auth/wrong-password":
+                        // alert(this.$t('login.firebaseError.password') as string);
+                        // this.passwordError = '잘못된 비밀번호 입니다. 다시 입력하세요.'
+                        break;
+                    case "auth/user-not-found":
+                        // alert(this.$t('login.firebaseError.userNotFound') as string);
+                        break;
+                    default:
+                        // alert('잠시 후 다시 시도해주세요.');
+                        break;
+                }
+            }
+        }
     }
 
     async mounted() {
@@ -531,7 +418,6 @@ export default class Login extends Vue {
             // console.log(this.redirect);
             this.$store.commit("redirectUrl", this.redirect);
         }
-        console.log("mounted", this.$store.getters.isLoginComplete);
     }
 
     // @Watch("email")
@@ -548,7 +434,6 @@ export default class Login extends Vue {
     //     }
     // }
 
-   
     async google() {
         await this.$store.dispatch("loginState");
 

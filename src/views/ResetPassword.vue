@@ -11,7 +11,7 @@
             <div class="grid-column">
                 <div class="widget-box">
                     <div class="widget-box-content">
-                        <form class="form">
+                        <form class="form" @submit="resetPwd">
                             <div class="form-row">
                                 <div class="form-item">
                                     <div class="form-input small">
@@ -34,6 +34,10 @@
                                                 >올바른 이메일 형식을
                                                 작성해주세요</b-form-invalid-feedback
                                             >
+                                             <b-form-invalid-feedback
+                                                v-if="!$v.email.required"
+                                                >이메일을 입력해주세요</b-form-invalid-feedback
+                                            >
                                             <b-form-invalid-feedback
                                                 v-if="!$v.email.notExist"
                                                 >존재하지않는
@@ -44,9 +48,7 @@
                                 </div>
 
                                 <div class="form-item submit-btn mt-3">
-                                    <b-btn @click="resetPwd" class=""
-                                        >submit</b-btn
-                                    >
+                                    <b-btn type="submit" class="">submit</b-btn>
                                     <!-- <p class="button full primary">
                                         Change Password Now!
                                     </p> -->
@@ -142,7 +144,9 @@ export default class ResetPassword extends Vue {
         return false;
     }
 
-    async resetPwd() {
+    async resetPwd(event) {
+        
+        event.preventDefault()
         this.$v.email.$touch();
         if (this.$v.email.$anyError) {
             return;
