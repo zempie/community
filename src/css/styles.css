@@ -458,7 +458,7 @@ input[type="password"],
 textarea,
 select,
 button {
-  font-family: "Rajdhani", sans-serif !important;
+  font-family: 'Noto Sans KR', sans-serif !important;
 }
 
 label {
@@ -1305,7 +1305,7 @@ textarea::placeholder {
 .form-counter.with-currency::before {
   content: '$';
   color: #4ff461;
-  font-family: "Rajdhani", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 0.875rem;
   font-weight: 700;
   position: absolute;
@@ -2114,7 +2114,7 @@ body {
 h1, h2, h3, h4,
 h5, h6, a, p {
   color: #fff;
-  font-family: "Rajdhani", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   line-height: 1em;
 }
 
@@ -8339,7 +8339,7 @@ figure > img {
 }
 
 .widget-box .widget-box-status .widget-box-status-content .user-status {
-  font-family: "Rajdhani", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   padding-right: 70px;
 }
 
@@ -10807,7 +10807,7 @@ figure > img {
   -ms-flex-pack: center;
       justify-content: center;
   position: absolute;
-  top: -40px;
+  top: 40px;
   right: 32px;
 }
 
@@ -15837,7 +15837,7 @@ figure > img {
   display: flex;
   -ms-flex-align: center;
       align-items: center;
-  font-family: "Rajdhani", sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
   color: #9aa4bf;
   font-size: 0.875rem;
   font-weight: 500;
