@@ -114,7 +114,7 @@
                                         </div>
                                         <p
                                             class="bold"
-                                            style="margin-left: 5px"
+                                            style="margin-left: 5px; font-size:12px;"
                                         >
                                             {{ feed.like_cnt }} Likes
                                         </p>

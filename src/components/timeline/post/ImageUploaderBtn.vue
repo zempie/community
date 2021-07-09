@@ -26,7 +26,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { mbToByte, FileLoader } from "@/script/fileLoader";
+import { FileLoader } from "@/script/fileLoader";
+import { mbToByte } from "@/script/fileManager";
 import { bus } from "@/main";
 @Component({
     components: {},

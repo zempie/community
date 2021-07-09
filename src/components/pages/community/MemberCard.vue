@@ -71,16 +71,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Hexagon from "@/plugins/hexagon";
+import { user } from "user";
 @Component({
     components: {},
 })
 export default class MemberCard extends Vue {
-    @Prop() member!: any;
+    @Prop() member!: user;
     private hexagon: Hexagon = new Hexagon();
 
     mounted() {
         this.hexagon.init();
-        console.log(this.member)
     }
 
     followUser() {

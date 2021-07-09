@@ -1,4 +1,5 @@
 import store from "@/store";
+import { mbToByte } from "@/script/fileManager";
 
 class FileLoader {
 
@@ -6,14 +7,22 @@ class FileLoader {
     previewImgArr: any[] = [];
     fileList: File[] = [];
 
-    imgLoad(file: File) {
+    imgLoad(file: File, callback) {
+        // let fileUrl: string | null | ArrayBuffer;
         let reader = new FileReader();
 
-        reader.onload = (e) => {
-            this.previewImgArr.push(e.target!.result)
-        }
+        // reader.onload = (e) => {
+
+        //     this.previewImgArr.push(e.target!.result)
+        //     this.getFileUrl(e.target!.result)
+        // }
+        reader.onload = callback;
 
         reader.readAsDataURL(file);
+    }
+    getFileUrl(src: string | ArrayBuffer | null) {
+        return src
+
     }
     videoLoad(file: File) {
         let reader = new FileReader();
@@ -49,7 +58,7 @@ class FileLoader {
                     }
 
                     this.fileList.push(files[i]);
-                    this.imgLoad(files[i]);
+                    // this.imgLoad(files[i]);
                 }
             }
         }
@@ -78,7 +87,7 @@ async function urlToFile(url: string) {
 async function getFileFromUrl(url, name, defaultType = 'image/jpeg') {
     const response = await fetch(url);
     const data = await response.blob();
-    let file =  new File([data], name, {
+    let file = new File([data], name, {
         type: response.headers.get('content-type') || defaultType,
     });
 
@@ -86,17 +95,9 @@ async function getFileFromUrl(url, name, defaultType = 'image/jpeg') {
     // console.log(file)
 }
 
-function mbToByte(mb = 1) {
-    return mb * 1024 * 1024;
-}
 
-function kbToByte(kb = 1) {
-    return kb * 1024;
-}
 
 export {
     FileLoader,
-    mbToByte,
-    kbToByte,
-    getFileFromUrl
+    getFileFromUrl,
 }

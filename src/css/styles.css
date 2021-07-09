@@ -3142,9 +3142,6 @@ figure > img {
   margin-left: -74px;
 }
 
-.user-short-description.big .user-short-description-title {
-  font-size: 1.5rem;
-}
 
 .user-short-description.big .user-short-description-text {
   font-size: 0.75rem;
@@ -8353,7 +8350,7 @@ figure > img {
 }
 
 .widget-box .widget-box-status .widget-box-status-text {
-  font-size: 0.875rem;
+  font-size: 18px;
   line-height: 1.7142857143em;
   font-weight: 500;
 }
@@ -15229,7 +15226,7 @@ figure > img {
   padding: 0 24px;
   display: block;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 15px;
   font-weight: 700;
   line-height: 80px;
   cursor: pointer;

@@ -425,7 +425,8 @@ import MentionList from "./MentionList.vue";
 import tippy from "tippy.js";
 
 import moment from "moment";
-import { FileLoader, mbToByte } from "@/script/fileLoader";
+import { FileLoader } from "@/script/fileLoader";
+import { mbToByte } from "@/script/fileManager";
 import ImageUploaderBtn from "@/components/timeline/post/ImageUploaderBtn.vue";
 import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
 @Component({

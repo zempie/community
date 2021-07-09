@@ -64,6 +64,5 @@ export default class Channel extends Vue {
     margin: 8px;
     display: flex;
     justify-content: space-between;
-    font-family: "Rajdhani", sans-serif;
 }
 </style>

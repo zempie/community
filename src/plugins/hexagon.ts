@@ -17,15 +17,11 @@ export default class Hexagon {
             width: 124,
             height: 136,
             lineWidth: 8,
+            
             roundedCorners: true,
             gradient: {
                 colors: ['#d9ff65', '#40d04f']
             },
-            scale: {
-                start: 0,
-                end: 1,
-                stop: .74
-            }
         });
 
         plugins.createHexagon({
@@ -63,11 +59,7 @@ export default class Hexagon {
             gradient: {
                 colors: ['#d9ff65', '#40d04f']
             },
-            scale: {
-                start: 0,
-                end: 1,
-                stop: .8
-            }
+            
         });
 
         plugins.createHexagon({
@@ -107,11 +99,7 @@ export default class Hexagon {
             gradient: {
                 colors: ['#d9ff65', '#40d04f']
             },
-            scale: {
-                start: 0,
-                end: 1,
-                stop: .8
-            }
+           
         });
 
         plugins.createHexagon({
@@ -153,11 +141,7 @@ export default class Hexagon {
             gradient: {
                 colors: ['#d9ff65', '#40d04f']
             },
-            scale: {
-                start: 0,
-                end: 1,
-                stop: .8
-            }
+          
         });
 
         plugins.createHexagon({

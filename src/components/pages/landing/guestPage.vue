@@ -82,7 +82,6 @@ export default class guestPage extends Vue {
 }
 .landing-container {
     background-color: aliceblue;
-    font-family: Rajdhani, sans-serif;
 }
 .landing-title {
     font-weight: 700;
