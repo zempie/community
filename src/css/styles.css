@@ -9893,7 +9893,7 @@ figure > img {
 @media screen and (max-width: 1365px) {
   .landing {
     padding: 80px 0 100px;
-    position: static;
+    /* position: static; */
   }
   .landing-info {
     width: 100%;

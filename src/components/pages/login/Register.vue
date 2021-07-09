@@ -18,7 +18,6 @@
                         >
                             <b-form-input
                                 type="text"
-                                id="register-email"
                                 name="register-email"
                                 v-model="$v.form.email.$model"
                                 :state="
@@ -28,9 +27,74 @@
                                 "
                             ></b-form-input>
                             <b-form-invalid-feedback
+                                v-if="!$v.form.email.emailValidator"
                                 >올바른 이메일 형식을
                                 작성해주세요</b-form-invalid-feedback
                             >
+                            <b-form-invalid-feedback
+                                v-if="!$v.form.email.required"
+                                >이메일을 입력해주세요</b-form-invalid-feedback
+                            >
+                        </b-form-group>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-item">
+                    <div class="form-input">
+                        <b-form-group
+                            label="Password"
+                            label-for="register-password"
+                        >
+                            <b-form-input
+                                type="password"
+                                name="register-password"
+                                v-model="$v.form.password.$model"
+                                :state="
+                                    register
+                                        ? validateState('password')
+                                        : undefined
+                                "
+                            ></b-form-input>
+                            <b-form-invalid-feedback
+                                v-if="!$v.form.password.required"
+                                >비밀번호를 입력해주세요
+                            </b-form-invalid-feedback>
+                            <b-form-invalid-feedback
+                                v-if="!$v.form.password.pwdValidator"
+                                >영문과 최소 1개의 숫자 혹은 특수 문자를 포함한
+                                6~20자리 비밀번호를 입력해주세요.
+                            </b-form-invalid-feedback>
+                        </b-form-group>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-item">
+                    <div class="form-input">
+                        <b-form-group
+                            label="Repeat Password"
+                            label-for="register-repeat-password"
+                        >
+                            <b-form-input
+                                type="password"
+                                name="register-repeat-password"
+                                v-model="$v.form.repeatPassword.$model"
+                                :state="
+                                    register
+                                        ? validateState('repeatPassword')
+                                        : undefined
+                                "
+                            ></b-form-input>
+                            <b-form-invalid-feedback
+                                v-if="!$v.form.repeatPassword.required"
+                                >비밀번호를 입력해주세요
+                            </b-form-invalid-feedback>
+                            <b-form-invalid-feedback
+                                v-if="!$v.form.repeatPassword.sameAsPassword"
+                                >비밀번호가 일치하지 않습니다
+                            </b-form-invalid-feedback>
                         </b-form-group>
                     </div>
                 </div>
@@ -45,12 +109,21 @@
                         >
                             <b-form-input
                                 type="text"
-                                id="register-username"
                                 name="register-username"
                                 v-model="$v.form.username.$model"
+                                :state="
+                                    register
+                                        ? validateState('username')
+                                        : undefined
+                                "
                             ></b-form-input>
                             <b-form-invalid-feedback
+                                v-if="!$v.form.username.required"
                                 >이름은 최소 두글자 이상입력해주세요
+                            </b-form-invalid-feedback>
+                            <b-form-invalid-feedback
+                                v-if="!$v.form.username.maxLength"
+                                >이름은 12글자 이내로 작성해주세요.
                             </b-form-invalid-feedback>
                         </b-form-group>
                     </div>
@@ -65,54 +138,45 @@
                         >
                             <b-form-input
                                 type="text"
-                                id="register-nickname"
                                 name="register-nickname"
                                 v-model="$v.form.nickname.$model"
+                                :state="
+                                    register
+                                        ? validateState('nickname')
+                                        : undefined
+                                "
                             ></b-form-input>
                             <b-form-invalid-feedback
+                                v-if="!$v.form.nickname.required"
                                 >닉네임은 최소 두글자 이상입력해주세요
                             </b-form-invalid-feedback>
-                        </b-form-group>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-item">
-                    <div class="form-input">
-                        <b-form-group
-                            label="Password"
-                            label-for="register-password"
-                        >
-                            <b-form-input
-                                type="text"
-                                id="register-password"
-                                name="register-password"
-                                v-model="$v.form.password.$model"
-                            ></b-form-input>
                             <b-form-invalid-feedback
-                                >이름은 최소 두글자 이상입력해주세요
+                                v-if="!$v.form.nickname.maxLength"
+                                >닉네임은 12글자 이내로 작성해주세요
                             </b-form-invalid-feedback>
                         </b-form-group>
                     </div>
                 </div>
             </div>
-
             <div class="form-row">
-                <div class="form-item">
-                    <div class="form-input">
-                        <label for="register-password-repeat"
-                            >Repeat Password</label
-                        >
-                        <input
-                            type="password"
-                            id="register-password-repeat"
-                            name="register_password_repeat"
-                        />
+                <div class="checkbox-wrap">
+                    <input
+                        type="radio"
+                        id="reportReason3"
+                        name="reportReason"
+                        v-model="policyAgreement1"
+                        @click="radioBtn()"
+                    />
+
+                    <div class="checkbox-box">
+                        <svg class="icon-check">
+                            <use xlink:href="#svg-check"></use>
+                        </svg>
                     </div>
+                    <label for="reportReason3" class="report-reason"
+                        >이용약관 동의</label>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-item">
                     <button class="button medium primary">Register Now!</button>
@@ -130,11 +194,19 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import LoginManager from "@/script/login";
 
+import firebase from "firebase/app";
+import { LoginState } from "@/store/modules/user";
 import Form from "@/script/form";
 
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+    required,
+    minLength,
+    maxLength,
+    sameAs,
+} from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 
 const emailValidator = helpers.regex(
@@ -162,20 +234,47 @@ const pwdValidator = helpers.regex(
                 minLength: minLength(6),
                 maxLength: maxLength(20),
             },
+            repeatPassword: {
+                required,
+                sameAsPassword: sameAs("password"),
+            },
             username: {
                 required,
+                maxLength: maxLength(12),
             },
             nickname: {
                 required,
+                maxLength: maxLength(12),
             },
         },
     },
 })
 export default class Register extends Vue {
-    private form = { email: "", password: "", username: "", nickname: "" };
-
-    mounted() {
+    private form = {
+        email: "",
+        password: "",
+        username: "",
+        nickname: "",
+        repeatPassword: "",
+    };
+    async mounted() {
         Form.formInput();
+
+        const loginState = await this.$store.dispatch("loginState");
+        switch (loginState) {
+            case LoginState.login:
+                await this.$router.replace("/").catch(() => {});
+                return;
+        }
+
+        const currentUser = firebase.auth().currentUser;
+
+        if (!currentUser) {
+            await this.$router.replace("/login").catch(() => {});
+            return;
+        }
+
+        this.form.nickname = currentUser.displayName!;
     }
     // vuelidate
     validateState(name) {
@@ -183,13 +282,74 @@ export default class Register extends Vue {
         return $dirty ? !$error : null;
     }
 
-    register(event) {
+    async register(event) {
         event.preventDefault();
 
-         this.$v.form.$touch();
+        this.$v.form.$touch();
         if (this.$v.form.$anyError) {
             return;
         }
+
+        try {
+            await firebase
+
+                .auth()
+                .createUserWithEmailAndPassword(
+                    this.form.email,
+                    this.form.password
+                );
+            const currentUser = firebase.auth().currentUser;
+            const idToken = await currentUser!.getIdToken();
+            this.$store.commit("idToken", idToken);
+            const result = await this.$api.signUp(this.form.nickname);
+
+            if (!result || result.error) {
+                // if (result && result.error && result.error.message === '사용할 수 없는 단어') {
+                if (result?.error?.code === 40101) {
+                    alert("사용할 수 없는 이름입니다");
+                    // todo 닉네임 필터 에러 처리
+                    // alert(this.$t('join.joinNicknameError'));
+                } else {
+                    console.error((result && result.error) || "error");
+                    result && result.error && alert(result.error.message);
+                }
+            } else {
+                const { user } = result;
+                this.$store.commit("user", user);
+                await LoginManager.login();
+                // await this.$router.replace('/');
+
+                if (this.$store.getters.redirectRouter) {
+                    const router = this.$store.getters.redirectRouter;
+                    this.$store.commit("redirectRouter", null);
+                    await this.$router.replace(router).catch(() => {});
+                } else if (this.$store.getters.redirectUrl) {
+                    const url = this.$store.getters.redirectUrl;
+                    this.$store.commit("redirectUrl", null);
+                    window.location.href = url;
+                } else {
+                    await this.$router.replace("/").catch(() => {});
+                }
+            }
+        } catch (error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorCode === "auth/email-already-in-use");
+            if (errorCode === "auth/weak-password") {
+                alert("The password is too weak.");
+            } else if (errorCode === "auth/email-already-in-use") {
+                alert("이미 사용중인 이메일 입니다.");
+            } else {
+                alert(errorMessage);
+            }
+        }
+    }
+
+    radioBtn(val?: string) {
+        this.isValidateError = false;
+        // if((this.$refs.reportReason as HTMLFormElement).checked){
+        //     (this.$refs.reportReason as HTMLFormElement).checked = false;
+        // }
     }
 }
 </script>
@@ -197,5 +357,14 @@ export default class Register extends Vue {
 <style scoped>
 .form-row + .form-row:not(:last-child) {
     margin-top: 16px !important;
+}
+
+.checkbox-wrap input[type="checkbox"]:checked + .checkbox-box .icon-check,
+.checkbox-wrap input[type="radio"]:checked + .checkbox-box .icon-check {
+    fill: #ffffff;
+}
+.checkbox-wrap .checkbox-box .icon-check {
+    fill: transparent;
+    transition: fill 0.2s ease-in-out;
 }
 </style>

@@ -4,20 +4,14 @@
 
         <div class="landing-info">
             <div class="logo">
-                <svg class="icon-logo-vikinger">
-                    <use xlink:href="#svg-logo-vikinger"></use>
-                </svg>
+                <b-img src="image/zempie_logo.png" />
             </div>
 
             <h2 class="landing-info-pretitle">Welcome to</h2>
 
-            <h1 class="landing-info-title">Vikinger</h1>
+            <h1 class="landing-info-title">Zempie</h1>
 
-            <p class="landing-info-text">
-                The next generation social network &amp; community! Connect with
-                your friends and play with our quests and badges gamification
-                system!
-            </p>
+            <p class="landing-info-text">설명설명설명</p>
 
             <div class="tab-switch">
                 <p
@@ -66,7 +60,6 @@
                                     <b-form-input
                                         class="form-control"
                                         type="text"
-                                        id="login-username"
                                         name="login-username"
                                         v-model="$v.form.email.$model"
                                         :state="
@@ -97,10 +90,8 @@
                                     <b-form-input
                                         class="form-control"
                                         type="password"
-                                        id="login-password"
                                         name="login-password"
                                         v-model="$v.form.password.$model"
-                                        aria-describedby="input-pwd-live-feedback"
                                         :state="
                                             isClickedLoginBtn
                                                 ? validateState('password')
@@ -109,7 +100,6 @@
                                     ></b-form-input>
 
                                     <b-form-invalid-feedback
-                                        id="input-pwd-live-feedback"
                                         >영문과 최소 1개의 숫자 혹은 특수 문자를
                                         포함한 6~20자리 비밀번호를
                                         입력해주세요.</b-form-invalid-feedback
@@ -120,7 +110,7 @@
                     </div>
 
                     <div class="form-row space-between">
-                        <div class="form-item">
+                        <!-- <div class="form-item">
                             <div class="checkbox-wrap">
                                 <input
                                     type="checkbox"
@@ -137,12 +127,10 @@
 
                                 <label for="login-remember">Remember Me</label>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="form-item">
-                            <router-link
-                                to="/user/resetPassword"
-                                style="color: #fff"
+                        <div class="form-item forgot-pwd-btn">
+                            <router-link to="/user/resetPassword"
                                 >Forgot Password?</router-link
                             >
                         </div>
@@ -520,5 +508,8 @@ export default class Login extends Vue {
 }
 .form-control:focus {
     box-shadow: none;
+}
+.forgot-pwd-btn {
+    margin-left: auto;
 }
 </style>

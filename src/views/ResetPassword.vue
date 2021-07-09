@@ -96,6 +96,7 @@ import { required } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 
 const notExist = (value, vm) => {
+    console.log(value, vm)
     if (vm.submitError) {
         // clear error after 1st display
         const error = vm.submitError;
