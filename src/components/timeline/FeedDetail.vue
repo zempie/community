@@ -47,10 +47,9 @@
           <router-link :to="`${feed.user.uid}`"
             >{{ feed.user.name }}@{{ feed.user.nickname }}</router-link
           >
-          <span>{{ new Date(feed.created_at) }}</span>
+          <span>{{ createdDate }}</span>
         </div>
         <p class="button secondary">follow</p>
-        
       </div>
 
       <div class="post-open-content">
@@ -109,7 +108,7 @@ import CommentList from "./CommentList.vue";
 import Dropdown from "@/plugins/dropdown";
 
 import PostDropdown from "@/components/layout/dropdown/PostDropdown.vue";
-
+import { dateFormat } from "@/script/moment";
 @Component({
   components: { CommentList, PostDropdown },
 })
@@ -118,10 +117,11 @@ export default class FeedDetail extends Vue {
   private feedId = parseInt(this.$route.params.feedId);
   private feed: any = null;
   private isCopied: boolean = false;
+  private createdDate: string = "";
 
   created() {
-    console.log(this.feedId);
     this.feed = this.$api.getFeed(this.feedId);
+    this.createdDate = dateFormat(this.feed.created_at)!;
   }
   mounted() {
     this.dropdown.init();
@@ -149,6 +149,9 @@ export default class FeedDetail extends Vue {
   margin-right: 28px;
 
   align-items: center;
+}
+.post-open-content-body {
+  text-align: left;
 }
 
 .post-open-content-sidebar {
