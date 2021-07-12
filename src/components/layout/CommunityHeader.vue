@@ -287,7 +287,7 @@ export default class CommunityHeader extends Vue {
         console.log("subscribes", result);
     }
     setting() {
-        (this.$refs.dropbox as HTMLElement).click();
+        // (this.$refs.dropbox as HTMLElement).click();
     }
 }
 </script>

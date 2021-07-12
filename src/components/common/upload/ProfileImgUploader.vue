@@ -38,6 +38,7 @@ export default class ProfileImgUploader extends Vue {
         if (FileSizeCheck(files[0], 5)) {
             this.fileLoader.imgLoad(files[0], (e) => {
                 bus.$emit("profileImgSrc", e.target!.result);
+                this.$emit("profileImgSrc", e.target!.result);
             });
         } else {
             alert("5mb 이하의 사진으로 업로드해주세요");

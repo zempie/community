@@ -10,7 +10,7 @@
 
         <p class="upload-box-title">Change Banner</p>
 
-        <p class="upload-box-text">Recommended 1184x300px / maximum 15mb </p>
+        <p class="upload-box-text">Recommended 1184x300px / maximum 15mb</p>
     </div>
 </template>
 
@@ -37,6 +37,7 @@ export default class BannerImgUploader extends Vue {
     inputFile(files: File) {
         if (FileSizeCheck(files[0], 15)) {
             this.fileLoader.imgLoad(files[0], (e) => {
+                this.$emit("bannerImgSrc", e.target!.result);
                 bus.$emit("bannerImgSrc", e.target!.result);
             });
         } else {
