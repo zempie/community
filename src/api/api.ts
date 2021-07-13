@@ -167,6 +167,7 @@ export default class Api {
             "posts_cnt": 10,
             "visit_cnt": 11111,
             "state": "public",
+            "is_private": true,
             "is_certificated": true,
             "is_subscribed": false,
             "channels": [
@@ -223,7 +224,7 @@ export default class Api {
                 "type": "user"
             }, {
                 "id": 2,
-                "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                "uid": '123',
                 "status": "member2",
                 "email": "zempie2@google.name",
                 "name": "젬파이2",
@@ -246,7 +247,7 @@ export default class Api {
             },
             {
                 "id": 11,
-                "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                "uid": '789',
                 "status": "member",
                 "email": "zempie@google.name",
                 "name": "젬파이",
@@ -1279,6 +1280,34 @@ export default class Api {
 
         return result;
 
+    }
+
+    async getUserInfo(user_uid: string) {
+        let result = {
+            "id": 1,
+            "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+            "status": "owner ",
+            "email": "zempie@google.name",
+            "name": "젬파이",
+            "nickname": "zempieeee",
+            "channel_id": 12,
+            "created_at": 1616117970000,
+            "state": "active || block ",
+            "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+            "post_cnt": 0,
+            "liked_cnt": 7,
+            "followers_cnt": 123,
+            "followings_cnt": 0,
+            "follows_you": true,
+            "is_following": true,
+            "block_you": false,
+            "is_blocked": false,
+            "mutes_you": false,
+            "is_muted": false,
+            "type": "user"
+        }
+
+        return result;
     }
 
 

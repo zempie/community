@@ -32,7 +32,7 @@
                 </router-link>
 
                 <p class="user-short-description-title">
-                    <router-link :to="`/community/${community.id}/`">
+                    <router-link :to="`/community/${community.id}/timeline`">
                         {{ community.name }}
                     </router-link>
                 </p>
@@ -55,7 +55,7 @@
                 </template>
                 <template v-else>
                     <router-link
-                        :to="`/community/${community.id}/`"
+                        :to="`/community/${community.id}/timeline`"
                         style="display: contents"
                     >
                         <p class="button primary full">Joined</p>
@@ -80,7 +80,9 @@ export default class CommunityCard extends Vue {
     mounted() {
         this.hexagon.init();
     }
-    joinCommunity() {}
+    joinCommunity() {
+        console.log("joined!");
+    }
 }
 </script>
 
@@ -88,7 +90,7 @@ export default class CommunityCard extends Vue {
 svg {
     vertical-align: middle;
 }
-figure > img{
+figure > img {
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
 }

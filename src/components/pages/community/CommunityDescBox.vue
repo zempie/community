@@ -9,13 +9,21 @@
 
             <div class="information-line-list">
                 <div class="information-line">
-                    <p class="information-line-title">Created</p>
-
-                    <p class="information-line-text">
-                        {{ created_at}}
-                    </p>
+                    <p class="information-line-title">Owner</p>
+                    <b-avatar
+                        rounded="sm"
+                        size="1.5rem"
+                        variant="info"
+                        class="mr-2"
+                        src="https://placekitten.com/300/300"
+                    ></b-avatar>
+                    <router-link
+                        :to="`/channel/${ownerInfo.uid}/timeline`"
+                        class="information-line-text"
+                    >
+                        {{ ownerInfo.name }}(@닉네임)
+                    </router-link>
                 </div>
-
                 <div class="information-line">
                     <p class="information-line-title">Manager</p>
 
@@ -23,18 +31,16 @@
                         :to="`/channel/${managerInfo.uid}/timeline`"
                         class="information-line-text"
                     >
-                        {{ managerInfo.name }}
+                        {{ managerInfo.name }}(@닉네임)
                     </router-link>
                 </div>
-                <div class="information-line">
-                    <p class="information-line-title">Owner</p>
 
-                    <router-link
-                        :to="`/channel/${ownerInfo.uid}/timeline`"
-                        class="information-line-text"
-                    >
-                        {{ ownerInfo.name }}
-                    </router-link>
+                <div class="information-line">
+                    <p class="information-line-title">Created</p>
+
+                    <p class="information-line-text">
+                        {{ created_at }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -51,16 +57,16 @@ export default class CommunityDescBox extends Vue {
     @Prop() community!: any;
     private managerInfo: any = "";
     private ownerInfo: any = "";
-    private created_at: string = '';
+    private created_at: string = "";
 
     async created() {
         let temp = await this.$api.channel(this.community.manager_uid);
         let temp2 = await this.$api.channel(this.community.owner_uid);
         this.managerInfo = temp.target;
         this.ownerInfo = temp2.target;
-        this.created_at = moment(this.community.created_at).format("YYYY-DD-MM");
-
-        
+        this.created_at = moment(this.community.created_at).format(
+            "YYYY-DD-MM"
+        );
     }
 }
 </script>

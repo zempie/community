@@ -4,7 +4,7 @@
 
         <div class="landing-info">
             <div class="logo">
-                <b-img src="image/zempie_logo.png" />
+                <b-img src="img/zempie_logo.png" />
             </div>
 
             <h2 class="landing-info-pretitle">Welcome to</h2>
@@ -297,13 +297,13 @@ export default class Login extends Vue {
 
     private isClickedLoginBtn: boolean = false;
 
-    private googleBtn: string = "image/btn_google_signin_dark_normal_web.png";
+    private googleBtn: string = "img/btn_google_signin_dark_normal_web.png";
 
     goolgeBtnHover() {
-        this.googleBtn = "image/btn_google_signin_dark_focus_web.png";
+        this.googleBtn = "img/btn_google_signin_dark_focus_web.png";
     }
     goolgeBtnOut() {
-        this.googleBtn = "image/btn_google_signin_dark_normal_web.png";
+        this.googleBtn = "img/btn_google_signin_dark_normal_web.png";
     }
 
     // vuelidate

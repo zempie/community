@@ -1,5 +1,6 @@
 <template>
-    <div class="quick-post" v-if="user">
+    <!-- -->
+    <div class="quick-post" id="postContainer">
         <div class="quick-post-header">
             <div class="option-items">
                 <div
@@ -155,7 +156,7 @@
             </div>
         </div>
 
-        <div class="quick-post-footer">
+        <div class="quick-post-footer" v-if="user">
             <div class="form-select dropdown-container">
                 <select class="dropbox dropdown-item" @change="selectCommunity">
                     <option value="communities">communities</option>
@@ -390,6 +391,33 @@
                 </button>
             </div>
         </b-modal>
+        <b-modal
+            ref="loginModal"
+            class="modal-container"
+            centered
+            hide-header
+            hide-footer
+            no-close-on-backdrop
+        >
+            <p class="my-4" style="color: #000">로그인 후 사용하시겠습니끼?</p>
+
+            <div>
+                <button
+                    class="popup-box-action half button tertiary"
+                    style="width: 47%"
+                    @click="goLoginPage(true)"
+                >
+                    Login
+                </button>
+                <button
+                    class="popup-box-action half button"
+                    style="width: 47%"
+                    @click="goLoginPage(false)"
+                >
+                    Cancel
+                </button>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -401,7 +429,7 @@ import TiptapSns from "@/components/timeline/TiptapSns.vue";
 import TiptapPost from "@/components/timeline/TiptapPost.vue";
 import Modal from "@/components/common/Modal.vue";
 
-import { Editor, EditorContent, VueRenderer } from "@tiptap/vue-2";
+import { Editor, EditorContent, HTMLElement, VueRenderer } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 import Image from "@tiptap/extension-image";
@@ -429,6 +457,9 @@ import { FileLoader } from "@/script/fileLoader";
 import { mbToByte } from "@/script/fileManager";
 import ImageUploaderBtn from "@/components/timeline/post/ImageUploaderBtn.vue";
 import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
+
+import AlertModal from "@/components/common/AlertModal.vue";
+
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {
@@ -439,6 +470,7 @@ import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
         ImagePreview,
         TiptapSns,
         TiptapPost,
+        AlertModal,
     },
 })
 export default class Post extends Vue {
@@ -555,7 +587,9 @@ export default class Post extends Vue {
                 CodeBlockLowlight.configure({
                     lowlight,
                 }),
-                Placeholder.configure({ placeholder: "안녕하세요" }),
+                Placeholder.configure({
+                    placeholder: "멋진 생각을 공유해주세요.",
+                }),
                 Link,
                 Highlight,
                 Typography,
@@ -763,8 +797,12 @@ export default class Post extends Vue {
         });
     }
     async mounted() {
+        document
+            .querySelector("#postContainer")!
+            .addEventListener("click", this.interceptClickEvent);
         if (this.user) {
             this.communityList = await this.$api.joinedCommunity(this.user.uid);
+        } else {
         }
     }
 
@@ -788,17 +826,21 @@ export default class Post extends Vue {
     }
 
     isActive(type: string) {
-        this.tempType = type;
-        if (
-            this.postingText ||
-            this.imgSrc ||
-            this.audioSrc ||
-            this.videoSrc ||
-            !this.isEditorEmpty
-        ) {
-            (this.$refs["alertModal"] as any).show();
+        if (!this.user) {
+            (this.$refs["loginModal"] as any).show();
         } else {
-            this.activeTab = type;
+            this.tempType = type;
+            if (
+                this.postingText ||
+                this.imgSrc ||
+                this.audioSrc ||
+                this.videoSrc ||
+                !this.isEditorEmpty
+            ) {
+                (this.$refs["alertModal"] as any).show();
+            } else {
+                this.activeTab = type;
+            }
         }
     }
     postDone(state: boolean) {
@@ -963,6 +1005,10 @@ export default class Post extends Vue {
     //포스팅
 
     uploadPost() {
+        if (!this.user) {
+            (this.$refs["loginModal"] as any).show();
+        } else {
+        }
         this.content = this.editor.getHTML();
 
         let date = this.reserved_date + "T" + this.reserved_time;
@@ -1046,10 +1092,29 @@ export default class Post extends Vue {
     editorState(state: boolean) {
         this.isEditorEmpty = state;
     }
+
+    goLoginPage(state: boolean) {
+        if (state) {
+            this.$router.push("/login");
+        } else {
+            (this.$refs["loginModal"] as any).hide();
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+.quick-post.dimmed {
+    // position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    // background-color: rgb(0, 0, 0);
+    // opacity: 0.3;
+    pointer-events: none;
+}
 .date-container {
     display: flex;
     justify-content: space-evenly;
@@ -1210,9 +1275,17 @@ export default class Post extends Vue {
 }
 .quick-post-footer {
     border-top: 0px;
-    min-height: 45px;
+    min-height: 60px;
 }
 .checkbox-wrap {
     margin-right: 5px;
+}
+.quick-post-footer-actions {
+    .button {
+        display: flex;
+        height: 35px;
+        align-items: center;
+        justify-content: center;
+    }
 }
 </style>

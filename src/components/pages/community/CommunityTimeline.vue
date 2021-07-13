@@ -22,7 +22,7 @@
                             :communityId="communityId"
                             :class="{ active: isActive(channel.id) }"
                             @channelId="getChannelId"
-                            @channelTimeline="getChanneTL"
+                            @channelTimeline="getChannelTL"
                         ></channel>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ export default class CommunityTimeline extends Vue {
     getChannelId(id?: any) {
         this.channelId = id;
     }
-    getChanneTL(timeline: any) {
+    getChannelTL(timeline: any) {
         this.timeline = timeline;
     }
 

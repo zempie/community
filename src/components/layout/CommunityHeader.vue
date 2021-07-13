@@ -178,8 +178,8 @@
 
                 <router-link
                     class="section-menu-item"
-                    :to="`/community/${community.id}/timeline?media=video`"
-                    :class="$route.query.media === 'video' ? 'active' : ''"
+                    :to="`/community/${community.id}/timeline?media=sns`"
+                    :class="$route.query.media === 'sns' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-forums">
                         <use xlink:href="#svg-forums"></use>
@@ -191,8 +191,8 @@
 
                 <router-link
                     class="section-menu-item"
-                    :to="`/community/${community.id}/timeline?media=video`"
-                    :class="$route.query.media === 'video' ? 'active' : ''"
+                    :to="`/community/${community.id}/timeline?media=blog`"
+                    :class="$route.query.media === 'blog' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-forum">
                         <use xlink:href="#svg-forum"></use>

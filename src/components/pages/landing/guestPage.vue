@@ -1,6 +1,17 @@
 <template>
     <div>
-        <div class="landing-header">header img section</div>
+        <div class="landing-header">
+            <p class="header-title">GAMES TO CREATORS</p>
+            <p class="header-desc mt-4">
+                Game-sharing platform Zempie allows anyone to upload
+            </p>
+            <p class="header-desc mt-2">
+                and share games Upload the game I made and share fun with people
+                all around the world
+            </p>
+
+            <!-- <b-img src="image/default/guest_header_500.png" /> -->
+        </div>
         <div class="content-grid">
             <div class="landing-container">
                 <div class="landing-title">Search for communities</div>
@@ -70,18 +81,33 @@ export default class guestPage extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .landing-header {
-    padding: 112px 0 100px;
-    background-color: #fff;
-    width: 100%;
-    height: 100%;
+    padding-top: 80px;
+    width: 100vw;
+    height: 500px;
+    background-image: linear-gradient(
+            rgba(0, 0, 0, 0.3),
+            rgba(0, 0, 0, 0.3)
+        ),
+        url("../../../img/default/guest_header_500.png");
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .header-title {
+        font-size: 50px;
+        font-weight: bold;
+    }
+    .header-desc {
+        font-size: 20px;
+    }
 }
 .content-grid {
     padding-top: 30px;
 }
 .landing-container {
-    background-color: aliceblue;
+    color: #fff;
 }
 .landing-title {
     font-weight: 700;

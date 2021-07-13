@@ -92,7 +92,7 @@ export default class TiptapPost extends Vue {
                 CodeBlockLowlight.configure({
                     lowlight,
                 }),
-                Placeholder.configure({ placeholder: "안녕하세요" }),
+                Placeholder.configure({ placeholder: "멋진 생각을 공유해주세요." }),
                 Link,
                 Highlight,
                 Typography,
