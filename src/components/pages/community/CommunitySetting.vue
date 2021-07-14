@@ -14,27 +14,39 @@
                     :profileImg="community.profile_img"
                     :bannerImg="community.banner_img"
                 ></img-preview>
-                <profile-img-uploader></profile-img-uploader>
-                <banner-img-uploader></banner-img-uploader>
+                <profile-img-uploader
+                    @profileImgSrc="getProfileImgSrc"
+                ></profile-img-uploader>
+                <banner-img-uploader
+                    @bannerImgSrc="getBannerImgSrc"
+                ></banner-img-uploader>
             </div>
         </div>
 
         <div class="section-header-info mt-5">
             <h2 class="section-title mb-3">관리자</h2>
         </div>
+
         <!-- todo: call manager data -->
+
         <div>
             <div class="form-row mt-4">
                 <div class="form-item">
                     <div class="form-select dropbox-container">
                         <b-form-group label="Manager" label-for="manager">
-                            <b-form-select name="manager" class="dropbox">
-                                <b-form-select-option value=""
-                                    >Regular</b-form-select-option
-                                >
+                            <b-form-select
+                                @change="selectManager"
+                                name="manager"
+                                class="dropbox"
+                                :value="managerInfo.uid"
+                            >
                                 <b-form-select-option
-                                    >Extended</b-form-select-option
+                                    v-for="member in memberList"
+                                    :key="member.id"
+                                    :value="member.uid"
                                 >
+                                    {{ member.name }}
+                                </b-form-select-option>
                             </b-form-select>
                         </b-form-group>
                     </div>
@@ -42,20 +54,23 @@
             </div>
         </div>
 
-        <div class="form-row mt-4">
+        <!-- subManager -->
+        <!-- <div class="form-row mt-4">
             <div class="form-item">
                 <div class="form-select dropbox-container">
                     <b-form-group label="Submanager" label-for="sub-manager">
                         <b-form-select name="sub-manager" class="dropbox">
-                            <b-form-select-option>Regular</b-form-select-option>
-                            <b-form-select-option value="1"
-                                >Extended</b-form-select-option
+                            <b-form-select-option
+                                v-for="member in memberList"
+                                :key="member.id"
+                                :value="member.name"
+                                >{{ member.name }}</b-form-select-option
                             >
                         </b-form-select>
                     </b-form-group>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="section-header-info mt-5">
             <h2 class="section-title mb-3">정보</h2>
         </div>
@@ -70,7 +85,12 @@
                         <b-form-input
                             type="text"
                             id="communityName"
-                            v-model="communityName"
+                            v-model="$v.form.groupName.$model"
+                            :state="
+                                saveCommuInfo
+                                    ? validateState('groupName')
+                                    : undefined
+                            "
                         ></b-form-input>
                         <b-form-invalid-feedback
                             >필수 입력사항입니다. 50자 이내로
@@ -88,7 +108,12 @@
                             style="height: 300px"
                             id="description"
                             name="description"
-                            v-model="description"
+                            v-model="$v.form.description.$model"
+                            :state="
+                                saveCommuInfo
+                                    ? validateState('description')
+                                    : undefined
+                            "
                         ></b-form-textarea>
 
                         <b-form-invalid-feedback
@@ -97,7 +122,7 @@
                         >
                     </b-form-group>
                     <p class="form-textarea-limit-text">
-                        {{ this.description.length }}/2000
+                        {{ this.form.description.length }}/2000
                     </p>
                 </div>
             </form>
@@ -145,8 +170,8 @@
                     <div class="danger-zone-grid">
                         <div
                             class="form-switch"
-                            @click="isPrivate = !isPrivate"
-                            :class="isPrivate ? '' : 'active'"
+                            @click="form.isPrivate = !form.isPrivate"
+                            :class="form.isPrivate ? '' : 'active'"
                         >
                             <div class="form-switch-button"></div>
                         </div>
@@ -163,20 +188,49 @@ import { mapGetters } from "vuex";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
-import plugins from "@/plugins/plugins";
+import { validationMixin } from "vuelidate";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 import ImgPreview from "@/components/common/upload/ImgPreview.vue";
 import ProfileImgUploader from "@/components/common/upload/ProfileImgUploader.vue";
 import BannerImgUploader from "@/components/common/upload/BannerImgUploader.vue";
+import { User } from "@/types";
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: { ImgPreview, ProfileImgUploader, BannerImgUploader },
+    mixins: [validationMixin],
+    validations: {
+        form: {
+            groupName: {
+                required,
+                maxLength: maxLength(50),
+            },
+            groupUrl: {
+                required,
+                maxLength: maxLength(50),
+            },
+            description: {
+                required,
+                maxLength: maxLength(2000),
+            },
+        },
+    },
 })
 export default class CommunitySetting extends Vue {
     private dropdown: Dropdown = new Dropdown();
     private hexagon: Hexagon = new Hexagon();
 
-    private user!: any;
+    private form = {
+        groupName: "",
+        groupUrl: "",
+        managerUid: "",
+        description: "",
+        bannerImgSrc: "",
+        profileImgSrc: "",
+        isPrivate: false,
+    };
+
+    private user!: User;
     private communityId = parseInt(this.$route.params.community_id);
     private community: any;
     private description: string = "";
@@ -187,29 +241,53 @@ export default class CommunitySetting extends Vue {
     private imgType: string = "";
     private isDescError: boolean = false;
     private isNameError: boolean = false;
-    private isPrivate: boolean = false;
 
-    created() {
+    private memberList: User[] = [];
+    private managerInfo: User = {} as User;
+    private selectedManager: string = "";
+
+    async created() {
         this.community = this.$api.getCommunityInfo(this.communityId);
+        this.form.groupName = this.community.name;
+        this.form.description = this.community.description;
+        this.form.isPrivate = this.community.is_private;
+        this.memberList = this.$api.getCommunityMember(this.communityId);
+        this.managerInfo = await this.$api.getUserInfo(
+            this.community.manager_uid
+        );
+        this.selectedManager = this.managerInfo.uid;
+
         // this.profileImgSrc = this.community.profile_img;
         // this.bannerImgSrc = this.community.banner_img;
+    }
+
+    validateState(name) {
+        const { $dirty, $error } = this.$v.form[name]!;
+        return $dirty ? !$error : null;
     }
     mounted() {
         this.hexagon.init();
         this.dropdown.init();
         this.description = this.community.description;
         this.communityName = this.community.name;
-
-        if (!this.user) {
-            this.$store.subscribe(async ({ type }) => {
-                if (type.toLowerCase() === "user") {
-                }
-            });
-        } else {
-        }
+    }
+    selectManager(e) {
+        this.selectedManager = e;
     }
 
-    saveCommuInfo() {
+    async saveCommuInfo(event) {
+        event.preventDefault();
+        this.$v.form.$touch();
+        if (this.$v.form.$anyError) {
+            return;
+        }
+        console.log(
+            this.selectedManager,
+            this.communityId,
+            this.form.groupName,
+            this.form.description,
+            this.form.isPrivate
+        );
         // const result = this.$api.modifiedCommunityInfo(
         //     this.communityId,
         //     this.communityName,
@@ -243,6 +321,12 @@ export default class CommunitySetting extends Vue {
         } else if (this.communityName.length < 50) {
             this.isNameError = false;
         }
+    }
+    getBannerImgSrc(imgSrc: string) {
+        this.form.bannerImgSrc = imgSrc;
+    }
+    getProfileImgSrc(imgSrc: string) {
+        this.form.profileImgSrc = imgSrc;
     }
 }
 </script>

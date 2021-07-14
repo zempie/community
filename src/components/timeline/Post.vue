@@ -1,5 +1,6 @@
 <template>
-    <div class="quick-post" v-if="user">
+    <!-- -->
+    <div class="quick-post" id="postContainer">
         <div class="quick-post-header">
             <div class="option-items">
                 <div
@@ -155,7 +156,7 @@
             </div>
         </div>
 
-        <div class="quick-post-footer">
+        <div class="quick-post-footer" v-if="user">
             <div class="form-select dropdown-container">
                 <select class="dropbox dropdown-item" @change="selectCommunity">
                     <option value="communities">communities</option>
@@ -203,7 +204,24 @@
             </div>
         </div>
 
-        <div class="quick-post-footer">
+        <div class="quick-post-footer checkbox mt-3">
+            <div class="checkbox-wrap">
+                <input
+                    type="checkbox"
+                    id="event-add-end-time"
+                    name="event_add-end-time"
+                />
+
+                <div class="checkbox-box">
+                    <svg class="icon-check">
+                        <use xlink:href="#svg-check"></use>
+                    </svg>
+                </div>
+
+                <label for="event-add-end-time">private</label>
+            </div>
+        </div>
+        <div class="quick-post-footer attachment">
             <div class="quick-post-footer-actions">
                 <!-- upload pic -->
 
@@ -315,21 +333,6 @@
             </div>
 
             <div class="quick-post-footer-actions">
-                <div class="checkbox-wrap">
-                    <input
-                        type="checkbox"
-                        id="event-add-end-time"
-                        name="event_add-end-time"
-                    />
-
-                    <div class="checkbox-box">
-                        <svg class="icon-cross">
-                            <use xlink:href="#svg-cross"></use>
-                        </svg>
-                    </div>
-
-                    <label for="event-add-end-time">private</label>
-                </div>
                 <p class="button small">임시 저장</p>
 
                 <p class="button small secondary" @click="uploadPost">Post</p>
@@ -390,6 +393,35 @@
                 </button>
             </div>
         </b-modal>
+        <b-modal
+            ref="loginModal"
+            class="modal-container"
+            centered
+            hide-header
+            hide-footer
+            no-close-on-backdrop
+        >
+            <p class="my-4 text-center" style="color: #000">
+                로그인 후 사용하시겠습니끼?
+            </p>
+
+            <div class="button-container">
+                <button
+                    class="popup-box-action half button tertiary"
+                    style="width: 47%"
+                    @click="goLoginPage(true)"
+                >
+                    Login
+                </button>
+                <button
+                    class="popup-box-action half button"
+                    style="width: 47%"
+                    @click="goLoginPage(false)"
+                >
+                    Cancel
+                </button>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -401,7 +433,7 @@ import TiptapSns from "@/components/timeline/TiptapSns.vue";
 import TiptapPost from "@/components/timeline/TiptapPost.vue";
 import Modal from "@/components/common/Modal.vue";
 
-import { Editor, EditorContent, VueRenderer } from "@tiptap/vue-2";
+import { Editor, EditorContent, HTMLElement, VueRenderer } from "@tiptap/vue-2";
 import StarterKit from "@tiptap/starter-kit";
 
 import Image from "@tiptap/extension-image";
@@ -429,6 +461,10 @@ import { FileLoader } from "@/script/fileLoader";
 import { mbToByte } from "@/script/fileManager";
 import ImageUploaderBtn from "@/components/timeline/post/ImageUploaderBtn.vue";
 import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
+
+import AlertModal from "@/components/common/AlertModal.vue";
+import { User } from "@/types";
+
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {
@@ -439,6 +475,7 @@ import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
         ImagePreview,
         TiptapSns,
         TiptapPost,
+        AlertModal,
     },
 })
 export default class Post extends Vue {
@@ -464,7 +501,7 @@ export default class Post extends Vue {
     private audioPreviewArr: any[] = [];
     private remainAudioSize: number = 41943040; //40mb
 
-    private user!: any;
+    private user!: User;
 
     private tempType: string = "";
     private imageSrcArr: ImageData[] = [];
@@ -555,7 +592,9 @@ export default class Post extends Vue {
                 CodeBlockLowlight.configure({
                     lowlight,
                 }),
-                Placeholder.configure({ placeholder: "안녕하세요" }),
+                Placeholder.configure({
+                    placeholder: "멋진 생각을 공유해주세요.",
+                }),
                 Link,
                 Highlight,
                 Typography,
@@ -763,8 +802,12 @@ export default class Post extends Vue {
         });
     }
     async mounted() {
+        document
+            .querySelector("#postContainer")!
+            .addEventListener("click", this.interceptClickEvent);
         if (this.user) {
             this.communityList = await this.$api.joinedCommunity(this.user.uid);
+        } else {
         }
     }
 
@@ -788,17 +831,21 @@ export default class Post extends Vue {
     }
 
     isActive(type: string) {
-        this.tempType = type;
-        if (
-            this.postingText ||
-            this.imgSrc ||
-            this.audioSrc ||
-            this.videoSrc ||
-            !this.isEditorEmpty
-        ) {
-            (this.$refs["alertModal"] as any).show();
+        if (!this.user) {
+            (this.$refs["loginModal"] as any).show();
         } else {
-            this.activeTab = type;
+            this.tempType = type;
+            if (
+                this.postingText ||
+                this.imgSrc ||
+                this.audioSrc ||
+                this.videoSrc ||
+                !this.isEditorEmpty
+            ) {
+                (this.$refs["alertModal"] as any).show();
+            } else {
+                this.activeTab = type;
+            }
         }
     }
     postDone(state: boolean) {
@@ -963,37 +1010,41 @@ export default class Post extends Vue {
     //포스팅
 
     uploadPost() {
-        this.content = this.editor.getHTML();
+        if (!this.user) {
+            (this.$refs["loginModal"] as any).show();
+        } else {
+            this.content = this.editor.getHTML();
 
-        let date = this.reserved_date + "T" + this.reserved_time;
-        let scheduledTime = moment(date).valueOf();
+            let date = this.reserved_date + "T" + this.reserved_time;
+            let scheduledTime = moment(date).valueOf();
 
-        const result = this.$api.uploadpost(
-            this.user.uid,
-            this.fileList,
-            this.visibility,
-            this.content,
-            this.$store.getters.hashtagList,
-            this.$store.getters.userTagList,
-            this.selectedCommunityId,
-            this.selectedChannelId,
-            this.selectedChannelId,
-            this.selectedPfId,
-            scheduledTime
-        );
-        this.init();
-        // console.log(result)
+            const result = this.$api.uploadpost(
+                this.user.uid,
+                this.fileList,
+                this.visibility,
+                this.content,
+                this.$store.getters.hashtagList,
+                this.$store.getters.userTagList,
+                this.selectedCommunityId,
+                this.selectedChannelId,
+                this.selectedChannelId,
+                this.selectedPfId,
+                scheduledTime
+            );
+            this.init();
+            // console.log(result)
 
-        // console.log(
-        //     this.user.uid,
-        //     this.fileList,
-        //     this.visibility,
-        //     this.$store.getters.hashtagList,
-        //     this.$store.getters.userTagList,
-        //     this.content,
-        //     this.selectedCommunityId,
-        //     this.selectedChannelId
-        // );
+            // console.log(
+            //     this.user.uid,
+            //     this.fileList,
+            //     this.visibility,
+            //     this.$store.getters.hashtagList,
+            //     this.$store.getters.userTagList,
+            //     this.content,
+            //     this.selectedCommunityId,
+            //     this.selectedChannelId
+            // );
+        }
     }
 
     stringToHTML = (str: any) => {
@@ -1046,10 +1097,29 @@ export default class Post extends Vue {
     editorState(state: boolean) {
         this.isEditorEmpty = state;
     }
+
+    goLoginPage(state: boolean) {
+        if (state) {
+            this.$router.push("/login");
+        } else {
+            (this.$refs["loginModal"] as any).hide();
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+.quick-post.dimmed {
+    // position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    // background-color: rgb(0, 0, 0);
+    // opacity: 0.3;
+    pointer-events: none;
+}
 .date-container {
     display: flex;
     justify-content: space-evenly;
@@ -1208,11 +1278,37 @@ export default class Post extends Vue {
         border-radius: 5px !important;
     }
 }
-.quick-post-footer {
+.quick-post-footer.attachment {
     border-top: 0px;
-    min-height: 45px;
+    min-height: 60px !important;
+}
+.quick-post-footer.checkbox {
+    border-top: 0px;
+    min-height: 30px !important;
+    justify-content: flex-end;
 }
 .checkbox-wrap {
     margin-right: 5px;
+}
+.quick-post-footer-actions {
+    .button {
+        display: flex;
+        height: 35px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.checkbox-wrap .checkbox-box .icon-check {
+    fill: transparent;
+    transition: fill 0.2s ease-in-out;
+}
+.checkbox-wrap input[type="checkbox"]:checked + .checkbox-box .icon-check,
+.checkbox-wrap input[type="radio"]:checked + .checkbox-box .icon-check {
+    fill: #ffffff;
+}
+
+.button-container {
+    display: flex;
 }
 </style>

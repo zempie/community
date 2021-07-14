@@ -17,22 +17,28 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { mapGetters } from "vuex";
 import Dropdown from "@/plugins/dropdown";
+import Hexagon from "@/plugins/hexagon";
 
 import Post from "@/components/timeline/Post.vue";
 import Feed from "@/components/timeline/Feed.vue";
 import WhoToFollow from "@/components/pages/user/WhoToFollow.vue";
 import Portfolio from "@/components/pages/user/PortfolioList.vue";
+import { User } from "@/types";
 
 @Component({
+    computed: { ...mapGetters(["user"]) },
     components: { Post, Feed, WhoToFollow, Portfolio },
 })
 export default class UserTimeline extends Vue {
     private dropdown: Dropdown = new Dropdown();
+    private hexagon: Hexagon = new Hexagon();
     private userUid = this.$route.params.channel_id;
     private community: any = "";
 
     private timeline: any = "";
+    private user!: User;
 
     async created() {
         this.community = await this.$api.joinedCommunityList(this.userUid);
@@ -40,6 +46,7 @@ export default class UserTimeline extends Vue {
     }
     mounted() {
         this.dropdown.init();
+          this.hexagon.init();
     }
 }
 </script>

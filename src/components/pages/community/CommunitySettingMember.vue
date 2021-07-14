@@ -16,7 +16,14 @@
           v-for="member in memberList"
           :key="member.id"
           :member="member"
-        ></member-card>
+        >
+        <template v-slot:action-button1>
+          <p class="button secondary primary">블락</p>
+        </template>
+         <template v-slot:action-button2>
+          <p class="button secondary tertiary">강퇴</p>
+        </template>
+        </member-card>
       </div>
     </section>
   </div>

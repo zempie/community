@@ -6,7 +6,10 @@
 
         <div class="user-preview-info">
             <div class="user-short-description">
-                <a class="user-short-description-avatar user-avatar medium">
+                <router-link
+                    :to="`/channel/${member.uid}/timeline`"
+                    class="user-short-description-avatar user-avatar medium"
+                >
                     <div class="user-avatar-border">
                         <div class="hexagon-120-132"></div>
                     </div>
@@ -25,13 +28,20 @@
                     <div class="user-avatar-progress-border">
                         <div class="hexagon-border-100-110"></div>
                     </div>
-                </a>
+                </router-link>
 
                 <p class="user-short-description-title">
                     <router-link
                         :to="`/channel/${member.uid}/timeline`"
                         style="color: #fff"
                         >{{ member.name }}</router-link
+                    >
+                </p>
+                 <p class="user-nickname">
+                    <router-link
+                        :to="`/channel/${member.uid}/timeline`"
+                        style="color: #616161"
+                        >@{{ member.nickname }}</router-link
                     >
                 </p>
             </div>
@@ -60,9 +70,8 @@
             </div>
 
             <div class="user-preview-actions">
-                <p class="button secondary" @click="followUser">Follow</p>
-
-                <p class="button primary">Send Message</p>
+                <slot name="action-button1"></slot>
+                <slot name="action-button2"></slot>
             </div>
         </div>
     </div>
@@ -71,20 +80,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Hexagon from "@/plugins/hexagon";
-import { user } from "user";
+import { User } from "@/types/index";
 @Component({
     components: {},
 })
 export default class MemberCard extends Vue {
-    @Prop() member!: user;
+    @Prop() member!: User;
     private hexagon: Hexagon = new Hexagon();
 
     mounted() {
         this.hexagon.init();
-    }
-
-    followUser() {
-        console.log("follow");
     }
 }
 </script>

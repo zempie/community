@@ -1,4 +1,106 @@
 import plugins from '@/plugins/plugins'
+import app from "@/script/utils/app";
+
+class Header {
+
+    searchDropdown() {
+
+        app.querySelector('.interactive-input', function (elements) {
+            for (const el of elements) {
+                const input = el.querySelector('input'),
+                    inputResetIcon = el.querySelector('.interactive-input-action'),
+                    activeClass = 'active';
+
+                if (input) {
+                    let previousValue = '';
+
+                    const resetInputOnKey = function (e) {
+                        // ESC key pressed
+                        if (e.keyCode === 27) {
+                            input.value = '';
+                            setActiveClass();
+                            window.removeEventListener('keydown', resetInputOnKey);
+                        }
+                    };
+
+                    const setActiveClass = function () {
+                        if (previousValue === '' && input.value !== '') {
+                            el.classList.add(activeClass);
+                            window.addEventListener('keydown', resetInputOnKey);
+                        } else if (input.value === '') {
+                            el.classList.remove(activeClass);
+                            window.removeEventListener('keydown', resetInputOnKey);
+                        }
+                    };
+
+                    input.addEventListener('input', setActiveClass);
+
+                    if (inputResetIcon) {
+                        inputResetIcon.addEventListener('click', function () {
+                            input.value = '';
+                            input.focus();
+                            setActiveClass();
+                        });
+                    }
+                }
+            }
+        });
+
+        app.querySelector('#search-main', (el => {
+
+            const headerSearchDropdown = plugins.createDropdown({
+                container: '.header-search-dropdown',
+                offset: {
+                    top: 57,
+                    left: 0
+                },
+                animation: {
+                    type: 'translate-top'
+                },
+                controlToggle: true,
+                closeOnWindowClick: false
+            });
+
+            const searchInput = el[0],
+                breakpointWidth = 960;
+
+            let previousValue = '';
+
+            const hideSearchDropdownOnKey = function (e) {
+                // ESC key pressed
+                if (e.keyCode === 27) {
+                    headerSearchDropdown.hideDropdowns();
+                    previousValue = '';
+                    window.removeEventListener('keydown', hideSearchDropdownOnKey);
+                }
+            };
+
+            const toggleSearchDropdown = function (e) {
+                if (previousValue === '' && e.target.value !== '') {
+                    headerSearchDropdown.showDropdowns();
+                    window.addEventListener('keydown', hideSearchDropdownOnKey);
+                } else if (e.target.value === '') {
+                    headerSearchDropdown.hideDropdowns();
+                    window.removeEventListener('keydown', hideSearchDropdownOnKey);
+                }
+                previousValue = e.target.value;
+            };
+
+            const interactiveInputAction = searchInput.parentElement.querySelector('.interactive-input-action');
+
+            const hideSearchDropdown = function () {
+                headerSearchDropdown.hideDropdowns();
+                window.removeEventListener('keydown', hideSearchDropdownOnKey);
+                previousValue = '';
+            };
+
+            if (window.innerWidth > breakpointWidth) {
+                searchInput.addEventListener('input', toggleSearchDropdown);
+                interactiveInputAction.addEventListener('click', hideSearchDropdown);
+            }
+        }));
+    }
+}
 // export default class Header{
 
 const querySelector = function (selector: any, callback: any) {
@@ -115,4 +217,4 @@ querySelector('.content-grid', (el: any) => {
     });
 });
 
-export default querySelector;
+export default Header;

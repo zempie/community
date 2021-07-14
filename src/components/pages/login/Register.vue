@@ -161,10 +161,30 @@
             <div class="form-row">
                 <div class="checkbox-wrap">
                     <input
-                        type="radio"
+                        type="checkbox"
                         id="reportReason3"
                         name="reportReason"
-                        v-model="policyAgreement1"
+                        v-model="form.policyAgreement1"
+                        @click="policy1()"
+                    />
+
+                    <div class="checkbox-box">
+                        <svg class="icon-check">
+                            <use xlink:href="#svg-check"></use>
+                        </svg>
+                    </div>
+                    <label for="reportReason3" class="report-reason"
+                        >이용약관 동의</label
+                    >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="checkbox-wrap">
+                    <input
+                        type="checkbox"
+                        id="reportReason3"
+                        name="reportReason"
+                        v-model="form.policyAgreement2"
                         @click="radioBtn()"
                     />
 
@@ -174,7 +194,8 @@
                         </svg>
                     </div>
                     <label for="reportReason3" class="report-reason"
-                        >이용약관 동의</label>
+                        >개인정보취급방침 동의</label
+                    >
                 </div>
             </div>
             <div class="form-row">
@@ -189,6 +210,39 @@
             activate your account. If you have any problems,
             <a :href="'mailto:' + $store.getters.supportEmail">contact us</a>!
         </p>
+
+        <b-modal
+            ref="policy1"
+            class="modal-container p-0"
+            centered
+            hide-header
+            :footer-border-variant="footerBgVariant"
+            :body-bg-variant="footerBgVariant"
+            :footer-bg-variant="footerBgVariant"
+        >
+            <iframe class="iframe" :src="$store.getters.policyUrl"> </iframe>
+            <template #modal-footer>
+                <div class="w-100 button-container">
+                    <b-button
+                        variant="primary"
+                        size="sm"
+                        class="float-left "
+                        @click="form.policyAgreement1 = true; show=false"
+                    >
+                        동의
+                    </b-button>
+
+                    <b-button
+                        variant="secondary"
+                        size="sm"
+                        class="float-right"
+                        @click="form.policyAgreement1 = false"
+                    >
+                        동의안함
+                    </b-button>
+                </div>
+            </template>
+        </b-modal>
     </div>
 </template>
 
@@ -256,7 +310,10 @@ export default class Register extends Vue {
         username: "",
         nickname: "",
         repeatPassword: "",
+        policyAgreement1: false,
+        policyAgreement2: false,
     };
+    private footerBgVariant = "dark";
     async mounted() {
         Form.formInput();
 
@@ -351,6 +408,9 @@ export default class Register extends Vue {
         //     (this.$refs.reportReason as HTMLFormElement).checked = false;
         // }
     }
+    policy1() {
+        (this.$refs["policy1"] as any).show();
+    }
 }
 </script>
 
@@ -366,5 +426,13 @@ export default class Register extends Vue {
 .checkbox-wrap .checkbox-box .icon-check {
     fill: transparent;
     transition: fill 0.2s ease-in-out;
+}
+.iframe {
+    background-color: black;
+    width: 100%;
+    height: 80vh;
+}
+.button-container{
+    display: flex;
 }
 </style>

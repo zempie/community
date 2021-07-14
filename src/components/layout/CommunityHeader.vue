@@ -108,7 +108,7 @@
                     </svg>
                 </div>
 
-                <div class="profile-header-info-actions">
+                <div class="profile-header-info-actions" v-if="user">
                     <p
                         class="profile-header-info-action button secondary"
                         @click="subscribe"
@@ -178,21 +178,19 @@
 
                 <router-link
                     class="section-menu-item"
-                    :to="`/community/${community.id}/timeline?media=video`"
-                    :class="$route.query.media === 'video' ? 'active' : ''"
+                    :to="`/community/${community.id}/timeline?media=sns`"
+                    :class="$route.query.media === 'sns' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-forums">
                         <use xlink:href="#svg-forums"></use>
                     </svg>
                     <p class="section-menu-item-text">SNS</p>
-
                 </router-link>
-
 
                 <router-link
                     class="section-menu-item"
-                    :to="`/community/${community.id}/timeline?media=video`"
-                    :class="$route.query.media === 'video' ? 'active' : ''"
+                    :to="`/community/${community.id}/timeline?media=blog`"
+                    :class="$route.query.media === 'blog' ? 'active' : ''"
                 >
                     <svg class="section-menu-item-icon icon-forum">
                         <use xlink:href="#svg-forum"></use>
@@ -260,12 +258,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-
+import { mapGetters } from "vuex";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
+import { User } from "@/types";
 
 @Component({
     components: {},
+    computed: { ...mapGetters(["user"]) },
 })
 export default class CommunityHeader extends Vue {
     private dropdown: Dropdown = new Dropdown();
@@ -273,9 +273,11 @@ export default class CommunityHeader extends Vue {
 
     private communityId = parseInt(this.$route.params.community_id);
     private community: any;
+    private user!: User;
 
     created() {
         this.community = this.$api.getCommunityInfo(this.communityId);
+        console.log(this.user);
     }
     mounted() {
         this.dropdown.init();
@@ -287,7 +289,7 @@ export default class CommunityHeader extends Vue {
         console.log("subscribes", result);
     }
     setting() {
-        (this.$refs.dropbox as HTMLElement).click();
+        // (this.$refs.dropbox as HTMLElement).click();
     }
 }
 </script>
