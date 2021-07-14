@@ -7,7 +7,10 @@
         <div class="widget-box-status">
           <div class="widget-box-status-content">
             <div class="user-status">
-              <a class="user-status-avatar" href="profile-timeline.html">
+              <router-link
+                class="user-status-avatar"
+                :to="`/channel/${feed.user.uid}/timeline`"
+              >
                 <div class="user-avatar small no-outline">
                   <div class="user-avatar-content">
                     <div
@@ -24,7 +27,7 @@
                     <div class="hexagon-border-40-44"></div>
                   </div>
                 </div>
-              </a>
+              </router-link>
 
               <p class="user-status-title medium">
                 <a class="bold" href="profile-timeline.html">{{
