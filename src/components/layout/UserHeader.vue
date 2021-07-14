@@ -98,8 +98,14 @@
                     </div>
                 </div>
 
-                <div class="profile-header-info-actions">
-                    <p class="profile-header-info-action button secondary">
+                <div
+                    class="profile-header-info-actions"
+                    v-if="user && user.uid !== userInfo.uid"
+                >
+                    <p
+                        class="profile-header-info-action button secondary"
+                        @click="followUser"
+                    >
                         Follow +
                     </p>
 
@@ -204,9 +210,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
+import { mapGetters } from "vuex";
 import Hexagon from "@/plugins/hexagon";
+import { User } from "@/types";
 
 @Component({
+    computed: { ...mapGetters(["user"]) },
     components: {},
 })
 export default class UserHeader extends Vue {
@@ -216,7 +225,7 @@ export default class UserHeader extends Vue {
     private userInfo: any = [];
     private followingCnt: number = 0;
     private followerCnt: number = 0;
-
+    private user!: User;
     async mounted() {
         this.hexagon.init();
 
@@ -232,6 +241,7 @@ export default class UserHeader extends Vue {
         const result = await this.$api.channel(this.userUid);
         this.userInfo = result.target;
     }
+    followUser() {}
 }
 </script>
 

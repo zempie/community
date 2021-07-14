@@ -230,7 +230,7 @@ export default class CommunitySetting extends Vue {
         isPrivate: false,
     };
 
-    private user!: any;
+    private user!: User;
     private communityId = parseInt(this.$route.params.community_id);
     private community: any;
     private description: string = "";

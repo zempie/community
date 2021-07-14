@@ -27,7 +27,7 @@
                     />
 
                     <div class="search-icon" @click="searchCommunity">
-                        <svg class="icon-magnifying-glass">
+                       <svg class="interactive-input-icon icon-magnifying-glass">
                             <use xlink:href="#svg-magnifying-glass"></use>
                         </svg>
                     </div>
@@ -36,7 +36,7 @@
                         <svg
                             class="
                                 interactive-input-action-icon
-                                icon-cross-thinF
+                                icon-cross-thin
                             "
                         >
                             <use xlink:href="#svg-cross-thin"></use>
@@ -86,10 +86,7 @@ export default class guestPage extends Vue {
     padding-top: 80px;
     width: 100vw;
     height: 500px;
-    background-image: linear-gradient(
-            rgba(0, 0, 0, 0.3),
-            rgba(0, 0, 0, 0.3)
-        ),
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
         url("../../../img/default/guest_header_500.png");
     display: flex;
     flex-direction: column;

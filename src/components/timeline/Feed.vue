@@ -1,7 +1,14 @@
 <template>
     <div>
         <div class="grid mobile-prefer-content">
-            <div class="widget-box no-padding">
+            <div
+                class="widget-box no-padding"
+                :style="
+                    isOpenedComments
+                        ? 'border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;'
+                        : ''
+                "
+            >
                 <post-dropdown :feedId="feed.id"></post-dropdown>
 
                 <div class="widget-box-status">
@@ -114,7 +121,10 @@
                                         </div>
                                         <p
                                             class="bold"
-                                            style="margin-left: 5px; font-size:12px;"
+                                            style="
+                                                margin-left: 5px;
+                                                font-size: 12px;
+                                            "
                                         >
                                             {{ feed.like_cnt }} Likes
                                         </p>

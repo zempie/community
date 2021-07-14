@@ -204,7 +204,24 @@
             </div>
         </div>
 
-        <div class="quick-post-footer">
+        <div class="quick-post-footer checkbox mt-3">
+            <div class="checkbox-wrap">
+                <input
+                    type="checkbox"
+                    id="event-add-end-time"
+                    name="event_add-end-time"
+                />
+
+                <div class="checkbox-box">
+                    <svg class="icon-check">
+                        <use xlink:href="#svg-check"></use>
+                    </svg>
+                </div>
+
+                <label for="event-add-end-time">private</label>
+            </div>
+        </div>
+        <div class="quick-post-footer attachment">
             <div class="quick-post-footer-actions">
                 <!-- upload pic -->
 
@@ -316,21 +333,6 @@
             </div>
 
             <div class="quick-post-footer-actions">
-                <div class="checkbox-wrap">
-                    <input
-                        type="checkbox"
-                        id="event-add-end-time"
-                        name="event_add-end-time"
-                    />
-
-                    <div class="checkbox-box">
-                        <svg class="icon-cross">
-                            <use xlink:href="#svg-cross"></use>
-                        </svg>
-                    </div>
-
-                    <label for="event-add-end-time">private</label>
-                </div>
                 <p class="button small">임시 저장</p>
 
                 <p class="button small secondary" @click="uploadPost">Post</p>
@@ -399,9 +401,11 @@
             hide-footer
             no-close-on-backdrop
         >
-            <p class="my-4" style="color: #000">로그인 후 사용하시겠습니끼?</p>
+            <p class="my-4 text-center" style="color: #000">
+                로그인 후 사용하시겠습니끼?
+            </p>
 
-            <div>
+            <div class="button-container">
                 <button
                     class="popup-box-action half button tertiary"
                     style="width: 47%"
@@ -459,6 +463,7 @@ import ImageUploaderBtn from "@/components/timeline/post/ImageUploaderBtn.vue";
 import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
 
 import AlertModal from "@/components/common/AlertModal.vue";
+import { User } from "@/types";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
@@ -496,7 +501,7 @@ export default class Post extends Vue {
     private audioPreviewArr: any[] = [];
     private remainAudioSize: number = 41943040; //40mb
 
-    private user!: any;
+    private user!: User;
 
     private tempType: string = "";
     private imageSrcArr: ImageData[] = [];
@@ -1008,38 +1013,38 @@ export default class Post extends Vue {
         if (!this.user) {
             (this.$refs["loginModal"] as any).show();
         } else {
+            this.content = this.editor.getHTML();
+
+            let date = this.reserved_date + "T" + this.reserved_time;
+            let scheduledTime = moment(date).valueOf();
+
+            const result = this.$api.uploadpost(
+                this.user.uid,
+                this.fileList,
+                this.visibility,
+                this.content,
+                this.$store.getters.hashtagList,
+                this.$store.getters.userTagList,
+                this.selectedCommunityId,
+                this.selectedChannelId,
+                this.selectedChannelId,
+                this.selectedPfId,
+                scheduledTime
+            );
+            this.init();
+            // console.log(result)
+
+            // console.log(
+            //     this.user.uid,
+            //     this.fileList,
+            //     this.visibility,
+            //     this.$store.getters.hashtagList,
+            //     this.$store.getters.userTagList,
+            //     this.content,
+            //     this.selectedCommunityId,
+            //     this.selectedChannelId
+            // );
         }
-        this.content = this.editor.getHTML();
-
-        let date = this.reserved_date + "T" + this.reserved_time;
-        let scheduledTime = moment(date).valueOf();
-
-        const result = this.$api.uploadpost(
-            this.user.uid,
-            this.fileList,
-            this.visibility,
-            this.content,
-            this.$store.getters.hashtagList,
-            this.$store.getters.userTagList,
-            this.selectedCommunityId,
-            this.selectedChannelId,
-            this.selectedChannelId,
-            this.selectedPfId,
-            scheduledTime
-        );
-        this.init();
-        // console.log(result)
-
-        // console.log(
-        //     this.user.uid,
-        //     this.fileList,
-        //     this.visibility,
-        //     this.$store.getters.hashtagList,
-        //     this.$store.getters.userTagList,
-        //     this.content,
-        //     this.selectedCommunityId,
-        //     this.selectedChannelId
-        // );
     }
 
     stringToHTML = (str: any) => {
@@ -1273,9 +1278,14 @@ export default class Post extends Vue {
         border-radius: 5px !important;
     }
 }
-.quick-post-footer {
+.quick-post-footer.attachment {
     border-top: 0px;
-    min-height: 60px;
+    min-height: 60px !important;
+}
+.quick-post-footer.checkbox {
+    border-top: 0px;
+    min-height: 30px !important;
+    justify-content: flex-end;
 }
 .checkbox-wrap {
     margin-right: 5px;
@@ -1287,5 +1297,18 @@ export default class Post extends Vue {
         align-items: center;
         justify-content: center;
     }
+}
+
+.checkbox-wrap .checkbox-box .icon-check {
+    fill: transparent;
+    transition: fill 0.2s ease-in-out;
+}
+.checkbox-wrap input[type="checkbox"]:checked + .checkbox-box .icon-check,
+.checkbox-wrap input[type="radio"]:checked + .checkbox-box .icon-check {
+    fill: #ffffff;
+}
+
+.button-container {
+    display: flex;
 }
 </style>

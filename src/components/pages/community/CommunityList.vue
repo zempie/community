@@ -8,7 +8,10 @@
             />
 
             <p class="section-banner-title">
-                Groups ({{ communityList.length }})
+                Groups
+                <span v-if="communityList && communityList.length > 0"
+                    >({{ communityList.length }})</span
+                >
             </p>
 
             <p class="section-banner-text">
@@ -19,7 +22,10 @@
         <div class="section-filters-bar v1">
             <div class="section-filters-bar-actions">
                 <form class="form">
-                    <div class="form-input small with-button">
+                    <div
+                        class="form-input small with-button"
+                        :class="searchInput.length > 0 ? 'active' : ''"
+                    >
                         <label for="groups-search">Search Groups</label>
                         <input
                             type="text"
@@ -28,25 +34,20 @@
                             v-model="searchInput"
                         />
 
-                        <template v-if="isSearched">
-                            <button class="button primary" @click="searchReset">
-                                <svg class="icon-cross-thin">
-                                    <use xlink:href="#svg-cross-thin"></use>
-                                </svg>
-                            </button>
-                        </template>
-                        <template v-else>
-                            <button
-                                class="button primary"
-                                @click="searchCommunity"
-                            >
-                                <svg class="icon-magnifying-glass">
-                                    <use
-                                        xlink:href="#svg-magnifying-glass"
-                                    ></use>
-                                </svg>
-                            </button>
-                        </template>
+                        <!-- <template v-if="isSearched"> -->
+                        <button class="button primary" @click="searchReset">
+                            <svg class="icon-cross-thin">
+                                <use xlink:href="#svg-cross-thin"></use>
+                            </svg>
+                        </button>
+                        <!-- </template>
+                        <template v-else> -->
+                        <button class="button primary" @click="searchCommunity">
+                            <svg class="icon-magnifying-glass">
+                                <use xlink:href="#svg-magnifying-glass"></use>
+                            </svg>
+                        </button>
+                        <!-- </template> -->
                     </div>
 
                     <div class="form-select">
@@ -99,6 +100,7 @@
         </div>
 
         <div class="grid grid-4-4-4 centered">
+            <p v-if="!communityList">검색 결과가 없습니다.</p>
             <community-card
                 v-for="community in communityList"
                 :key="community.id"
@@ -122,7 +124,10 @@
                 </template>
                 <template v-slot:communityDetail>
                     <div class="user-stats">
-                        <router-link class="user-stat" :to="`/community/${community.id}/members`">
+                        <router-link
+                            class="user-stat"
+                            :to="`/community/${community.id}/members`"
+                        >
                             <p class="user-stat-title">
                                 {{ community.member_cnt }}
                             </p>
@@ -167,11 +172,13 @@ export default class Community extends Vue {
     private filter: number = 0;
     private isSearched: boolean = false;
 
-    created() {
+    async created() {
         if (this.$route.query.q) {
+            this.searchInput = this.$route.query.q as string;
             console.log("yes query");
-            const query: any = this.$route.query.q;
-            this.communityList = this.$api.search(query, "community");
+            const query: string = this.$route.query.q as string;
+            this.communityList = await this.$api.search(query, "community");
+            console.log(this.communityList);
         } else {
             console.log("no query");
             this.communityList = this.$api.getCommunityList();
@@ -209,5 +216,11 @@ export default class Community extends Vue {
 svg {
     overflow: hidden;
     vertical-align: middle;
+}
+.button {
+    width: 64px !important;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 </style>

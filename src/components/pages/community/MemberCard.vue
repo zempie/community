@@ -6,7 +6,10 @@
 
         <div class="user-preview-info">
             <div class="user-short-description">
-                <a class="user-short-description-avatar user-avatar medium">
+                <router-link
+                    :to="`/channel/${member.uid}/timeline`"
+                    class="user-short-description-avatar user-avatar medium"
+                >
                     <div class="user-avatar-border">
                         <div class="hexagon-120-132"></div>
                     </div>
@@ -25,13 +28,20 @@
                     <div class="user-avatar-progress-border">
                         <div class="hexagon-border-100-110"></div>
                     </div>
-                </a>
+                </router-link>
 
                 <p class="user-short-description-title">
                     <router-link
                         :to="`/channel/${member.uid}/timeline`"
                         style="color: #fff"
                         >{{ member.name }}</router-link
+                    >
+                </p>
+                 <p class="user-nickname">
+                    <router-link
+                        :to="`/channel/${member.uid}/timeline`"
+                        style="color: #616161"
+                        >@{{ member.nickname }}</router-link
                     >
                 </p>
             </div>
@@ -81,8 +91,6 @@ export default class MemberCard extends Vue {
     mounted() {
         this.hexagon.init();
     }
-
-  
 }
 </script>
 
