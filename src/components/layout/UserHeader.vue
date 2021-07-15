@@ -17,7 +17,7 @@
                         <div class="user-avatar-content">
                             <div
                                 class="hexagon-image-100-110"
-                                :data-src="userInfo.picture"
+                                :data-src="userInfo && userInfo.picture"
                             ></div>
                         </div>
 
@@ -208,11 +208,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import { mapGetters } from "vuex";
 import Hexagon from "@/plugins/hexagon";
 import { User } from "@/types";
+import plugins from "@/plugins/plugins";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
@@ -226,21 +227,17 @@ export default class UserHeader extends Vue {
     private followingCnt: number = 0;
     private followerCnt: number = 0;
     private user!: User;
+
     async mounted() {
-        this.hexagon.init();
-
-        this.init();
-
+        const result = await this.$api.channel(this.userUid);
+        this.userInfo = result.target;
         this.followingCnt = await this.$api.followingCnt(
             this.userInfo.user_uid
         );
         this.followerCnt = await this.$api.follwerCnt(this.userInfo.user_uid);
+        this.hexagon.init();
     }
 
-    async init() {
-        const result = await this.$api.channel(this.userUid);
-        this.userInfo = result.target;
-    }
     followUser() {}
 }
 </script>

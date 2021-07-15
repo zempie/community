@@ -74,11 +74,13 @@ import { bus } from "@/main";
 import plugins from "@/plugins/plugins";
 import { ProgressPlugin } from "bootstrap-vue";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import Hexagon from "@/plugins/hexagon";
 
 @Component({
     components: {},
 })
 export default class ImgPreview extends Vue {
+    private hexagon: Hexagon = new Hexagon();
     @Prop() profileImg!: string;
     @Prop() bannerImg!: string;
     private profileImgSrc: string = this.profileImg;
@@ -96,18 +98,11 @@ export default class ImgPreview extends Vue {
         bus.$off("profileImgSrc");
         bus.$off("bannerImgSrc");
     }
-    @Watch("profileImgSrc")
+    @Watch("profileImgSrc", { immediate: true })
     watchImg(val: any) {
         console.log("watch imgSrc", val);
         this.$nextTick(() => {
-            plugins.createHexagon({
-                container: ".hexagon-image-68-74",
-                width: 68,
-                height: 74,
-                roundedCorners: true,
-                roundedCornerRadius: 3,
-                clip: true,
-            });
+            this.hexagon.init();
         });
     }
 }

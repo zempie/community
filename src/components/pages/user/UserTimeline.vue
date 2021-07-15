@@ -10,7 +10,8 @@
             <feed v-for="feed in timeline" :key="feed.id" :feed="feed"></feed>
         </div>
         <div class="grid-column">
-            <who-to-follow></who-to-follow>
+            <who-to-follow v-if="user"></who-to-follow>
+            <joined-community :userUid="userUid"></joined-community>
         </div>
     </div>
 </template>
@@ -24,12 +25,13 @@ import Hexagon from "@/plugins/hexagon";
 import Post from "@/components/timeline/Post.vue";
 import Feed from "@/components/timeline/Feed.vue";
 import WhoToFollow from "@/components/pages/user/WhoToFollow.vue";
+import JoinedCommunity from "@/components/pages/user/JoinedCommunity.vue";
 import Portfolio from "@/components/pages/user/PortfolioList.vue";
 import { User } from "@/types";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
-    components: { Post, Feed, WhoToFollow, Portfolio },
+    components: { Post, Feed, WhoToFollow, Portfolio, JoinedCommunity },
 })
 export default class UserTimeline extends Vue {
     private dropdown: Dropdown = new Dropdown();
@@ -46,7 +48,7 @@ export default class UserTimeline extends Vue {
     }
     mounted() {
         this.dropdown.init();
-          this.hexagon.init();
+        this.hexagon.init();
     }
 }
 </script>

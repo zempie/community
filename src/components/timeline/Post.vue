@@ -25,18 +25,6 @@
 
                     <p class="option-item-title">Blog Post</p>
                 </div>
-
-                <!-- <div
-                    class="option-item"
-                    @click="isActive('schedule')"
-                    :class="activeTab === 'schedule' ? 'active' : ''"
-                >
-                    <svg class="option-item-icon icon-blog-posts">
-                        <use xlink:href="#svg-blog-posts"></use>
-                    </svg>
-
-                    <p class="option-item-title">Schedule Post</p>
-                </div> -->
             </div>
         </div>
 
@@ -156,7 +144,7 @@
             </div>
         </div>
 
-        <div class="quick-post-footer" v-if="user">
+        <div class="quick-post-footer post-select" v-if="user">
             <div class="form-select dropdown-container">
                 <select class="dropbox dropdown-item" @change="selectCommunity">
                     <option value="communities">communities</option>
@@ -204,7 +192,7 @@
             </div>
         </div>
 
-        <div class="quick-post-footer checkbox mt-3">
+        <div class="quick-post-footer checkbox ">
             <div class="checkbox-wrap">
                 <input
                     type="checkbox"
@@ -1286,6 +1274,10 @@ export default class Post extends Vue {
     border-top: 0px;
     min-height: 30px !important;
     justify-content: flex-end;
+}
+
+.post-select{
+    min-height:50px;
 }
 .checkbox-wrap {
     margin-right: 5px;

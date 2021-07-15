@@ -14,9 +14,9 @@
                 <div class="widget-box-status">
                     <div class="widget-box-status-content">
                         <div class="user-status">
-                            <a
+                            <router-link
                                 class="user-status-avatar"
-                                href="profile-timeline.html"
+                                :to="`/channel/${feed.user.uid}/timeline`"
                             >
                                 <div class="user-avatar small no-outline">
                                     <div class="user-avatar-content">
@@ -36,7 +36,7 @@
                                         <div class="hexagon-border-40-44"></div>
                                     </div>
                                 </div>
-                            </a>
+                            </router-link>
 
                             <p class="user-status-title medium">
                                 <a class="bold" href="profile-timeline.html">{{
@@ -230,6 +230,7 @@ import Carousel from "@/components/common/Carousel.vue";
 import Post from "@/components/timeline/Post.vue";
 import PostDropdown from "@/components/layout/dropdown/PostDropdown.vue";
 
+import { dateFormat } from "@/script/moment";
 @Component({
     components: { CommentList, Carousel, Post, PostDropdown },
 })
@@ -241,14 +242,14 @@ export default class Feed extends Vue {
     private reportPopup: boolean = false;
     private isOpenedComments: boolean = false;
     private likeList: any = [];
-    private postDate: Date = new Date(this.feed.created_at);
+    private postDate: string = "";
     private isCopied: boolean = false;
 
     mounted() {
         this.dropdown.init();
         this.hexagon.init();
         this.tooltip.init();
-
+        this.postDate = dateFormat(this.feed.created_at);
         //  document.getElementsByClassName('mention').click();
     }
     sendLike() {

@@ -43,11 +43,11 @@ const routes: Array<RouteConfig> = [
         name: 'ChangePassword',
         component: () => import("@/views/ChangePassword.vue"),
     },
-    {
-        path: '/user/resetPassword',
-        name: 'ResetPassword',
-        component: () => import("@/views/ResetPassword.vue"),
-    },
+    // {
+    //     path: '/user/resetPassword',
+    //     name: 'ResetPassword',
+    //     component: () => import("@/views/ResetPassword.vue"),
+    // },
     {
         path: '/user/:userUid/settings',
         name: 'UserSettings',

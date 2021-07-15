@@ -15,6 +15,7 @@
 
             <div class="tab-switch">
                 <p
+                    ref="loginBtn"
                     class="tab-switch-button login-register-form-trigger"
                     @click="googleRegister = false"
                 >
@@ -129,10 +130,16 @@
                             </div>
                         </div> -->
 
-                        <div class="form-item forgot-pwd-btn">
-                            <router-link to="/user/resetPassword"
-                                >Forgot Password?</router-link
-                            >
+                        <div
+                            class="
+                                form-item
+                                forgot-pwd-btn
+                                login-register-form-trigger
+                            "
+                        >
+                            <p @click="googleRegister = false">
+                                Forgot Password?
+                            </p>
                         </div>
                     </div>
 
@@ -233,9 +240,13 @@
                 </p>
             </div>
             <!-- /google register -->
+
             <!-- zempie register -->
             <register></register>
             <!-- /zempie register -->
+            <!-- reset pwd -->
+            <reset-password @loginTab="loginTab"></reset-password>
+            <!-- /reset pwd -->
         </div>
     </div>
 </template>
@@ -255,6 +266,7 @@ import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 import Register from "@/components/pages/login/Register.vue";
+import ResetPassword from "@/components/pages/login/ResetPassword.vue";
 
 const emailValidator = helpers.regex(
     "emailValidator",
@@ -266,7 +278,7 @@ const pwdValidator = helpers.regex(
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[!@#\$%\^&\*]).{6,20}$/
 );
 @Component({
-    components: { Register },
+    components: { Register, ResetPassword },
     mixins: [validationMixin],
     validations: {
         form: {
@@ -493,6 +505,9 @@ export default class Login extends Vue {
             },
         });
     }
+    loginTab() {
+        (this.$refs.loginBtn as HTMLElement).click();
+    }
 }
 </script>
 
@@ -511,5 +526,9 @@ export default class Login extends Vue {
 }
 .forgot-pwd-btn {
     margin-left: auto;
+    cursor: pointer;
+}
+.forgot-pwd-btn p:hover {
+    color: #4ff461;
 }
 </style>
