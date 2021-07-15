@@ -12,19 +12,18 @@ const routes: Array<RouteConfig> = [
         component: Home,
         beforeEnter: async function (to, from, next) {
             const loginState = await store.dispatch("loginState");
-            console.log("next", next)
             switch (loginState) {
                 case LoginState.login:
                     console.log("login")
-                    next(`/channel/${store.getters.user.uid}/timeline`)
+                    router.push(`/channel/${store.getters.user.uid}/timeline`)
                     break;
                 case LoginState.no_user:
                     console.log("no_user")
-                    next('/guestPage');
+                    router.push('/guestPage')
                     break;
                 case LoginState.logout:
                     console.log("logout")
-                    next('/guestPage');
+                    router.push('/guestPage')
                     break;
                 default:
                     next();

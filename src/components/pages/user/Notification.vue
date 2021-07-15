@@ -83,6 +83,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { mapGetters } from "vuex";
+
 import Hexagon from "@/plugins/hexagon";
 import { User } from "@/types";
 
