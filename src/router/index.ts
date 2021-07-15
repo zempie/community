@@ -169,7 +169,21 @@ const routes: Array<RouteConfig> = [
         path: '*',
         component: () => import('@/views/Error404.vue')
     },
-
+    {
+        name: 'leave',
+        path: '/leave',
+        component: () => import('@/views/leave.vue'),
+    },
+    {
+        name: 'MessageList',
+        path: '/messageList',
+        component: () => import('@/views/MessageList.vue'),
+    },
+    {
+        name: 'NotificationList',
+        path: '/notificationList',
+        component: () => import('@/views/NotificationList.vue'),
+    },
 
 ]
 

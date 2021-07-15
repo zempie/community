@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="grid-column">
-                <div class="widget-box mb-5">
+                <div class="widget-box mb-5 text-left">
                     <p class="widget-box-title">Personal Info</p>
                     <div class="grid grid-half centered" v-if="user">
                         <img-preview
@@ -56,7 +56,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="widget-box">
+                <div class="widget-box text-left mb-5">
                     <p class="widget-box-title">Notifications</p>
 
                     <div class="widget-box-content">
@@ -166,6 +166,26 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="widget-box text-left">
+                    <p class="widget-box-title">Account</p>
+                    <div class="widget-box-content">
+                        <div class="switch-option-list">
+                            <div class="switch-option">
+                                <p class="switch-option-title">계정 비활성화</p>
+                                <p class="switch-option-text">
+                                    계정을 비활성화하시면 해당 계정이 삭제되고
+                                    관련된 게시글은 그대로 유지됩니다.
+                                </p>
+                                <div class="delete-account-btn">
+                                    <b-button variant="danger" @click="leave"
+                                        >계정 비활성화</b-button
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -187,7 +207,7 @@ import { User } from "@/types";
 })
 export default class UserSettings extends Vue {
     private hexagon: Hexagon = new Hexagon();
-    private user!: any;
+    private user!: User;
     private isCommentOn: boolean = false;
     private isLikeOn: boolean = false;
     private isFollowOn: boolean = false;
@@ -229,8 +249,18 @@ export default class UserSettings extends Vue {
             return this.user;
         } catch (error) {}
     }
+    async leave() {
+        await this.$router.push("/leave");
+    }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.delete-account-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
 </style>

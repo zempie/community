@@ -60,11 +60,11 @@
                     </a>
 
                     <p class="user-short-description-title">
-                        <a href="profile-timeline.html">{{ userInfo.name }}</a>
+                        {{ userInfo.name }}
                     </p>
 
                     <p class="user-short-description-text">
-                        <!-- <a href="#">www.gamehuntress.com</a> -->
+                        @{{ userInfo.nickname }}
                     </p>
                 </div>
 
