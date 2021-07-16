@@ -126,6 +126,20 @@ export default class dropdown {
       }
     });
 
+    plugins.createDropdown({
+      trigger: '.category-dropdown-trigger',
+      container: '.category-dropdown',
+      offset: {
+        top: 32,
+        left: 32
+      },
+      animation: {
+        type: 'translate-top'
+      }
+    });
+
+
+
   }
 }
 

@@ -149,10 +149,19 @@ const routes: Array<RouteConfig> = [
     },
 
     {
-        path: '/timeline',
-        name: 'Timeline',
-        component: () => import('@/views/Timeline.vue')
+        path: '/timeline/game/:game_pathname',
+        name: 'Game',
+        component: () => import("@/components/layout/gameHeader.vue"),
+        redirect: '/timeline/game/:game_pathname/timeline',
+        children: [
+            {
+                path: '/timeline/game/:game_pathname/timeline',
+                name: 'GameTimeline',
+                component: () => import("@/components/pages/game/GameTimeline.vue"),
+            },
+        ]
     },
+
     {
         path: '/guestPage',
         name: 'GuestPage',
@@ -163,6 +172,13 @@ const routes: Array<RouteConfig> = [
         name: 'feedDetail',
         component: () => import("@/components/timeline/FeedDetail.vue")
     },
+    {
+        name: 'Play',
+        path: '/play/:pathname',
+        component: () => import('@/views/Play.vue'),
+        props: true
+    },
+
 
     {
         path: '*',

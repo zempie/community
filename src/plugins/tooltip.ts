@@ -39,6 +39,17 @@ export default class Tooltip {
       },
 
     });
+    
+    plugins.createTooltip({
+      container: '.add-game-tooltip',
+      tooltipSelector:['gameTooltip'],
+      // offset: 4,
+      direction: 'top',
+      animation: {
+        type: 'translate-in-fade'
+      },
+
+    });
 
   }
 }

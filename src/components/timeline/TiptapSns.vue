@@ -32,18 +32,19 @@ import HahstagList from "./HashTagList.vue";
 import MentionList from "./MentionList.vue";
 import tippy from "tippy.js";
 import { bus } from "@/main";
+import { User } from "@/types";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: { EditorContent },
 })
 export default class TiptapSns extends Vue {
-    @Prop() postType !:any;
+    @Prop() postType!: any;
     private imgPreviewArr: any[] = [];
     private postingText: string = "";
     private editor!: Editor;
     private fileLoader: any;
-    private user!: any;
+    private user!: User;
 
     // 해시태그 멘션
     private hasTagSuggestion: boolean = false;
@@ -82,6 +83,13 @@ export default class TiptapSns extends Vue {
     }
 
     async created() {
+        this.editorInit();
+    }
+    mounted() {
+        console.log(this.postType);
+    }
+
+    editorInit() {
         this.editor = new Editor({
             content: this.postingText,
             extensions: [
@@ -89,7 +97,11 @@ export default class TiptapSns extends Vue {
                 CodeBlockLowlight.configure({
                     lowlight,
                 }),
-                Placeholder.configure({ placeholder: this.user ? "멋진 생각을 공유해주세요." : ' 로그인 후 사용해주세요.'}),
+                Placeholder.configure({
+                    placeholder: this.user
+                        ? "멋진 생각을 공유해주세요."
+                        : " 로그인 후 사용해주세요.",
+                }),
                 Link,
                 Highlight,
                 Typography,
@@ -298,9 +310,6 @@ export default class TiptapSns extends Vue {
                 this.$emit("isEmpty", this.editor.isEmpty);
             },
         });
-    }
-    mounted(){
-        console.log(this.postType)
     }
 }
 </script>

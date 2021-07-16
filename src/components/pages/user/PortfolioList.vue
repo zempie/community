@@ -29,6 +29,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class PortfolioList extends Vue {
     @Prop() userUid!: string;
     private portfolios: any = "";
+    
     async mounted() {
         console.log("userUid", this.userUid);
         this.portfolios = await this.$api.portfolioList(this.userUid);

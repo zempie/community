@@ -144,20 +144,69 @@
             </div>
         </div>
 
-        <div class="quick-post-footer post-select" v-if="user">
-            <div class="form-select dropdown-container">
-                <select class="dropbox dropdown-item" @change="selectCommunity">
-                    <option value="communities">communities</option>
+        <div class="quick-post-footer post-select">
+            <div class="stats-box-diff-icon positive action-list-item-wrap">
+                <svg
+                    class="
+                        icon-plus-small
+                        action-list-item
+                        category-dropdown-trigger
+                    "
+                    ref="dropdown"
+                    style="fill: #fff"
+                >
+                    <use xlink:href="#svg-plus-small"></use>
+                </svg>
+               ` <!-- <div class="dropdown-box category-dropdown">`
+                    <div class="dropdown-box-list small" data-simplebar>
+                        <a
+                            class="dropdown-box-list-item"
+                            href="hub-profile-messages.html"
+                        >
+                            <div class="user-status">
+                                <div class="user-status-avatar">
+                                    <div class="user-avatar small no-outline">
+                                        <div class="user-avatar-content">
+                                            <div
+                                                class="hexagon-image-30-32"
+                                                data-src="img/avatar/04.jpg"
+                                            ></div>
+                                        </div>
 
-                    <option
-                        v-for="community in communityList"
-                        :key="community.id"
-                        :value="community.name"
-                    >
-                        {{ community.name }}
-                    </option>
-                </select>
+                                        <div class="user-avatar-progress">
+                                            <div
+                                                class="hexagon-progress-40-44"
+                                            ></div>
+                                        </div>
+
+                                        <div
+                                            class="user-avatar-progress-border"
+                                        >
+                                            <div
+                                                class="hexagon-border-40-44"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="user-status-title">
+                                    <span class="bold">Bearded Wonder</span>
+                                </p>
+
+                                <p class="user-status-text">
+                                    Great! Then will meet with them at the
+                                    party...
+                                </p>
+
+                                <p class="user-status-timestamp floaty">
+                                    29 mins ago
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div> -->
             </div>
+
             <div class="form-select dropdown-container">
                 <select class="dropbox dropdown-item" :text="channels">
                     <!-- :style="!isChannelOn ? 'display:none' : ''" -->
@@ -192,7 +241,7 @@
             </div>
         </div>
 
-        <div class="quick-post-footer checkbox ">
+        <div class="quick-post-footer checkbox">
             <div class="checkbox-wrap">
                 <input
                     type="checkbox"
@@ -209,6 +258,7 @@
                 <label for="event-add-end-time">private</label>
             </div>
         </div>
+
         <div class="quick-post-footer attachment">
             <div class="quick-post-footer-actions">
                 <!-- upload pic -->
@@ -453,9 +503,14 @@ import ImagePreview from "@/components/timeline/post/ImagePreview.vue";
 import AlertModal from "@/components/common/AlertModal.vue";
 import { User } from "@/types";
 
+import Messages from "@/components/pages/user/Messages.vue";
+
+import Dropdown from "@/plugins/dropdown";
+
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {
+        Messages,
         FileUpload,
         EditorContent,
         Modal,
@@ -467,6 +522,7 @@ import { User } from "@/types";
     },
 })
 export default class Post extends Vue {
+    private dropdown: Dropdown = new Dropdown();
     private fileLoader: FileLoader = new FileLoader();
     private editor!: Editor;
     private postEditor!: Editor;
@@ -790,6 +846,7 @@ export default class Post extends Vue {
         });
     }
     async mounted() {
+        this.dropdown.init();
         document
             .querySelector("#postContainer")!
             .addEventListener("click", this.interceptClickEvent);
@@ -1097,6 +1154,20 @@ export default class Post extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.positive {
+    margin-right: 4px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+
+    border: 1px solid #fff;
+}
 .quick-post.dimmed {
     // position: fixed;
     top: 0px;
@@ -1276,8 +1347,8 @@ export default class Post extends Vue {
     justify-content: flex-end;
 }
 
-.post-select{
-    min-height:50px;
+.post-select {
+    min-height: 50px;
 }
 .checkbox-wrap {
     margin-right: 5px;

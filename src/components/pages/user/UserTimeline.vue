@@ -1,6 +1,7 @@
 <template>
     <div class="grid grid-3-6-3 mobile-prefer-content">
         <div class="grid-column">
+            <game-list :userUid="userUid"></game-list>
             <portfolio :userUid="userUid"></portfolio>
         </div>
         <div class="grid-column">
@@ -27,11 +28,20 @@ import Feed from "@/components/timeline/Feed.vue";
 import WhoToFollow from "@/components/pages/user/WhoToFollow.vue";
 import JoinedCommunity from "@/components/pages/user/JoinedCommunity.vue";
 import Portfolio from "@/components/pages/user/PortfolioList.vue";
+import GameList from "@/components/pages/user/GameList.vue";
+
 import { User } from "@/types";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
-    components: { Post, Feed, WhoToFollow, Portfolio, JoinedCommunity },
+    components: {
+        Post,
+        Feed,
+        WhoToFollow,
+        Portfolio,
+        JoinedCommunity,
+        GameList,
+    },
 })
 export default class UserTimeline extends Vue {
     private dropdown: Dropdown = new Dropdown();

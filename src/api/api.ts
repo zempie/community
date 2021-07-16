@@ -312,7 +312,7 @@ export default class Api {
     }
 
     // 타임라인
-    getTimeline(id: number, channelId?: number) {
+    getTimeline(id: number | string, channelId?: number) {
         ///api/v1/timeline/:community_id/channel/:channel_id?offset=0&limit=10&sort=popular
         // console.log(id, channelId)
         let result: any;
@@ -1536,6 +1536,55 @@ export default class Api {
         }
         return result;
     }
+
+    async games(limit: number = 100, offset: number = 0, category?: number, sort?: string, dir?: string) {
+
+        let url = `/games?limit=${limit}&offset=${offset}`;
+        if (category !== undefined) {
+            url += `&category=${category}`;
+        }
+        if (sort !== undefined) {
+            url += `&sort=${sort}`;
+        }
+        if (dir !== undefined) {
+            url += `&dir=${dir}`;
+        }
+
+        const response = await this.request('get', url, {
+            limit,
+            offset,
+            category,
+            sort,
+            dir,
+        }, false);
+        return response.result || response;
+    }
+
+    async game(pathname: string) {
+        const response = await this.request('get', `/game/${pathname}`, undefined, false);
+        return response.result || response;
+    }
+
+    async searchGame(tag) {
+        const response = await this.request('get', `/games/s/${tag}`, undefined, false);
+        return response.result || response;
+    }
+
+    async featured() {
+        const response = await this.request('get', `/featured`, undefined, false);
+        return response.result || response;
+    }
+
+    async hashtags(tag) {
+        const response = await this.request('get', `/games/hashtags/${tag}`, undefined, false);
+        return response.result || response;
+    }
+
+    async tagged(id) {
+        const response = await this.request('get', `/games/tagged/${id}`, undefined, false);
+        return response.result || response;
+    }
+  
 
 }
 
