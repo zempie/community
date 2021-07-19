@@ -5,7 +5,7 @@
                 <use xlink:href="#svg-cross-thin"></use>
             </svg>
 
-            <b-img :src="img"></b-img>
+            <b-img :src="img.url"></b-img>
         </div>
     </div>
 </template>
@@ -27,10 +27,10 @@ export default class ImagePreview extends Vue {
     mounted() {
         bus.$on("fileLoader", (fileLoader: any) => {
             this.fileLoader = fileLoader;
-            this.imgPreviewArr = fileLoader.previewImgArr;
+            this.imgPreviewArr = fileLoader.fileObj;
         });
     }
-    
+
     //미리보기 사진 삭제
     deletePreviewImg(idx: number) {
         this.fileLoader.deletePreviewImg(idx);

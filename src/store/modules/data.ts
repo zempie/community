@@ -6,6 +6,8 @@ export default {
         previewAudioArr: [],
         previewVideo: '',
         imageList: [],
+        postContents: '',
+        isClearEditor: false,
     },
     getters: {
         hashtagList(state: any) {
@@ -25,6 +27,12 @@ export default {
         },
         imageList(state: any) {
             return state.imageList;
+        },
+        postContents(state: any) {
+            return state.postContents;
+        },
+        isClearEditor(state: any) {
+            return state.isClearEditor;
         },
     },
 
@@ -48,11 +56,19 @@ export default {
         imageList(state: any, payload: any) {
             state.imageList.push(payload);
         },
+        postContents(state: any, payload: any) {
+            state.postContents = payload;
+        },
+        isClearEditor(state: any, payload: any) {
+            state.isClearEditor = payload;
+        },
     },
     actions: {
-        resetHashtag(context: any) {
+        resetEditor(context: any) {
             context.state.hashtagList = [];
             context.state.userTagList = [];
+            context.state.postContents = '';
+            context.state.isClearEditor = true;
         }
     }
 }

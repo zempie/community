@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from 'axios'
 import Vue, { PluginObject } from "vue";
 import firebase from 'firebase/app';
 import { User } from "@/types/index";
+import { fileObjWtUrl } from '@/types/file/file';
 
 export default class Api {
 
@@ -1026,14 +1027,16 @@ export default class Api {
 
     }
 
-    uploadpost(user_uid: string, FileList: File[], visibility: string, content: string, hashtags?: string[], userTags?: string[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?: number) {
+    uploadpost(user_uid: string, FileList: fileObjWtUrl[], visibility: string, content: string, hashtags?: string[], userTags?: string[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?: number) {
         const formData = new FormData();
+        console.log(FileList)
 
         if (user_uid) { formData.append('user_uid', user_uid); }
 
         for (let i = 0; i < FileList.length; i++) {
             let file = FileList[i];
-            formData.append('files[' + i + ']', file);
+            console.log(file)
+            formData.append('files[' + i + ']', JSON.stringify(file));
         }
         if (visibility) { formData.append('visibility', visibility); }
         if (content) { formData.append('content', content); }
@@ -1049,7 +1052,7 @@ export default class Api {
         }
         if (communityId) { formData.append('community_id', communityId.toString()); }
         if (channelId) { formData.append('channel_id', channelId.toString()); }
-        if (gameId) { formData.append('game_ id', gameId.toString()); }
+        if (gameId) { formData.append('game_id', gameId.toString()); }
         if (portfolioId) { formData.append('portfolio_id', portfolioId.toString()); }
         if (scheduled_for) { formData.append('scheduled_for', scheduled_for.toString()); }
 
@@ -1584,7 +1587,7 @@ export default class Api {
         const response = await this.request('get', `/games/tagged/${id}`, undefined, false);
         return response.result || response;
     }
-  
+
 
 }
 

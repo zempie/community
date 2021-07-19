@@ -82,6 +82,10 @@ export default class TiptapSns extends Vue {
         this.mentionList = await this.$api.followingList(this.user.uid);
     }
 
+    @Watch("$store.getters.isClearEditor")
+    watchReset() {
+        this.editor.commands.clearContent();
+    }
     async created() {
         this.editorInit();
     }
@@ -308,6 +312,8 @@ export default class TiptapSns extends Vue {
             autofocus: "end",
             onUpdate: () => {
                 this.$emit("isEmpty", this.editor.isEmpty);
+                this.$store.commit("postContents", this.editor.getHTML());
+                this.$store.commit("isClearEditor", false);
             },
         });
     }

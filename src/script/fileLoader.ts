@@ -1,28 +1,25 @@
 import store from "@/store";
 import { mbToByte } from "@/script/fileManager";
+import { fileObjWtUrl } from "@/types/file/file";
+
 
 class FileLoader {
 
     private remainImgFileSize: number = mbToByte(20); //20mb (binary);
-    previewImgArr: any[] = [];
-    fileList: File[] = [];
+    fileObj: fileObjWtUrl[] = [];
 
     imgLoad(file: File, callback) {
+        store.commit('isClearEditor', false)
         // let fileUrl: string | null | ArrayBuffer;
         let reader = new FileReader();
 
-        // reader.onload = (e) => {
 
-        //     this.previewImgArr.push(e.target!.result)
-        //     this.getFileUrl(e.target!.result)
-        // }
         reader.onload = callback;
 
         reader.readAsDataURL(file);
     }
     getFileUrl(src: string | ArrayBuffer | null) {
-        return src
-
+        return src;
     }
     videoLoad(file: File) {
         let reader = new FileReader();
@@ -30,7 +27,6 @@ class FileLoader {
         reader.onload = (e) => {
             store.commit('previewVideo', e.target!.result);
         }
-
         reader.readAsDataURL(file);
 
     }
@@ -43,10 +39,18 @@ class FileLoader {
         reader.readAsDataURL(file);
     }
 
-    checkImgFile(files: any) {
-        let totalImgCnt = files.length + this.previewImgArr.length;
+    previewArr(src: string) {
+        this.fileObj.forEach(elem => {
+            console.log(elem, src)
+            elem.url = src;
+        })
+    }
+    checkImgFile(files: File[]) {
+        let totalImgCnt = files.length + this.fileObj.length;
+
         if (files.length > 5 || totalImgCnt > 5) {
             alert("이미지 개수는 최대 5개입니다");
+            return false;
         } else {
             if (files.length <= 5) {
                 for (let i = 0; i < files.length; i++) {
@@ -54,21 +58,42 @@ class FileLoader {
                     if (this.remainImgFileSize < 0) {
                         alert("최대 파일 용량을 넘었습니다.(최대 20mb)");
                         this.remainImgFileSize += files[i].size;
-                        break;
+                        return false;
+
                     }
 
-                    this.fileList.push(files[i]);
+
                     // this.imgLoad(files[i]);
+                    this.imgLoad(files[i], e => {
+                        this.fileObj.push({
+                            contentType: 'image',
+                            size: files[i].size,
+                            name: files[i].name,
+                            type: files[i].type,
+                            url: e.target.result
+                        });
+
+                    })
                 }
             }
+
+            console.log(this.fileObj)
+            return this.fileObj;
         }
-        return this.fileList;
     }
     //미리보기 사진 삭제
-    deletePreviewImg(idx: number) {
-        this.remainImgFileSize += this.fileList[idx].size;
-        this.previewImgArr.splice(idx, 1);
-        this.fileList.splice(idx, 1);
+    deletePreviewImg(idx: number | string) {
+        if (typeof idx === 'number') {
+            this.remainImgFileSize += this.fileObj[idx].size;
+            this.fileObj.splice(idx, 1);
+        }
+        else if (typeof idx === 'string' && idx === 'all') {
+            console.log('delte all')
+            //todo:array 비우기
+            this.remainImgFileSize = mbToByte(20);
+
+        }
+        console.log(this.fileObj)
     }
 
 

@@ -145,87 +145,16 @@
         </div>
 
         <div class="quick-post-footer post-select">
-            <div class="stats-box-diff-icon positive action-list-item-wrap">
-                <svg
-                    class="
-                        icon-plus-small
-                        action-list-item
-                        category-dropdown-trigger
-                    "
-                    ref="dropdown"
-                    style="fill: #fff"
-                >
-                    <use xlink:href="#svg-plus-small"></use>
-                </svg>
-               ` <!-- <div class="dropdown-box category-dropdown">`
-                    <div class="dropdown-box-list small" data-simplebar>
-                        <a
-                            class="dropdown-box-list-item"
-                            href="hub-profile-messages.html"
-                        >
-                            <div class="user-status">
-                                <div class="user-status-avatar">
-                                    <div class="user-avatar small no-outline">
-                                        <div class="user-avatar-content">
-                                            <div
-                                                class="hexagon-image-30-32"
-                                                data-src="img/avatar/04.jpg"
-                                            ></div>
-                                        </div>
+            <!-- todo: tooltip -->
+            <custom-tooltip></custom-tooltip>
 
-                                        <div class="user-avatar-progress">
-                                            <div
-                                                class="hexagon-progress-40-44"
-                                            ></div>
-                                        </div>
+            <!-- <div class="community-list">
+                <b-button>1</b-button>
+                <b-button>2</b-button>
+                <b-button>3</b-button>
+            </div> -->
 
-                                        <div
-                                            class="user-avatar-progress-border"
-                                        >
-                                            <div
-                                                class="hexagon-border-40-44"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p class="user-status-title">
-                                    <span class="bold">Bearded Wonder</span>
-                                </p>
-
-                                <p class="user-status-text">
-                                    Great! Then will meet with them at the
-                                    party...
-                                </p>
-
-                                <p class="user-status-timestamp floaty">
-                                    29 mins ago
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div> -->
-            </div>
-
-            <div class="form-select dropdown-container">
-                <select class="dropbox dropdown-item" :text="channels">
-                    <!-- :style="!isChannelOn ? 'display:none' : ''" -->
-                    <!-- class="dropdown-item" -->
-                    <option v-if="!isChannelOn">
-                        <p>select community first</p>
-                    </option>
-                    <option
-                        v-else
-                        @click="selectChannel(channel)"
-                        v-for="channel in channelList"
-                        :key="channel.id"
-                    >
-                        {{ channel.name }}
-                    </option>
-                </select>
-            </div>
-
-            <div class="form-select dropdown-container">
+            <!-- <div class="form-select dropdown-container">
                 <select class="dropbox dropdown-item" @change="selectCommunity">
                     <option value="communities">My games</option>
 
@@ -238,7 +167,7 @@
 
                     <option>Portfolio</option>
                 </select>
-            </div>
+            </div> -->
         </div>
 
         <div class="quick-post-footer checkbox">
@@ -466,6 +395,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { mapGetters } from "vuex";
+import Tooltip from "@/plugins/tooltip";
 import FileUpload from "@/components/common/FileUpload.vue";
 import TiptapSns from "@/components/timeline/TiptapSns.vue";
 import TiptapPost from "@/components/timeline/TiptapPost.vue";
@@ -506,6 +436,7 @@ import { User } from "@/types";
 import Messages from "@/components/pages/user/Messages.vue";
 
 import Dropdown from "@/plugins/dropdown";
+import CustomTooltip from "@/components/layout/tooltip/Tooltip.vue";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
@@ -519,10 +450,12 @@ import Dropdown from "@/plugins/dropdown";
         TiptapSns,
         TiptapPost,
         AlertModal,
+        CustomTooltip,
     },
 })
 export default class Post extends Vue {
     private dropdown: Dropdown = new Dropdown();
+    private tooltip: Tooltip = new Tooltip();
     private fileLoader: FileLoader = new FileLoader();
     private editor!: Editor;
     private postEditor!: Editor;
@@ -565,6 +498,12 @@ export default class Post extends Vue {
     private minDate = new Date();
     private reserved_date: string = "";
     private reserved_time: string = "";
+
+    //community
+    private isCommunityClick: boolean = false;
+
+    //postring
+    private isResetEditor: boolean = false;
 
     textPreview: any = "";
     tempKey: string = "";
@@ -846,6 +785,7 @@ export default class Post extends Vue {
         });
     }
     async mounted() {
+        this.tooltip.init();
         this.dropdown.init();
         document
             .querySelector("#postContainer")!
@@ -861,6 +801,8 @@ export default class Post extends Vue {
     }
 
     init() {
+        console.log("init");
+        this.fileLoader.deletePreviewImg("all");
         this.postingText = "";
         this.imgSrc = "";
         this.audioSrc = "";
@@ -870,9 +812,7 @@ export default class Post extends Vue {
         this.remainFileSize = 20971520;
         this.remainAudioSize = 41943040;
         this.fileList = [];
-
-        this.editor.commands.clearContent();
-        this.$store.dispatch("resetHashtag");
+        this.$store.dispatch("resetEditor");
     }
 
     isActive(type: string) {
@@ -893,6 +833,7 @@ export default class Post extends Vue {
             }
         }
     }
+
     postDone(state: boolean) {
         if (state) {
             this.init();
@@ -1058,38 +999,29 @@ export default class Post extends Vue {
         if (!this.user) {
             (this.$refs["loginModal"] as any).show();
         } else {
-            this.content = this.editor.getHTML();
-
-            let date = this.reserved_date + "T" + this.reserved_time;
-            let scheduledTime = moment(date).valueOf();
-
-            const result = this.$api.uploadpost(
-                this.user.uid,
-                this.fileList,
-                this.visibility,
-                this.content,
-                this.$store.getters.hashtagList,
-                this.$store.getters.userTagList,
-                this.selectedCommunityId,
-                this.selectedChannelId,
-                this.selectedChannelId,
-                this.selectedPfId,
-                scheduledTime
-            );
-            this.init();
-            // console.log(result)
-
-            // console.log(
-            //     this.user.uid,
-            //     this.fileList,
-            //     this.visibility,
-            //     this.$store.getters.hashtagList,
-            //     this.$store.getters.userTagList,
-            //     this.content,
-            //     this.selectedCommunityId,
-            //     this.selectedChannelId
-            // );
+            this.sendPost();
         }
+    }
+
+    sendPost() {
+        let date = this.reserved_date + "T" + this.reserved_time;
+        let scheduledTime = moment(date).valueOf();
+
+        const result = this.$api.uploadpost(
+            this.user.uid,
+            this.fileList,
+            this.visibility,
+            this.$store.getters.postContents,
+            this.$store.getters.hashtagList,
+            this.$store.getters.userTagList,
+            this.selectedCommunityId,
+            this.selectedChannelId,
+            this.selectedChannelId,
+            this.selectedPfId,
+            scheduledTime
+        );
+        //todo: 백엔드 연결 후 분기처리
+        this.init();
     }
 
     stringToHTML = (str: any) => {
@@ -1136,7 +1068,8 @@ export default class Post extends Vue {
 
     //emit
     getFileList(files: any) {
-        console.log(files);
+        this.fileList = files;
+        console.log("getFileList", this.fileList);
     }
 
     editorState(state: boolean) {
@@ -1327,7 +1260,6 @@ export default class Post extends Vue {
     // modal
 }
 .dropdown-container {
-    flex: 1;
     height: 25px;
     .dropdown-item {
         font-size: 15px !important;
@@ -1335,6 +1267,7 @@ export default class Post extends Vue {
         padding: 0px 20px 0px 20px;
         text-overflow: ellipsis;
         border-radius: 5px !important;
+        border: none !important;
     }
 }
 .quick-post-footer.attachment {

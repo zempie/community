@@ -43,9 +43,10 @@ export default class ImageUploaderBtn extends Vue {
 
     // 파일 업로드
     onFileChange(event: { target: { accept: any; files: any } }) {
-        this.fileLoader.checkImgFile(event.target.files);
-        //preview 전달
-        bus.$emit("fileLoader", this.fileLoader);
+        if (this.fileLoader.checkImgFile(event.target.files)) {
+            this.$emit("fileList", this.fileLoader.fileObj);
+            bus.$emit("fileLoader", this.fileLoader);
+        }
     }
 }
 </script>
