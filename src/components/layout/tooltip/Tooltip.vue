@@ -1,44 +1,67 @@
 <template>
-    <div class="category-list">
-        <b-button id="category-list" class="form-select dropdown-container">
-            <svg
-                class="
-                    icon-plus-small
-                    action-list-item
-                    category-dropdown-trigger
-                "
-                style="fill: #fff"
-            >
-                <use xlink:href="#svg-plus-small"></use>
-            </svg>
-
-            <div class="category-title">
-                <p>Add Category</p>
-            </div>
-        </b-button>
-        <b-tooltip
-            placement="bottom"
-            target="category-list"
-            triggers="click"
-            custom-class="category-tooltip"
+  <div class="category-list">
+    <v-popover offset="16">
+      <button>
+        <svg
+          class="icon-plus-small action-list-item category-dropdown-trigger"
+          style="fill: #fff"
         >
-            <div class="form-select dropdown-container mt-1">
-                <b-button>Community</b-button>
-                <b-button>My game</b-button>
-                <b-button>My portfolio</b-button>
-            </div>
-        </b-tooltip>
-    </div>
+          <use xlink:href="#svg-plus-small"></use>
+        </svg>
+
+        <div class="category-title">
+          <p>Add Category</p>
+        </div>
+      </button>
+
+      <template slot="popover">
+        <v-popover offset="16" popoverBaseClass="tooltip customPopover">
+          <b-button v-close-popover>Community</b-button>
+          <template slot="popover">
+            <v-popover offset="16" popoverBaseClass="tooltip customPopover">
+              <b-button v-close-popover>1</b-button>
+              <template slot="popover">
+                <b-button>2</b-button>
+                <b-button>3</b-button>
+              </template>
+            </v-popover>
+          </template>
+        </v-popover>
+
+        <b-button>My game</b-button>
+        <b-button>My portfolio</b-button>
+
+        <!-- <a v-close-popover>Close</a> -->
+      </template>
+    </v-popover>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
-    components: {},
+  components: {},
 })
 export default class Tooltip extends Vue {}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.tooltip {
+  &.popover {
+    $color: #f9f9f9;
+
+    .popover-inner {
+      background: $color;
+      color: black;
+      padding: 24px;
+      border-radius: 5px;
+      box-shadow: 0 5px 30px rgba(black, 0.1);
+    }
+
+    .popover-arrow {
+      border-color: $color;
+    }
+  }
+}
 </style>

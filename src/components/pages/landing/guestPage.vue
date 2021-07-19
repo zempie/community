@@ -69,6 +69,7 @@ export default class guestPage extends Vue {
     private communityList: any = [];
     private searchInput: string = "";
     private dropdown: Dropdown = new Dropdown();
+    
     created() {
         this.communityList = this.$api.getCommunityList();
     }

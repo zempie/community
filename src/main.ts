@@ -16,6 +16,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import "./css/styles.css";
 import 'remixicon/fonts/remixicon.css'
 import Vuelidate from 'vuelidate'
+import VTooltip from 'v-tooltip'
+
+Vue.use(VTooltip)
 
 export const bus = new Vue();
 
