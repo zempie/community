@@ -21,8 +21,8 @@ import { LoginState } from "@/store/modules/user";
 export default class App extends Vue {
     private dropdown: Dropdown = new Dropdown();
 
-    async mounted() {
-        console.log(this.$route.name);
+    mounted() {
+        
         this.dropdown.init();
         // await this.$store.dispatch("loginState");
 

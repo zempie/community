@@ -121,7 +121,6 @@ const routes: Array<RouteConfig> = [
         name: 'Channel',
         component: () => import("@/components/pages/community/Channel.vue"),
     },
-
     {
         path: '/channel/:channel_id',
         name: 'UserChannel',
@@ -142,6 +141,11 @@ const routes: Array<RouteConfig> = [
                 path: '/channel/:channel_id/followings',
                 name: 'FollowingList',
                 component: () => import("@/components/pages/user/FollowingList.vue"),
+            },
+            {
+                path: '/channel/:channel_id/games',
+                name: 'AllGameList',
+                component: () => import("@/components/pages/user/AllGameList.vue"),
             },
 
 
@@ -173,8 +177,8 @@ const routes: Array<RouteConfig> = [
         component: () => import("@/components/timeline/FeedDetail.vue")
     },
     {
-        name: 'Play',
         path: '/play/:pathname',
+        name: 'Play',
         component: () => import('@/views/Play.vue'),
         props: true
     },
@@ -185,18 +189,18 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/views/Error404.vue')
     },
     {
-        name: 'leave',
         path: '/leave',
+        name: 'leave',
         component: () => import('@/views/leave.vue'),
     },
     {
-        name: 'MessageList',
         path: '/messageList',
+        name: 'MessageList',
         component: () => import('@/views/MessageList.vue'),
     },
     {
-        name: 'NotificationList',
         path: '/notificationList',
+        name: 'NotificationList',
         component: () => import('@/views/NotificationList.vue'),
     },
 

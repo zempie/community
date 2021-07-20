@@ -183,6 +183,17 @@
 
                     <p class="section-menu-item-text">Videos</p>
                 </router-link>
+                <router-link
+                    class="section-menu-item"
+                    :to="`/channel/${userUid}/games`"
+                    :class="$route.name === 'AllGameList' ? 'active' : ''"
+                >
+                    <svg class="section-menu-item-icon icon-newsfeed">
+                        <use xlink:href="#svg-newsfeed"></use>
+                    </svg>
+
+                    <p class="section-menu-item-text">Games</p>
+                </router-link>
             </div>
 
             <div
@@ -214,7 +225,6 @@ import { mapGetters } from "vuex";
 import Hexagon from "@/plugins/hexagon";
 import { User } from "@/types";
 import plugins from "@/plugins/plugins";
-
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {},
@@ -231,6 +241,7 @@ export default class UserHeader extends Vue {
     async mounted() {
         const result = await this.$api.channel(this.userUid);
         this.userInfo = result.target;
+        this.$store.commit("userInfo", this.userInfo);
         this.followingCnt = await this.$api.followingCnt(
             this.userInfo.user_uid
         );

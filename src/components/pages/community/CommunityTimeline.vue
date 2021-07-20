@@ -113,8 +113,8 @@ export default class CommunityTimeline extends Vue {
     width: 100%;
     height: 65px;
     margin-bottom: 10px;
-    background-color: #343a40;
-    opacity: 50%;
+    background-color: #343a40 !important;
+    opacity: 0.5;
 }
 .all-post-container:hover,
 .user-status-list.active .all-post-container {

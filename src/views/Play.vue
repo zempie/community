@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="gamePage">
         <iframe
             ref="game"
             class="iframe"
@@ -30,6 +30,8 @@ export default class Play extends Vue {
     private iframeHeight: string = "";
 
     async mounted() {
+        document.getElementById("header")!.style.display = "none";
+
         // await this.$store.dispatch('loadedGames');
         this.gameData = this.$store.getters.gameByPathname(this.pathname);
 

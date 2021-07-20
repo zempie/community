@@ -76,12 +76,13 @@
                 </div>
 
                 <div class="profile-header-info-actions">
-                    <p
+                    <router-link
+                        target="_blank"
                         class="profile-header-info-action button primary"
-                        @click="playGame"
+                        :to="`/play/${game.pathname}`"
                     >
                         Play game
-                    </p>
+                    </router-link>
                     <!-- v-if="user && user.uid !== game.user.uid" -->
                     <p
                         class="profile-header-info-action button secondary"
@@ -160,6 +161,8 @@
 
                     <p class="section-menu-item-text">Videos</p>
                 </router-link>
+
+               
             </div>
 
             <div
@@ -213,15 +216,19 @@ export default class GameHeader extends Vue {
         const result = await this.$api.game(this.gamePathname);
         this.game = result.game;
         this.hashtags = this.game.hashtags.split(",");
-
-        console.log(this.game);
     }
 
-    subscribe() {}
+    subscribe() {
+        //todo : game 페이지구독 api 연결
+        console.log(this.game.id);
+    }
 
     playGame() {
-        console.log("?")
-        this.$router.push(`/play/${this.game.pathname}`);
+        console.log("?");
+        let routerLink = this.$router.resolve({
+            path: `/play/${this.game.pathname}`,
+        });
+        window.open(routerLink.href, "_blank");
     }
 }
 </script>

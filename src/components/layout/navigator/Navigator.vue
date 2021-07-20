@@ -1,9 +1,9 @@
 <template>
-  <header class="header">
+  <header class="header" id="header">
     <div class="header-actions">
       <div class="header-brand">
         <div class="logo">
-          <b-img src="/img/zempie_logo.png" @click="$router.push('/')" />
+          <b-img src="img/zempie_logo.png" @click="$router.push('/')" />
         </div>
 
         <h1 class="header-brand-text">Zempie</h1>

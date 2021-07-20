@@ -2,7 +2,11 @@
     <div class="widget-box">
         <div class="widget-box-title">
             <p>Games</p>
-            <div class="add-game-tooltip" data-title="Add Game">
+            <div
+                class="add-game-tooltip"
+                data-title="Add Game"
+                @click="addGame"
+            >
                 <svg
                     class="
                         icon-plus-small
@@ -36,7 +40,11 @@
                     />
                 </div>
             </template>
-            <div class="user-status-list all-btn">View all</div>
+            <router-link
+                class="user-status-list all-btn"
+                :to="`/channel/${userUid}/games`"
+                >View all</router-link
+            >
         </div>
     </div>
 </template>
@@ -54,41 +62,17 @@ export default class GameList extends Vue {
 
     async mounted() {
         const loginState = await this.$store.dispatch("loginState");
-        await this.init();
-    }
-
-    async init() {
-        const result = await this.$api.channel(this.userUid);
-
-        if (!result || result.error) {
-            console.error(result);
-        } else {
-            const { target } = result;
-            this.user = target;
-            const { dev_games } = this.user;
-            if (dev_games) {
-                const arr = [];
-                for (let i = 0; i < dev_games.length; i++) {
-                    dev_games[i].user = this.user;
-                    if (dev_games[i].activated) {
-                        arr.push(dev_games[i]);
-                    }
-                }
-                this.games = arr;
-            }
-
-            if (this.games.length > 5) {
-                this.games = this.games.splice(0, 5);
-            }
-            // this.email = this.user.email;
-            // this.description = this.user.profile.description;
-
-            document.title = this.user.name;
-        }
+        this.games = this.$store.getters.userInfo.dev_games.slice(0, 5);
     }
 
     moveGameChannel(game: any) {
         this.$router.push(`/timeline/game/${game.pathname}`);
+    }
+    addGame() {
+        if (this.$store.getters.user.is_developer) {
+            window.location.href =
+                this.$store.getters.studioUrl + "selectStage";
+        }
     }
 }
 </script>
@@ -148,5 +132,9 @@ export default class GameList extends Vue {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+.all-btn:hover {
+    color: #1d2333;
+    background: #fff;
 }
 </style>

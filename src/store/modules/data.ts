@@ -8,6 +8,7 @@ export default {
         imageList: [],
         postContents: '',
         isClearEditor: false,
+        userInfo: []
     },
     getters: {
         hashtagList(state: any) {
@@ -33,6 +34,9 @@ export default {
         },
         isClearEditor(state: any) {
             return state.isClearEditor;
+        },
+        userInfo(state: any) {
+            return state.userInfo;
         },
     },
 
@@ -61,6 +65,9 @@ export default {
         },
         isClearEditor(state: any, payload: any) {
             state.isClearEditor = payload;
+        },
+        userInfo(state: any, payload: any) {
+            state.userInfo = payload;
         },
     },
     actions: {

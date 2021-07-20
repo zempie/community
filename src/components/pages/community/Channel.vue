@@ -39,11 +39,11 @@ export default class Channel extends Vue {
     height: 65px;
     border-radius: 7px;
     margin-bottom: 10px;
-    opacity: 0.5;
+    opacity: 50%;
 }
 .channel-img:hover,
 .user-status-list.active .channel-img {
-    opacity: 1;
+    opacity: 100%;
     cursor: pointer;
 }
 .user-status-list.active .channel-title {
