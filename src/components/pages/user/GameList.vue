@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 @Component({
     components: {},
 })
@@ -61,8 +61,8 @@ export default class GameList extends Vue {
     private user: any = null;
 
     async mounted() {
-        const loginState = await this.$store.dispatch("loginState");
-        this.games = this.$store.getters.userInfo.dev_games.slice(0, 5);
+        this.gameList();
+        console.log(this.games);
     }
 
     moveGameChannel(game: any) {
@@ -72,6 +72,21 @@ export default class GameList extends Vue {
         if (this.$store.getters.user.is_developer) {
             window.location.href =
                 this.$store.getters.studioUrl + "selectStage";
+        }
+    }
+    @Watch("$store.getters.userInfo")
+    watchUserInfo() {
+        this.gameList();
+    }
+
+    gameList() {
+        if (this.$store.getters.userInfo.dev_games.length > 5) {
+            this.games = this.$store.getters.userInfo.dev_games.slice(0, 5);
+        } else if (
+            this.$store.getters.userInfo.dev_games.length > 0 &&
+            this.$store.getters.userInfo.dev_games.length < 5
+        ) {
+            this.games = this.$store.getters.userInfo.dev_games;
         }
     }
 }

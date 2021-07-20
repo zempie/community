@@ -8,7 +8,7 @@ export default {
         imageList: [],
         postContents: '',
         isClearEditor: false,
-        userInfo: []
+        userInfo: [],
     },
     getters: {
         hashtagList(state: any) {

@@ -1,5 +1,6 @@
 <template>
     <editor-content
+        v-if="user"
         :editor="editor"
         class="editor-container"
         v-model="postingText"
@@ -52,29 +53,7 @@ export default class TiptapSns extends Vue {
 
     private hasMentionSuggestion: boolean = false;
     private mentionList: any[] = [];
-    hashTagListTest: string[] = [
-        "ahashtag1",
-        "bhashtag2",
-        "chashtag3",
-        "dhashtag4",
-        "ehashtag5",
-        "fhashtag6",
-        "ghashtag7",
-        "해시태그01",
-        "hashtag8",
-        "hashtag9",
-        "hashtag10",
-        "hashtag11",
-        "hashtag12",
-        "hashtag13",
-        "hashtag14",
-        "hashtag15",
-        "hashtag16",
-        "hashtag17",
-        "hashtag18",
-        "hashtag19",
-        "hashtag20",
-    ];
+    hashTagList: string[] = [];
     // tiptap
 
     @Watch("user")
@@ -89,11 +68,13 @@ export default class TiptapSns extends Vue {
     async created() {
         this.editorInit();
     }
-    mounted() {
+    async mounted() {
+        await this.$store.dispatch("loginState");
         console.log(this.postType);
     }
-
+    @Watch("user")
     editorInit() {
+        console.log("editor init", this.user);
         this.editor = new Editor({
             content: this.postingText,
             extensions: [
@@ -124,9 +105,11 @@ export default class TiptapSns extends Vue {
                     },
                     suggestion: {
                         //@ts-ignore
-                        items: (query) => {
+                        items: async (query) => {
                             if (query.length > 0) {
-                                return this.hashTagListTest
+                                this.hashTagList =
+                                    await this.$api.hashtagList();
+                                return this.hashTagList
                                     .filter((item) =>
                                         item
                                             .toLowerCase()

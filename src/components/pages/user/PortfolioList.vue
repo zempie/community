@@ -1,6 +1,21 @@
 <template>
     <div class="widget-box">
-        <p class="widget-box-title">Portfolio</p>
+        <div class="widget-box-title">
+            <p>Portfolio</p>
+            <div class="add-game-tooltip" data-title="Add Portfolio" @click="addPortfolio">
+                <svg
+                    class="
+                        icon-plus-small
+                        action-list-item
+                        category-dropdown-trigger
+                    "
+                    ref="dropdown"
+                    style="fill: #fff"
+                >
+                    <use xlink:href="#svg-plus-small"></use>
+                </svg>
+            </div>
+        </div>
         <div class="widget-box-content">
             <template v-for="portfolio in portfolios">
                 <div
@@ -10,10 +25,17 @@
                     :id="portfolio.id"
                 >
                     <span class="portfolio-title">{{ portfolio.title }}</span>
-                    <b-img
+
+                    <div
+                        :style="`background: url(${
+                            portfolio.thumbnail_img || 'img/channel_banner.png'
+                        }) center center / cover no-repeat;`"
+                        class="thumb img portfolio-img"
+                    />
+                    <!-- <b-img
                         class="portfolio-img"
                         :src="`${portfolio.thumbnail_img}`"
-                    />
+                    /> -->
                 </div>
             </template>
         </div>
@@ -29,16 +51,18 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class PortfolioList extends Vue {
     @Prop() userUid!: string;
     private portfolios: any = "";
-    
+
     async mounted() {
-        console.log("userUid", this.userUid);
         this.portfolios = await this.$api.portfolioList(this.userUid);
         console.log(this.portfolios);
+    }
+    addPortfolio(){
+        console.log("add pf")
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .portfolio-img {
     width: 100%;
     height: 65px;
@@ -69,5 +93,18 @@ export default class PortfolioList extends Vue {
     margin: 8px;
     display: flex;
     justify-content: space-between;
+}
+
+.widget-box-title {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+
+    svg {
+        position: absolute !important;
+        left: 78px !important;
+        bottom: 0px !important;
+        cursor: pointer;
+    }
 }
 </style>

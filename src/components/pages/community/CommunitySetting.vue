@@ -1,26 +1,24 @@
 <template>
-    <div>
-        <div class="grid-column">
-            <div class="section-header-info mt-5">
-                <h2 class="section-title mb-3">프로필 사진</h2>
-                <p class="section-pretitle">
-                    프로필 사진은 ZEMPIE가 제공하는 커뮤니티를 나타내는 위치에
-                    표시됩니다.
-                </p>
-            </div>
+    <div class="grid-column">
+        <div class="section-header-info mt-5">
+            <h2 class="section-title mb-3">프로필 사진</h2>
+            <p class="section-pretitle">
+                프로필 사진은 ZEMPIE가 제공하는 커뮤니티를 나타내는 위치에
+                표시됩니다.
+            </p>
+        </div>
 
-            <div class="grid grid-3-3-3 centered">
-                <img-preview
-                    :profileImg="community.profile_img"
-                    :bannerImg="community.banner_img"
-                ></img-preview>
-                <profile-img-uploader
-                    @profileImgSrc="getProfileImgSrc"
-                ></profile-img-uploader>
-                <banner-img-uploader
-                    @bannerImgSrc="getBannerImgSrc"
-                ></banner-img-uploader>
-            </div>
+        <div class="grid grid-3-3-3 centered">
+            <img-preview
+                :profileImg="community.profile_img"
+                :bannerImg="community.banner_img"
+            ></img-preview>
+            <profile-img-uploader
+                @profileImgSrc="getProfileImgSrc"
+            ></profile-img-uploader>
+            <banner-img-uploader
+                @bannerImgSrc="getBannerImgSrc"
+            ></banner-img-uploader>
         </div>
 
         <div class="section-header-info mt-5">
@@ -205,10 +203,10 @@ import { User } from "@/types";
                 required,
                 maxLength: maxLength(50),
             },
-            groupUrl: {
-                required,
-                maxLength: maxLength(50),
-            },
+            // groupUrl: {
+            //     required,
+            //     maxLength: maxLength(50),
+            // },
             description: {
                 required,
                 maxLength: maxLength(2000),
@@ -222,12 +220,12 @@ export default class CommunitySetting extends Vue {
 
     private form = {
         groupName: "",
-        groupUrl: "",
-        managerUid: "",
         description: "",
+        isPrivate: false,
+        // groupUrl: "",
+        // managerUid: "",
         bannerImgSrc: "",
         profileImgSrc: "",
-        isPrivate: false,
     };
 
     private user!: User;
@@ -256,9 +254,8 @@ export default class CommunitySetting extends Vue {
             this.community.manager_uid
         );
         this.selectedManager = this.managerInfo.uid;
-
-        // this.profileImgSrc = this.community.profile_img;
-        // this.bannerImgSrc = this.community.banner_img;
+        this.form.bannerImgSrc = this.community.banner_img;
+        this.form.profileImgSrc = this.community.profile_img;
     }
 
     validateState(name) {
@@ -279,6 +276,7 @@ export default class CommunitySetting extends Vue {
         event.preventDefault();
         this.$v.form.$touch();
         if (this.$v.form.$anyError) {
+            console.log(this.$v.form);
             return;
         }
         console.log(
@@ -286,15 +284,18 @@ export default class CommunitySetting extends Vue {
             this.communityId,
             this.form.groupName,
             this.form.description,
-            this.form.isPrivate
+            this.form.isPrivate,
+            this.form.bannerImgSrc,
+            this.form.profileImgSrc
         );
-        // const result = this.$api.modifiedCommunityInfo(
-        //     this.communityId,
-        //     this.communityName,
-        //     this.description,
-        //     this.profileImgSrc,
-        //     this.bannerImgSrc
-        // );
+        const result = this.$api.modifiedCommunityInfo(
+            this.communityId,
+            this.form.groupName,
+            this.form.description,
+            this.form.isPrivate,
+            this.form.profileImgSrc,
+            this.form.bannerImgSrc
+        );
         // console.log(result);
         // if (result === true) {
         // }

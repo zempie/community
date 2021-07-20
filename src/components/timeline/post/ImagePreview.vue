@@ -25,6 +25,7 @@ export default class ImagePreview extends Vue {
         bus.$off("fileLoder");
     }
     mounted() {
+        
         bus.$on("fileLoader", (fileLoader: any) => {
             this.fileLoader = fileLoader;
             this.imgPreviewArr = fileLoader.fileObj;

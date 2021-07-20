@@ -225,10 +225,10 @@ export default class Api {
                 "type": "user"
             }, {
                 "id": 2,
-                "uid": '123',
+                "uid": '2x1H8Fn5EVdYQ9EchRPCOXhdyKn1',
                 "status": "member2",
                 "email": "zempie2@google.name",
-                "name": "젬파이2",
+                "name": "이현정",
                 "nickname": "zempieeee2",
                 "channel_id": 12,
                 "created_at": 1616117970000,
@@ -276,14 +276,19 @@ export default class Api {
 
     }
 
-    modifiedCommunityInfo(id: number, name: string, description: string, profile_img: string, banner_img: string) {
+    modifiedCommunityInfo(id: number, name: string, description: string, is_private: boolean, profile_img?: string, banner_img?: string) {
         const formData = new FormData();
 
         if (id) { formData.append('community_id', id.toString()); }
         if (name) { formData.append('name', name); }
         if (description) { formData.append('description', description); }
+        if (is_private) { formData.append('is_private', is_private.toString()); }
         if (profile_img) { formData.append('profile_img', profile_img); }
         if (banner_img) { formData.append('banner_img', banner_img); }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
 
         return true;
 
@@ -1017,8 +1022,6 @@ export default class Api {
         console.log(formData)
 
         return true;
-
-
     }
 
     //POST
@@ -1061,6 +1064,32 @@ export default class Api {
         }
     }
 
+    async hashtagList() {
+        const response = ["ahashtag1",
+            "bhashtag2",
+            "chashtag3",
+            "dhashtag4",
+            "ehashtag5",
+            "fhashtag6",
+            "ghashtag7",
+            "해시태그01",
+            "hashtag8",
+            "hashtag9",
+            "hashtag10",
+            "hashtag11",
+            "hashtag12",
+            "hashtag13",
+            "hashtag14",
+            "hashtag15",
+            "hashtag16",
+            "hashtag17",
+            "hashtag18",
+            "hashtag19",
+            "hashtag20",]
+
+        return response;
+    }
+
     //USER
     async session() {
         const response = await this.request('get', '/user/verify-session', undefined, true);
@@ -1078,6 +1107,7 @@ export default class Api {
     }
 
     async channel(channel_id: any) {
+        console.log('channel api start ')
         const response = await this.request('get', `/channel/${channel_id}`, undefined, false);
         return response.result || response;
     }
@@ -1162,7 +1192,7 @@ export default class Api {
         const result = [
             {
                 "id": 1111,
-                "uid": "fdfs312fdsfsdf",
+                "uid": "2x1H8Fn5EVdYQ9EchRPCOXhdyKn1",
                 "email": "zempie@google.name",
                 "name": "following1",
                 "nickname": "zempieeee",
@@ -1183,7 +1213,7 @@ export default class Api {
             },
             {
                 "id": 2,
-                "uid": "fdfs312fdsfsdf",
+                "uid": "2x1H8Fn5EVdYQ9EchRPCOXhdyKn1",
                 "email": "zempie@google.name",
                 "name": "following2",
                 "nickname": "following2",

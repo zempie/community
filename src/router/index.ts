@@ -74,6 +74,11 @@ const routes: Array<RouteConfig> = [
                 name: 'CommunitySettingMember',
                 component: () => import("@/components/pages/community/communitySettingMember.vue"),
             },
+            {
+                path: '/community/:community_id/manageChannel',
+                name: 'ManageChannel',
+                component: () => import("@/components/pages/community/manageChannel.vue"),
+            },
         ]
     },
     {

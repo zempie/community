@@ -238,10 +238,14 @@ export default class UserHeader extends Vue {
     private followerCnt: number = 0;
     private user!: User;
 
-    async mounted() {
+    async created() {
         const result = await this.$api.channel(this.userUid);
         this.userInfo = result.target;
         this.$store.commit("userInfo", this.userInfo);
+        console.log("userinfo in header", this.$store.getters.userInfo);
+    }
+
+    async mounted() {
         this.followingCnt = await this.$api.followingCnt(
             this.userInfo.user_uid
         );

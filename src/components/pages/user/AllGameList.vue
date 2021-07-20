@@ -1,9 +1,9 @@
 <template>
     <section class="section">
-        <div class="section-header">
+        <div class="section-header" v-if="tlUser">
             <div class="section-header-info">
                 <p class="section-pretitle">
-                    Browse {{ tlUser && tlUser.name }}'s
+                    Browse {{ tlUser.name }}'s
                 </p>
 
                 <h2 class="section-title">Games</h2>
@@ -70,6 +70,11 @@ export default class AllGameList extends Vue {
     async mounted() {
         await this.$store.dispatch("loginState");
         this.tlUser = this.$store.getters.userInfo;
+        this.gameList = this.$store.getters.userInfo.dev_games;
+    }
+    @Watch("$store.getters.userInfo")
+    watchUserInfo() {
+        console.log("watchUserInfo AllGameLists", this.$store.getters.userInfo);
         this.gameList = this.$store.getters.userInfo.dev_games;
     }
 }
