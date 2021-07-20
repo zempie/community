@@ -176,6 +176,29 @@ pre {
     }
 }
 
+.selected-category {
+    padding: 0px !important;
+
+    .diagonal-border {
+        border-left: 1px solid #616a82;
+        height: 120%;
+        transform: rotate(30deg);
+    }
+
+    .category-title {
+        margin: 0px !important;
+        font-size: 13px;
+
+    }
+
+
+}
+
+.category-select {
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
 
 //v-tooltip
 
@@ -277,7 +300,8 @@ pre {
     }
 
     &.popover,
-    &.customPopover {
+    &.customPopover,
+    &.customPopover-2 {
         $color: #6c757d;
 
         .popover-inner {
@@ -311,9 +335,12 @@ pre {
     top: -60px !important;
 }
 
+.customPopover-2 {
+    top: -126px !important;
+}
+
 .v-popover {
     >div {
         width: 100% !important
     }
 }
-

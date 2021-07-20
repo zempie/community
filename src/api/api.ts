@@ -150,6 +150,57 @@ export default class Api {
 
     }
 
+    async getCommunityChannel(id: number) {
+        let result;
+        if (id === 2) {
+            result = [{
+
+
+                "id": 1,
+                "created_at": 1622615373000,
+                "name": "general",
+                "description": "null",
+                "profile_img": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb",
+                "sort": 1,
+                "state": "public"
+            },
+            {
+                "id": 2,
+                "created_at": 1622615373000,
+                "name": "private",
+                "description": "null",
+                "profile_img": "https://blush-design.imgix.net/collections/aarkKHQ2eBWDgSC0A3U6/aa591b33-341b-41aa-a4a8-924bcc003c46.png?w=800&auto=compress&cs=srgb",
+                "sort": 1,
+                "state": "private"
+            }]
+        } else {
+            result = [{
+
+
+                "id": 1,
+                "created_at": 1622615373000,
+                "name": "channel1",
+                "description": "null",
+                "profile_img": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb",
+                "sort": 1,
+                "state": "public"
+            },
+            {
+                "id": 2,
+                "created_at": 1622615373000,
+                "name": "channel2",
+                "description": "null",
+                "profile_img": "https://blush-design.imgix.net/collections/aarkKHQ2eBWDgSC0A3U6/aa591b33-341b-41aa-a4a8-924bcc003c46.png?w=800&auto=compress&cs=srgb",
+                "sort": 1,
+                "state": "private"
+            }]
+
+        }
+
+        return result;
+
+    }
+
 
     getCommunityInfo(id: number) {
 
