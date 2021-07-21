@@ -18,7 +18,7 @@
         <v-popover offset="16" popoverBaseClass="tooltip customPopover">
           <b-button v-close-popover>Community</b-button>
           <template slot="popover">
-            <v-popover popoverBaseClass="tooltip customPopover-2">
+            <v-popover offset="16" popoverBaseClass="tooltip customPopover-2">
               <b-button
                 v-close-popover
                 v-for="community in communityList"

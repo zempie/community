@@ -1,6 +1,13 @@
 <template>
     <div class="header-actions">
-        <div class="login" @click="logout">logout</div>
+        <!-- <div class="login" @click="logout">logout</div> -->
+        <div class="lang-selector form-select dropbox-container">
+            <b-select name="sub-manager" class="dropbox">
+                <b-select-option v-for="lang in langList" :key="lang.id">{{
+                    lang
+                }}</b-select-option>
+            </b-select>
+        </div>
         <div class="action-list dark">
             <!-- messages -->
             <messages></messages>
@@ -127,6 +134,7 @@ export default class ProfileMenu extends Vue {
 
     private hexagon: Hexagon = new Hexagon();
     private user = this.$store.getters.user;
+    private langList = ["한국어", "English"];
     mounted() {
         // await this.$store.dispatch('loginState');
 
@@ -141,12 +149,31 @@ export default class ProfileMenu extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .login {
     color: #fff;
     display: flex;
     margin-right: 26px;
     text-transform: uppercase;
     cursor: pointer;
+}
+.lang-selector {
+    display: flex;
+    margin-right: 26px;
+    align-items: center;
+    height: 80px;
+    .custom-select {
+        height: 38px;
+        border: none !important;
+        background: #7750f8
+            url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='white' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+            no-repeat right 0.75rem center/8px 10px !important;
+    }
+    .custom-select:focus {
+        box-shadow: none !important;
+    }
+    .custom-select::after {
+        color: #fff;
+    }
 }
 </style>
