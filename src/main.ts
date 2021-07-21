@@ -25,9 +25,8 @@ Vue.use(Vuelidate)
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 
-import PerfectScrollbar from 'vue2-perfect-scrollbar'
-import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
-Vue.use(PerfectScrollbar)
+import vuescroll from 'vuescroll/dist/vuescroll-slide';
+Vue.use(vuescroll);
 
 export const bus = new Vue();
 
