@@ -1,5 +1,5 @@
 import store from "@/store";
-import { mbToByte } from "@/script/fileManager";
+import { mbToByte, byteToMb } from "@/script/fileManager";
 import { fileObjWtUrl } from "@/types/file/file";
 
 
@@ -39,13 +39,14 @@ class FileLoader {
         reader.readAsDataURL(file);
     }
 
-    previewArr(src: string) {
-        this.fileObj.forEach(elem => {
-            console.log(elem, src)
-            elem.url = src;
-        })
-    }
+    // previewArr(src: string) {
+    //     this.fileObj.forEach(elem => {
+    //         console.log(elem, src)
+    //         elem.url = src;
+    //     })
+    // }
     checkImgFile(files: File[]) {
+        console.log('checkImgFile', this.fileObj)
         let totalImgCnt = files.length + this.fileObj.length;
 
         if (files.length > 5 || totalImgCnt > 5) {
@@ -66,10 +67,9 @@ class FileLoader {
                     // this.imgLoad(files[i]);
                     this.imgLoad(files[i], e => {
                         this.fileObj.push({
-                            contentType: 'image',
                             size: files[i].size,
                             name: files[i].name,
-                            type: files[i].type,
+                            contentType: files[i].type,
                             url: e.target.result
                         });
 
@@ -77,7 +77,7 @@ class FileLoader {
                 }
             }
 
-            console.log(this.fileObj)
+            console.log('checkImgFile', this.fileObj)
             return this.fileObj;
         }
     }
@@ -89,11 +89,30 @@ class FileLoader {
         }
         else if (typeof idx === 'string' && idx === 'all') {
             console.log('delte all')
-            //todo:array 비우기
             this.remainImgFileSize = mbToByte(20);
+            this.fileObj.splice(0, this.fileObj.length)
 
         }
         console.log(this.fileObj)
+    }
+
+    checkVideoFile(files: File) {
+
+        let videoFile: File | null = null;
+        if (byteToMb(files[0].size) > 40) {
+            alert("동영상의 최대 파일크기는 40mb를 넘을 수 없습니다.");
+        } else {
+            this.imgLoad(files[0], e => {
+                this.fileObj.push({
+                    size: files[0].size,
+                    name: files[0].name,
+                    contentType: files[0].type,
+                    url: e.target.result
+                });
+
+            })
+        }
+        return this.fileObj;
     }
 
 

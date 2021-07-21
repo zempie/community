@@ -1,3 +1,13 @@
+.video-container {
+    position: relative;
+
+    svg {
+        position: absolute;
+        right: 30px;
+        top: 30px;
+    }
+}
+
 // datepicker & timepicker
 .datepicker,
 .timepicker {
@@ -175,7 +185,8 @@ pre {
         margin-left: 10px;
     }
 }
-.category-listing{
+
+.category-listing {
     display: flex;
     margin-right: 28px;
 
@@ -186,12 +197,13 @@ pre {
         text-overflow: ellipsis;
         border-radius: 5px !important;
         border: 1px solid #616a82;
-        
+
         background: none;
         display: flex;
         align-items: center;
         height: 30px;
     }
+
     .category-title {
         display: flex;
         align-items: center;
@@ -199,13 +211,14 @@ pre {
         text-overflow: ellipsis;
         overflow: hidden;
         height: 100%;
-        p{
+
+        p {
             height: 100%;
             text-overflow: ellipsis;
             align-items: center;
             overflow: hidden;
             display: flex;
-            
+
         }
     }
 }
@@ -218,15 +231,14 @@ pre {
         border-left: 1px solid #616a82;
         height: 120%;
         transform: rotate(30deg);
+
     }
 
     .category-title {
         margin: 0px !important;
-        font-size: 13px;
+        font-size: 12px;
 
     }
-
-
 }
 
 .category-select {
@@ -379,12 +391,13 @@ pre {
         width: 100% !important
     }
 }
+
 //scroll
 .custom-scroll {
-    
+
     overflow-x: hidden;
     overflow-y: hidden;
     height: 60px !important;
-    
-  
+
+
 }
