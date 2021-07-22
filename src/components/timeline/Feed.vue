@@ -9,7 +9,10 @@
                         : ''
                 "
             >
-                <post-dropdown :feedId="feed.id"></post-dropdown>
+                <post-dropdown
+                    :feedId="feed.id"
+                    @postEdit="postEdit"
+                ></post-dropdown>
 
                 <div class="widget-box-status">
                     <div class="widget-box-status-content">
@@ -42,7 +45,10 @@
                                 <a class="bold" href="profile-timeline.html">{{
                                     feed.user.name
                                 }}</a>
-                                uploaded a <span class="bold">포스팅 타입</span>
+                                uploaded a
+                                <span class="bold"
+                                    >{{ feed.post_type }} post</span
+                                >
                             </p>
 
                             <p class="user-status-text small">{{ postDate }}</p>
@@ -71,7 +77,19 @@
                                 >{{ hashtag }}</router-link
                             >
                         </div>
-
+                        <b-modal
+                            modal-class="post-edit-modal"
+                            centered
+                            hide-header
+                            hide-footer
+                            v-model="show"
+                        >
+                            <post :feed="feed" :key="isEdit">
+                                <template v-slot:saveType>
+                                    <p class="button small secondary">수정</p>
+                                </template>
+                            </post>
+                        </b-modal>
                         <div class="content-actions">
                             <div class="meta-line">
                                 <div class="meta-line-list reaction-item-list">
@@ -230,9 +248,10 @@ import Carousel from "@/components/common/Carousel.vue";
 import Post from "@/components/timeline/Post.vue";
 import PostDropdown from "@/components/layout/dropdown/PostDropdown.vue";
 
+import TiptapSns from "@/components/timeline/TiptapSns.vue";
 import { dateFormat } from "@/script/moment";
 @Component({
-    components: { CommentList, Carousel, Post, PostDropdown },
+    components: { CommentList, Carousel, Post, PostDropdown, TiptapSns },
 })
 export default class Feed extends Vue {
     @Prop() feed!: any;
@@ -244,6 +263,9 @@ export default class Feed extends Vue {
     private likeList: any = [];
     private postDate: string = "";
     private isCopied: boolean = false;
+    private isEdit: number = 0;
+
+    private show: boolean = false;
 
     mounted() {
         this.dropdown.init();
@@ -286,6 +308,10 @@ export default class Feed extends Vue {
         } else {
             this.$router.push(`/feedDetail/${this.feed.id}`);
         }
+    }
+    postEdit(val: number) {
+        this.isEdit = val;
+        this.show = true;
     }
 }
 </script>

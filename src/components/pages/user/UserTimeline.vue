@@ -47,13 +47,11 @@ export default class UserTimeline extends Vue {
     private dropdown: Dropdown = new Dropdown();
     private hexagon: Hexagon = new Hexagon();
     private userUid = this.$route.params.channel_id;
-    private community: any = "";
 
     private timeline: any = "";
     private user!: User;
 
     async created() {
-        this.community = await this.$api.joinedCommunityList(this.userUid);
         this.timeline = await this.$api.getUserTimeline(this.userUid);
     }
     mounted() {

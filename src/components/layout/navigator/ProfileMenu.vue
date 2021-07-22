@@ -16,7 +16,10 @@
         </div>
 
         <div class="action-item-wrap">
-            <div class="action-item dark header-settings-dropdown-trigger">
+            <div
+                class="action-item dark header-settings-dropdown-trigger"
+                ref="dropdown"
+            >
                 <svg class="action-item-icon icon-settings">
                     <use xlink:href="#svg-settings"></use>
                 </svg>
@@ -25,9 +28,9 @@
             <div class="dropdown-navigation header-settings-dropdown">
                 <div class="dropdown-navigation-header">
                     <div class="user-status">
-                        <a
+                        <router-link
                             class="user-status-avatar"
-                            href="profile-timeline.html"
+                            :to="`/channel/${user.channel_id}`"
                         >
                             <div class="user-avatar small no-outline">
                                 <div class="user-avatar-content">
@@ -45,15 +48,15 @@
                                     <div class="hexagon-border-40-44"></div>
                                 </div>
                             </div>
-                        </a>
+                        </router-link>
 
                         <p class="user-status-title">
                             <span class="bold">Hi {{ user.name }}!</span>
                         </p>
 
                         <p class="user-status-text small">
-                            <a href="profile-timeline.html"
-                                >@{{ user.nickname }}</a
+                            <router-link :to="`/channel/${user.channel_id}`"
+                                >@{{ user.nickname }}</router-link
                             >
                         </p>
                     </div>
@@ -64,6 +67,7 @@
                 <router-link
                     class="dropdown-navigation-link"
                     :to="`/channel/${user.channel_id}`"
+                    @click.native="routerClick"
                     >Profile Info</router-link
                 >
 
@@ -74,9 +78,7 @@
                         >Notifications</a
                     > -->
 
-                <a
-                    class="dropdown-navigation-link"
-                    href="hub-profile-messages.html"
+                <a class="dropdown-navigation-link" @click="moveGameDashBoard"
                     >Game Studio</a
                 >
 
@@ -90,21 +92,23 @@
                 <router-link
                     class="dropdown-navigation-link"
                     :to="`/user/${user.uid}/changePassword`"
+                    @click.native="routerClick"
                     >Change Password</router-link
                 >
 
                 <router-link
                     class="dropdown-navigation-link"
                     :to="`/user/${user.uid}/settings`"
+                    @click.native="routerClick"
                     >General Settings</router-link
                 >
 
                 <p class="dropdown-navigation-category">Groups</p>
-
-                <a
+                <router-link
                     class="dropdown-navigation-link"
-                    href="hub-group-management.html"
-                    >Manage Groups</a
+                    :to="`/user/${user.uid}/manageJoinedGroup`"
+                    @click.native="routerClick"
+                    >Manage Groups</router-link
                 >
 
                 <p
@@ -145,6 +149,12 @@ export default class ProfileMenu extends Vue {
         this.$store.state.pathName = "logout";
         await Login.logout();
         this.$router.push("/guestPage");
+    }
+    moveGameDashBoard() {
+        window.location.href = this.$store.getters.studioUrl + "selectStage";
+    }
+    routerClick() {
+        (this.$refs.dropdown as HTMLElement).click();
     }
 }
 </script>

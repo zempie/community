@@ -92,12 +92,14 @@ export default class PostDropdown extends Vue {
         (this.$refs.dropbox as HTMLElement).click();
         const result = this.$api.deletePost(postId);
     }
-    editPost(postId: number) {}
+    editPost(postId: number) {
+        this.$emit("postEdit", Date.now());
+    }
     reportDone(state: boolean) {
         console.log(state);
     }
     report(reportType: string) {
-        this.uniqeKey = new Date().getTime();
+        this.uniqeKey = Date.now();
         if (reportType === "user") {
             this.userReport = true;
         } else {

@@ -250,9 +250,16 @@ export default class UserHeader extends Vue {
             this.userInfo.user_uid
         );
         this.followerCnt = await this.$api.follwerCnt(this.userInfo.user_uid);
-        this.hexagon.init();
     }
 
+    @Watch("userInfo", { immediate: true })
+    watchImg(val: any) {
+        console.log("watch userInfo", val);
+        this.$nextTick(() => {
+            this.hexagon.init();
+        });
+    }
+    @Watch("")
     followUser() {}
 }
 </script>

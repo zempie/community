@@ -2,15 +2,16 @@
     <section class="section">
         <div class="section-header" v-if="tlUser">
             <div class="section-header-info">
-                <p class="section-pretitle">
-                    Browse {{ tlUser.name }}'s
-                </p>
+                <p class="section-pretitle">Browse {{ tlUser.name }}'s</p>
 
                 <h2 class="section-title">Games</h2>
             </div>
 
             <div class="section-header-actions" v-if="user.uid === tlUser.uid">
-                <p class="section-header-action popup-album-creation-trigger">
+                <p
+                    class="section-header-action popup-album-creation-trigger"
+                    @click="addGame"
+                >
                     Add Game +
                 </p>
             </div>
@@ -76,6 +77,12 @@ export default class AllGameList extends Vue {
     watchUserInfo() {
         console.log("watchUserInfo AllGameLists", this.$store.getters.userInfo);
         this.gameList = this.$store.getters.userInfo.dev_games;
+    }
+    addGame() {
+        if (this.$store.getters.user.is_developer) {
+            window.location.href =
+                this.$store.getters.studioUrl + "selectStage";
+        }
     }
 }
 </script>

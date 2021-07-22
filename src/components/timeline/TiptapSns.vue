@@ -1,10 +1,15 @@
 <template>
-    <editor-content
-        v-if="user"
-        :editor="editor"
-        class="editor-container"
-        v-model="postingText"
-    />
+    <div>
+        <editor-content
+            v-if="user"
+            :editor="editor"
+            class="editor-container"
+            v-model="postingText"
+        />
+        <div class="character-count">
+            <p>{{ charCnt }}/{{ limit }}</p>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -16,7 +21,6 @@ import StarterKit from "@tiptap/starter-kit";
 
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import Dropcursor from "@tiptap/extension-dropcursor";
@@ -27,6 +31,7 @@ import Video from "@/script/tiptap/customVideo";
 import Audio from "@/script/tiptap/customAudio";
 import Iframe from "@/script/tiptap/iframe";
 import Hashtag from "@/script/tiptap/hashtag";
+import CharacterCount from "@tiptap/extension-character-count";
 import Mention from "@/script/tiptap/mention";
 
 import HahstagList from "./HashTagList.vue";
@@ -40,12 +45,15 @@ import { User } from "@/types";
     components: { EditorContent },
 })
 export default class TiptapSns extends Vue {
+    @Prop() feed!: any;
     @Prop() postType!: any;
     private imgPreviewArr: any[] = [];
     private postingText: string = "";
     private editor!: Editor;
     private fileLoader: any;
     private user!: User;
+    private limit: number = 300;
+    private charCnt: number = 0;
 
     // 해시태그 멘션
     private hasTagSuggestion: boolean = false;
@@ -70,7 +78,11 @@ export default class TiptapSns extends Vue {
     }
     async mounted() {
         await this.$store.dispatch("loginState");
-        console.log(this.postType);
+        console.log("TiptapSns", this.feed);
+        if (this.feed) {
+            this.editor.commands.setContent(this.feed.content);
+            this.charCnt = this.editor.getCharacterCount();
+        }
     }
     @Watch("user")
     editorInit() {
@@ -79,9 +91,6 @@ export default class TiptapSns extends Vue {
             content: this.postingText,
             extensions: [
                 StarterKit,
-                CodeBlockLowlight.configure({
-                    lowlight,
-                }),
                 Placeholder.configure({
                     placeholder: this.user
                         ? "멋진 생각을 공유해주세요."
@@ -91,6 +100,9 @@ export default class TiptapSns extends Vue {
                 Highlight,
                 Typography,
                 Dropcursor,
+                CharacterCount.configure({
+                    limit: this.limit,
+                }),
                 Video,
                 Iframe,
                 Audio,
@@ -297,6 +309,7 @@ export default class TiptapSns extends Vue {
                 this.$emit("isEmpty", this.editor.isEmpty);
                 this.$store.commit("postContents", this.editor.getHTML());
                 this.$store.commit("isClearEditor", false);
+                this.charCnt = this.editor.getCharacterCount();
             },
         });
     }

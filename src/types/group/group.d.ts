@@ -15,4 +15,22 @@ export interface Group {
     state: string;
     is_certificated: boolean;
     is_subscribed: boolean;
+    channels: Channel;
+    user_block: {
+        id: number;
+        uid: string;
+        blocked_at: number;
+        expires_on: number;
+        reason: string;
+    };
+}
+
+export interface Channel {
+    id: number;
+    created_at: number;
+    title: string;
+    description: string;
+    profile_img: string;
+    sort: number;
+    is_private: boolean;
 }

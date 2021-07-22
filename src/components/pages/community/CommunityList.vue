@@ -35,14 +35,17 @@
                         />
 
                         <!-- <template v-if="isSearched"> -->
-                        <button class="button primary" @click="searchReset">
+                        <button class="search button primary" @click="searchReset" >
                             <svg class="icon-cross-thin">
                                 <use xlink:href="#svg-cross-thin"></use>
                             </svg>
                         </button>
                         <!-- </template>
                         <template v-else> -->
-                        <button class="button primary" @click="searchCommunity">
+                        <button
+                            class="search button primary"
+                            @click="searchCommunity"
+                        >
                             <svg class="icon-magnifying-glass">
                                 <use xlink:href="#svg-magnifying-glass"></use>
                             </svg>
@@ -150,6 +153,32 @@
                         </div>
                     </div>
                 </template>
+                <template v-slot:communityAction>
+                    <div class="user-preview-actions">
+                        <template v-if="!community.is_subscribed">
+                            <p
+                                style="width: 100%"
+                                class="button secondary full subscribe-btn"
+                                @click="joinCommunity"
+                            >
+                                <svg class="button-icon icon-join-group">
+                                    <use xlink:href="#svg-join-group"></use>
+                                </svg>
+                                Join Group!
+                            </p>
+                        </template>
+                        <template v-else>
+                            <router-link
+                                style="width: 100%"
+                                :to="`/community/${community.id}/timeline`"
+                            >
+                                <p class="button primary full subscribe-btn">
+                                    Joined
+                                </p>
+                            </router-link>
+                        </template>
+                    </div>
+                </template>
             </community-card>
         </div>
     </div>
@@ -209,6 +238,9 @@ export default class Community extends Vue {
     searchReset() {
         console.log("search Reset");
     }
+    joinCommunity() {
+        console.log("joined!");
+    }
 }
 </script>
 
@@ -217,7 +249,7 @@ svg {
     overflow: hidden;
     vertical-align: middle;
 }
-.button {
+.search.button {
     width: 64px !important;
     position: absolute;
     top: 0;

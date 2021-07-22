@@ -76,7 +76,7 @@ export default class JoinedCommunity extends Vue {
 
     async mounted() {
         this.hexagon.init();
-        this.communityList = await this.$api.joinedCommunity(this.userUid);
+        this.communityList = await this.$api.joinedCommunityList(this.userUid);
 
         console.log(this.communityList);
     }

@@ -1,11 +1,15 @@
 <template>
-    <div class="img-preview-container">
-        <div class="img-preview" v-for="(img, idx) in imgPreviewArr" :key="idx">
-            <svg class="icon-cross" @click="deletePreviewImg(idx)">
+    <div class="audio-preview-container">
+        <div
+            class="audio-preview"
+            v-for="(audio, idx) in audioPreviewArr"
+            :key="idx"
+        >
+            <svg class="icon-cross" @click="deletePreviewAudio(idx)">
                 <use xlink:href="#svg-cross-thin"></use>
             </svg>
-
-            <b-img :src="img.url"></b-img>
+            <audio controls :src="audio.url"></audio>
+            <!-- <b-img :src="img.url"></b-img> -->
         </div>
     </div>
 </template>
@@ -17,9 +21,8 @@ import { bus } from "@/main";
 @Component({
     components: {},
 })
-export default class ImagePreview extends Vue {
-    @Prop() feed!: any;
-    private imgPreviewArr: any[] = [];
+export default class AudioPreview extends Vue {
+    private audioPreviewArr: any[] = [];
     private fileLoader: any;
 
     beforeDestroy() {
@@ -28,19 +31,13 @@ export default class ImagePreview extends Vue {
     mounted() {
         bus.$on("fileLoader", (fileLoader: any) => {
             this.fileLoader = fileLoader;
-            this.imgPreviewArr = fileLoader.fileObj.img;
+            this.audioPreviewArr = fileLoader.fileObj.audio;
         });
-
-        if (this.feed) {
-            if (this.feed.attatchment_files.img) {
-                this.imgPreviewArr = this.feed.attatchment_files.img;
-            }
-        }
     }
 
     //미리보기 사진 삭제
-    deletePreviewImg(idx: number) {
-        this.fileLoader.deletePreviewImg(idx);
+    deletePreviewAudio(idx: number) {
+        this.fileLoader.deletePreviewAudio(idx);
     }
 }
 </script>

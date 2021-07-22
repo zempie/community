@@ -1,3 +1,7 @@
+//post
+a{
+    cursor: pointer;
+}
 .video-container {
     position: relative;
 
@@ -7,7 +11,26 @@
         top: 30px;
     }
 }
+.character-count{
+    display: flex; justify-content: flex-end;
+    p{
+        margin: 18px;
+        font-size: 13px;
+        color: #9aa4bf;
+    }
+}
+.icon-cross{
+   cursor: pointer;
+}
+.audio-preview-container{
+    position: relative;
 
+    svg {
+        position: absolute;
+        right: 100px;
+        
+    }
+}
 // datepicker & timepicker
 .datepicker,
 .timepicker {
@@ -399,5 +422,18 @@ pre {
     overflow-y: hidden;
     height: 60px !important;
 
+
+}
+
+//community list
+
+//post edit
+.post-edit-modal{
+    .modal-body{
+        padding: 0px;
+    }
+    .modal-content{
+        background-color: #fff0;
+    }
 
 }

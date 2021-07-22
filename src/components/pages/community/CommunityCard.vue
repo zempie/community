@@ -44,24 +44,7 @@
             <!-- Community Detail Info  -->
             <slot name="communityDetail"></slot>
             <!-- /Community Detail Info  -->
-            <div class="user-preview-actions">
-                <template v-if="!community.is_subscribed">
-                    <p class="button secondary full" @click="joinCommunity">
-                        <svg class="button-icon icon-join-group">
-                            <use xlink:href="#svg-join-group"></use>
-                        </svg>
-                        Join Group!
-                    </p>
-                </template>
-                <template v-else>
-                    <router-link
-                        :to="`/community/${community.id}/timeline`"
-                        style="display: contents"
-                    >
-                        <p class="button primary full">Joined</p>
-                    </router-link>
-                </template>
-            </div>
+            <slot name="communityAction"></slot>
         </div>
     </div>
 </template>
@@ -79,9 +62,6 @@ export default class CommunityCard extends Vue {
 
     mounted() {
         this.hexagon.init();
-    }
-    joinCommunity() {
-        console.log("joined!");
     }
 }
 </script>

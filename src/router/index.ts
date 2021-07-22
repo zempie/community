@@ -5,6 +5,15 @@ import Home from '../views/Home.vue'
 import { LoginState } from "@/store/modules/user";
 Vue.use(VueRouter)
 
+// duplicate error
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => {
+        if (err.name !== 'NavigationDuplicated') throw err;
+    });
+};
+
+
 const routes: Array<RouteConfig> = [
     {
         path: '/',
@@ -51,6 +60,11 @@ const routes: Array<RouteConfig> = [
         path: '/user/:userUid/settings',
         name: 'UserSettings',
         component: () => import("@/components/pages/user/UserSettings.vue"),
+    },
+    {
+        path: '/user/:userUid/manageJoinedGroup',
+        name: 'ManageJoinedGroup',
+        component: () => import("@/components/pages/user/ManageJoinedGroup.vue"),
     },
 
     {
