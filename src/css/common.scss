@@ -1,7 +1,8 @@
 //post
-a{
+a {
     cursor: pointer;
 }
+
 .video-container {
     position: relative;
 
@@ -11,26 +12,44 @@ a{
         top: 30px;
     }
 }
-.character-count{
-    display: flex; justify-content: flex-end;
-    p{
+
+.character-count {
+    display: flex;
+    justify-content: flex-end;
+
+    p {
         margin: 18px;
         font-size: 13px;
         color: #9aa4bf;
     }
 }
-.icon-cross{
-   cursor: pointer;
+
+.icon-cross {
+    cursor: pointer;
 }
-.audio-preview-container{
+
+.audio-preview-container {
     position: relative;
 
     svg {
         position: absolute;
         right: 100px;
-        
+
     }
 }
+
+//private btn
+
+.checkbox-wrap .checkbox-box .icon-check {
+    fill: transparent;
+    transition: fill 0.2s ease-in-out;
+}
+
+.checkbox-wrap input[type="checkbox"]:checked+.checkbox-box .icon-check,
+.checkbox-wrap input[type="radio"]:checked+.checkbox-box .icon-check {
+    fill: #ffffff;
+}
+
 // datepicker & timepicker
 .datepicker,
 .timepicker {
@@ -428,11 +447,12 @@ pre {
 //community list
 
 //post edit
-.post-edit-modal{
-    .modal-body{
+.post-edit-modal {
+    .modal-body {
         padding: 0px;
     }
-    .modal-content{
+
+    .modal-content {
         background-color: #fff0;
     }
 
