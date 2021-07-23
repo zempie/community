@@ -281,7 +281,7 @@ export default class Navtigator extends Vue {
     hide() {
         this.searchInput = "";
         (this.$refs.input as HTMLElement).classList.remove("active");
-        this.header.searchDropdown();
+          this.header.searchDropdown();
     }
     listReset() {
         this.userList = [];
