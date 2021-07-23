@@ -4,6 +4,10 @@ import { fileObjWtUrl } from "@/types/file/file";
 
 
 class FileLoader {
+    constructor() {
+
+        console.log('FileLoader!');
+    }
 
     private remainImgFileSize: number = mbToByte(20); //20mb (binary);
     private remainAudioFileSize: number = mbToByte(40); //40mb (binary);
@@ -13,39 +17,14 @@ class FileLoader {
         store.commit('isClearEditor', false)
         // let fileUrl: string | null | ArrayBuffer;
         let reader = new FileReader();
-
-
         reader.onload = callback;
-
         reader.readAsDataURL(file);
     }
     getFileUrl(src: string | ArrayBuffer | null) {
         return src;
     }
-    videoLoad(file: File) {
-        let reader = new FileReader();
 
-        reader.onload = (e) => {
-            store.commit('previewVideo', e.target!.result);
-        }
-        reader.readAsDataURL(file);
 
-    }
-    audioLoad(file: File) {
-        let reader = new FileReader();
-
-        reader.onload = (e) => {
-            store.commit('previewAudioArr', e.target!.result);
-        }
-        reader.readAsDataURL(file);
-    }
-
-    // previewArr(src: string) {
-    //     this.fileObj.forEach(elem => {
-    //         console.log(elem, src)
-    //         elem.url = src;
-    //     })
-    // }
     checkImgFile(files: File[]) {
         console.log('checkImgFile', this.fileObj.img)
         let totalImgCnt = files.length + this.fileObj.img.length;
@@ -85,7 +64,7 @@ class FileLoader {
     //미리보기 사진 삭제
     deletePreviewImg(idx: number | string) {
         if (typeof idx === 'number') {
-            this.remainImgFileSize += this.fileObj.img[idx].size;
+            this.remainImgFileSize += this.fileObj.img[idx].size!;
             this.fileObj.img.splice(idx, 1);
         }
         else if (typeof idx === 'string' && idx === 'all') {
@@ -156,7 +135,7 @@ class FileLoader {
     //미리보기 오디오 삭제
     deletePreviewAudio(idx: number | string) {
         if (typeof idx === 'number') {
-            this.remainAudioFileSize += this.fileObj.audio[idx].size;
+            this.remainAudioFileSize += this.fileObj.audio[idx].size!;
             this.fileObj.audio.splice(idx, 1);
         }
         else if (typeof idx === 'string' && idx === 'all') {

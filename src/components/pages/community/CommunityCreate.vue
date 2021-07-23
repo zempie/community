@@ -9,7 +9,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-3-3-3 centered">
+            <div class="grid grid-3-3-3">
                 <img-preview
                     :profileImg="'https://contattafiles.s3.us-west-1.amazonaws.com/tnt34018/3zSt8zXVMKCNeeG/default_profile.png'"
                     :bannerImg="'https://contattafiles.s3.us-west-1.amazonaws.com/tnt34018/7tA7006wJaTGd1F/Pasted%20Image%3A%20Jul%2012%2C%202021%20-%2011%3A40%3A07am'"

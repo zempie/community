@@ -7,19 +7,19 @@
 
         <div class="grid grid-9-3 mobile-prefer-content">
             <div class="forum-content grid-column">
-                <h3 style="margin-bottom: 16px">Users</h3>
-                <div class="grid grid-3-3-3-3 centered">
+                <h3 style="margin-bottom: 16px" class="text-left">Users</h3>
+                <div class="grid grid-3-3-3-3">
                     <member-card
                         v-for="member in memberList"
                         :key="member.id"
                         :member="member"
                     ></member-card>
                 </div>
-                <h3 style="margin-bottom: 16px">Posts</h3>
+                <h3 style="margin-bottom: 16px" class="text-left">Posts</h3>
                 <feed v-for="feed in posts" :key="feed.id" :feed="feed"></feed>
             </div>
             <div class="forum-content grid-column">
-                <h3 style="margin-bottom: 16px">Games</h3>
+                <h3 style="margin-bottom: 16px" class="text-left">Games</h3>
                 <card></card>
             </div>
         </div>
@@ -40,9 +40,9 @@ export default class SearchPage extends Vue {
     private posts: any = [];
     private games: any = [];
     private memberList: any = [];
-    created() {
+    async created() {
         this.memberList = this.$api.getCommunityMember(12);
-        const result = this.$api.search(this.query, this.type);
+        const result = await this.$api.search(this.query, this.type);
         this.posts = result.posts;
         this.games = result.games;
     }

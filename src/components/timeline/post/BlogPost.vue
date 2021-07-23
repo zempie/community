@@ -48,14 +48,14 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class BlogPost extends Vue {
     //첨부파일 업로드
     uploadFile(fileType: string) {
-        this.selectedFileType = fileType;
+        // this.selectedFileType = fileType;
 
         (this.$refs[fileType] as HTMLElement).click();
     }
 
     // 파일 업로드
     onFileChange(event: { target: { accept: any; files: any } }) {
-        this.inputFile(event.target.files);
+        // this.inputFile(event.target.files);
     }
     
 }

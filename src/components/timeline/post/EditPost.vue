@@ -1,6 +1,6 @@
 <template>
-    <!-- -->
     <div class="quick-post" id="postContainer">
+          <slot name="closeBtn"> </slot>
         <div class="quick-post-header">
             <div class="option-items">
                 <div
@@ -831,9 +831,6 @@ export default class Post extends Vue {
     async mounted() {
         this.tooltip.init();
         this.dropdown.init();
-        document
-            .querySelector("#postContainer")!
-            .addEventListener("click", this.interceptClickEvent);
 
         if (this.user) {
             this.communityList = await this.$api.joinedCommunityList(
@@ -920,7 +917,7 @@ export default class Post extends Vue {
     uploadFile(fileType: string) {
         this.selectedFileType = fileType;
 
-        (this.$refs[fileType] as HTMLElement).click();
+        // (this.$refs[fileType] as HTMLElement).click();
     }
 
     // 파일 업로드
@@ -937,7 +934,7 @@ export default class Post extends Vue {
     deletePreviewAudio(idx: number) {
         this.remainAudioSize += this.fileList[idx].size;
         this.audioPreviewArr.splice(idx, 1);
-        this.fileList.splice(idx, 1);
+        this.fileList.audio.splice(idx, 1);
     }
 
     //파일 용량 & 개수 체크
@@ -950,14 +947,14 @@ export default class Post extends Vue {
             if (files.length <= 5 && this.selectedFileType === "image") {
                 for (let i = 0; i < files.length; i++) {
                     this.remainFileSize -= files[i].size;
-                    this.fileList.push(files[i]);
+                    this.fileList.img.push(files[i]);
                     if (this.remainFileSize < 0) {
                         alert("최대 파일 용량을 넘었습니다.(최대 20mb)");
                         this.remainFileSize += files[i].size;
                         break;
                     }
 
-                    this.fileLoader.imgLoad(files[i]);
+                    // this.fileLoader.imgLoad(files[i]);
                 }
             }
         }
@@ -973,7 +970,7 @@ export default class Post extends Vue {
             if (files.length <= 5 && this.selectedFileType === "audio") {
                 for (let i = 0; i < files.length; i++) {
                     this.remainAudioSize -= files[i].size;
-                    this.fileList.push(files[i]);
+                    this.fileList.audio.push(files[i]);
                     if (this.remainAudioSize < 0) {
                         alert("최대 파일 용량을 넘었습니다.(최대 40mb)");
                         this.remainAudioSize += files[i].size;
@@ -990,13 +987,13 @@ export default class Post extends Vue {
     inputFile(files: any) {
         let fileArr: any[] | any = [];
 
-        if (this.selectedFileType === "image") {
-            fileArr = this.checkImgFile(files);
-        } else if (this.selectedFileType === "video") {
-            fileArr = this.checkVideoFile(files);
-        } else if (this.selectedFileType === "audio") {
-            fileArr = this.checkAudioFile(files);
-        }
+        // if (this.selectedFileType === "image") {
+        //     fileArr = this.checkImgFile(files);
+        // } else if (this.selectedFileType === "video") {
+        //     fileArr = this.checkVideoFile(files);
+        // } else if (this.selectedFileType === "audio") {
+        //     fileArr = this.checkAudioFile(files);
+        // }
 
         if (fileArr && fileArr.length) {
             for (let i = 0; i < fileArr.length; i++) {

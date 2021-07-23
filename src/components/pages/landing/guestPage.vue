@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="grid grid-3-3-3 centered">
+            <div class="grid grid-3-3-3 ">
                 <div v-for="i in 12" :key="i">
                     <community-card
                         v-for="community in communityList"

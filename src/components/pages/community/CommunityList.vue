@@ -102,7 +102,7 @@
             </div>
         </div>
 
-        <div class="grid grid-4-4-4 centered">
+        <div class="grid grid-4-4-4">
             <p v-if="!communityList">검색 결과가 없습니다.</p>
             <community-card
                 v-for="community in communityList"

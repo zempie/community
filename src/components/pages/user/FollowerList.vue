@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-4-4-4 centered">
+            <div class="grid grid-4-4-4">
                 <member-card
                     v-for="member in followerList"
                     :key="member.id"

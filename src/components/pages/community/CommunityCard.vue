@@ -31,13 +31,13 @@
                     </div>
                 </router-link>
 
-                <p class="user-short-description-title">
+                <p class="user-short-description-title text-left">
                     <router-link :to="`/community/${community.id}/timeline`">
                         {{ community.name }}
                     </router-link>
                 </p>
 
-                <p class="user-short-description-text">
+                <p class="user-short-description-text text-left">
                     {{ community.description }}
                 </p>
             </div>

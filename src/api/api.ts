@@ -1092,6 +1092,7 @@ export default class Api {
 
         return true;
     }
+   
 
     //POST
     deletePost(post_id: number) {

@@ -3,7 +3,7 @@
         <div class="account-hub-content">
             <div class="section-header">
                 <div class="section-header-info">
-                    <p class="section-pretitle">Account</p>
+                    <p class="section-pretitle text-left">Account</p>
 
                     <h2 class="section-title">Change Password</h2>
                 </div>

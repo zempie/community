@@ -403,7 +403,7 @@ export default class Register extends Vue {
     }
 
     radioBtn(val?: string) {
-        this.isValidateError = false;
+        // this.isValidateError = false;
         // if((this.$refs.reportReason as HTMLFormElement).checked){
         //     (this.$refs.reportReason as HTMLFormElement).checked = false;
         // }

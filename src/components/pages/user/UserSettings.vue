@@ -3,7 +3,7 @@
         <div class="account-hub-content">
             <div class="section-header">
                 <div class="section-header-info">
-                    <p class="section-pretitle">Account</p>
+                    <p class="section-pretitle text-left">Account</p>
 
                     <h2 class="section-title">General Settings</h2>
                 </div>
@@ -11,7 +11,7 @@
             <div class="grid-column">
                 <div class="widget-box mb-5 text-left">
                     <p class="widget-box-title">Personal Info</p>
-                    <div class="grid grid-half centered" v-if="user">
+                    <div class="grid grid-half" v-if="user">
                         <img-preview
                             :profileImg="user && user.picture"
                             :bannerImg="'https://contattafiles.s3.us-west-1.amazonaws.com/tnt34018/7tA7006wJaTGd1F/Pasted%20Image%3A%20Jul%2012%2C%202021%20-%2011%3A40%3A07am'"

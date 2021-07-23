@@ -72,10 +72,8 @@
                                     <!-- aria-describedby="input-1-live-feedback" -->
 
                                     <b-form-invalid-feedback
-                                        >This is a required field and must be at
-                                        least 3
-                                        characters.</b-form-invalid-feedback
-                                    >
+                                        >올바른 이메일 형식으로 작성해주세요
+                                    </b-form-invalid-feedback>
                                 </b-form-group>
                             </div>
                         </div>
