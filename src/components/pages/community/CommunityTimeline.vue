@@ -33,7 +33,8 @@
             <p class="block-alarm">
                 블락으로 인해 포스팅을 작성하실 수 없습니다.
             </p>
-            <post></post>
+            <entry-post></entry-post>
+            <!-- <post></post> -->
             <!-- 타임라인 -->
             <template v-if="timeline">
                 <feed
@@ -57,13 +58,14 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 
+import EntryPost from "@/components/layout/EntryPost.vue";
 import Post from "@/components/timeline/Post.vue";
 import Channel from "@/components/pages/community/Channel.vue";
 import Desctiption from "@/components/pages/community/CommunityDescBox.vue";
 import Feed from "@/components/timeline/Feed.vue";
 
 @Component({
-    components: { Post, Channel, Feed, Desctiption },
+    components: { Post, Channel, Feed, Desctiption, EntryPost },
 })
 export default class CommunityTimeline extends Vue {
     private dropdown: Dropdown = new Dropdown();

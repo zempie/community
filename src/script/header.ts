@@ -58,7 +58,7 @@ class Header {
                     type: 'translate-top'
                 },
                 controlToggle: true,
-                closeOnWindowClick: false
+                closeOnWindowClick: true
             });
 
             const searchInput = el[0],

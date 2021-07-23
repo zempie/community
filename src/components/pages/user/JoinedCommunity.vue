@@ -38,7 +38,7 @@
                         </div>
                     </router-link>
 
-                    <p class="user-status-title">
+                    <p class="user-status-title text-left">
                         <router-link
                             class="bold"
                             :to="`/community/${community.id}/timeline`"
@@ -46,7 +46,7 @@
                         >
                     </p>
 
-                    <p class="user-status-text small">
+                    <p class="user-status-text small text-left">
                         {{ community.member_cnt }} members
                     </p>
                 </div>

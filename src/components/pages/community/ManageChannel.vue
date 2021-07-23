@@ -9,7 +9,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-3-3-3 centered-on-mobile">
+            <div class="grid grid-3-3-3">
                 <div class="create-entity-box">
                     <div class="create-entity-box-cover"></div>
 

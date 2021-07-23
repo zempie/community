@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="grid grid-3-3-3-3 centered">
+        <div class="grid grid-3-3-3-3">
             <router-link
                 target="_blank"
                 class="album-preview"

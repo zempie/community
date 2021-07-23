@@ -50,7 +50,7 @@
                             </div>
                         </a>
 
-                        <p class="user-status-title">
+                        <p class="user-status-title text-left">
                             <a class="bold" href="profile-timeline.html"
                                 >Nick Grissom</a
                             >
@@ -60,7 +60,7 @@
                             >
                         </p>
 
-                        <p class="user-status-timestamp">2 minutes ago</p>
+                        <p class="user-status-timestamp text-left">2 minutes ago</p>
 
                         <div class="user-status-icon">
                             <svg class="icon-comment">

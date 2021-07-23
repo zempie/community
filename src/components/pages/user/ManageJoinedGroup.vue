@@ -3,14 +3,14 @@
         <div class="account-hub-content">
             <div class="section-header">
                 <div class="section-header-info">
-                    <p class="section-pretitle">Groups</p>
+                    <p class="section-pretitle text-left">Groups</p>
 
                     <h2 class="section-title">Manage Groups</h2>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-4-4-4 centered">
+        <div class="grid grid-4-4-4">
             <community-card
                 v-for="community in communityList"
                 :key="community.id"
@@ -33,7 +33,7 @@
                     </template>
                 </template>
                 <template v-slot:communityDetail>
-                    <div class="user-stats">
+                    <div class="user-stats ">
                       
                         <div class="user-stat">
                             <p class="user-stat-title">

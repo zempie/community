@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 // duplicate error
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
+    //@ts-ignore
     return originalPush.call(this, location).catch(err => {
         if (err.name !== 'NavigationDuplicated') throw err;
     });

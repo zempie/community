@@ -73,13 +73,13 @@
                         </div>
                     </router-link>
 
-                    <p class="user-status-title">
-                        <a class="bold" href="profile-timeline.html"
+                    <p class="user-status-title text-left">
+                        <a class="bold " href="profile-timeline.html"
                             >User name</a
                         >
                     </p>
 
-                    <p class="user-status-text small">@userNickname</p>
+                    <p class="user-status-text small text-left">@userNickname</p>
 
                     <div class="action-request-list">
                         <div class="action-request accept">

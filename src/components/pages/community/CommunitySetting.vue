@@ -8,7 +8,7 @@
             </p>
         </div>
 
-        <div class="grid grid-3-3-3 centered">
+        <div class="grid grid-3-3-3">
             <img-preview
                 :profileImg="community.profile_img"
                 :bannerImg="community.banner_img"

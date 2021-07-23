@@ -10,19 +10,19 @@
             <div class="information-line-list">
                 <div class="information-line">
                     <p class="information-line-title">Owner</p>
-<a
-                                class="user-status-avatar"
-                                href="profile-timeline.html"
-                            >
-                                <div class="user-avatar small no-outline">
-                                    <div class="user-avatar-content">
-                                        <div
-                                            class="hexagon-image-24-26"
-                                            data-src="https://placekitten.com/300/300"
-                                        ></div>
-                                    </div>
+                    <router-link
+                        class="user-status-avatar"
+                        :to="`/channel/${ownerInfo.uid}/timeline`"
+                    >
+                        <div class="user-avatar small no-outline">
+                            <div class="user-avatar-content">
+                                <div
+                                    class="hexagon-image-24-26"
+                                    :data-src="ownerInfo.picture"
+                                ></div>
+                            </div>
 
-                                    <!-- <div class="user-avatar-progress">
+                            <!-- <div class="user-avatar-progress">
                                         <div
                                             class="hexagon-progress-40-44"
                                         ></div>
@@ -31,8 +31,8 @@
                                     <div class="user-avatar-progress-border">
                                         <div class="hexagon-border-40-44"></div>
                                     </div> -->
-                                </div>
-                            </a>
+                        </div>
+                    </router-link>
                     <!-- <b-avatar
                         rounded="sm"
                         size="1.5rem"
@@ -42,19 +42,42 @@
                     ></b-avatar> -->
                     <router-link
                         :to="`/channel/${ownerInfo.uid}/timeline`"
-                        class="information-line-text"
+                        class="information-line-text nickname-link"
                     >
-                        {{ ownerInfo.name }}(@닉네임)
+                        (@닉네임)
                     </router-link>
                 </div>
                 <div class="information-line">
                     <p class="information-line-title">Manager</p>
+                    <router-link
+                        class="user-status-avatar"
+                        :to="`/channel/${managerInfo.uid}/timeline`"
+                    >
+                        <div class="user-avatar small no-outline">
+                            <div class="user-avatar-content">
+                                <div
+                                    class="hexagon-image-24-26"
+                                    :data-src="managerInfo.picture"
+                                ></div>
+                            </div>
+
+                            <!-- <div class="user-avatar-progress">
+                                        <div
+                                            class="hexagon-progress-40-44"
+                                        ></div>
+                                    </div>
+
+                                    <div class="user-avatar-progress-border">
+                                        <div class="hexagon-border-40-44"></div>
+                                    </div> -->
+                        </div>
+                    </router-link>
 
                     <router-link
                         :to="`/channel/${managerInfo.uid}/timeline`"
-                        class="information-line-text"
+                        class="information-line-text nickname-link"
                     >
-                        {{ managerInfo.name }}(@닉네임)
+                        (@닉네임)
                     </router-link>
                 </div>
 
@@ -89,6 +112,7 @@ export default class CommunityDescBox extends Vue {
     async created() {
         let temp = await this.$api.channel(this.community.manager_uid);
         let temp2 = await this.$api.channel(this.community.owner_uid);
+
         this.managerInfo = temp.target;
         this.ownerInfo = temp2.target;
         this.created_at = moment(this.community.created_at).format(
@@ -101,5 +125,15 @@ export default class CommunityDescBox extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.nickname-link {
+    color: #9668ff;
+    display: flex;
+    align-items: center;
+}
+.information-line-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 </style>

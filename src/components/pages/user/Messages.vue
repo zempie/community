@@ -46,11 +46,11 @@
                             </div>
                         </div>
 
-                        <p class="user-status-title">
+                        <p class="user-status-title text-left">
                             <span class="bold">Bearded Wonder</span>
                         </p>
 
-                        <p class="user-status-text">
+                        <p class="user-status-text text-left">
                             Great! Then will meet with them at the party...
                         </p>
 

@@ -1,4 +1,5 @@
 //post
+
 a {
     cursor: pointer;
 }
@@ -36,6 +37,64 @@ a {
         right: 100px;
 
     }
+}
+.feed-content, .invalid-feedback{
+    text-align: left;
+}
+.user-short-description-text{
+    word-break: break-all;
+}
+.modal-close-container{
+    text-align: right;
+    background-color: #9aa4bf3b;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    height: 28px;
+    svg{
+        margin-right:14px
+    }
+}
+
+// post modal
+
+.dropdown-container {
+    height: 25px;
+    .dropdown-item {
+        font-size: 15px !important;
+        font-weight: 100 !important;
+        padding: 0px 20px 0px 20px;
+        text-overflow: ellipsis;
+        border-radius: 5px !important;
+        border: none !important;
+    }
+}
+.quick-post-footer.attachment {
+    border-top: 0px;
+    min-height: 60px !important;
+}
+.quick-post-footer.checkbox {
+    border-top: 0px;
+    min-height: 30px !important;
+    justify-content: flex-end;
+}
+
+.post-select {
+    min-height: 50px;
+}
+.checkbox-wrap {
+    margin-right: 5px;
+}
+.quick-post-footer-actions {
+    .button {
+        display: flex;
+        height: 35px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.button-container {
+    display: flex;
 }
 
 //private btn
@@ -436,7 +495,6 @@ pre {
 
 //scroll
 .custom-scroll {
-
     overflow-x: hidden;
     overflow-y: hidden;
     height: 60px !important;
@@ -456,4 +514,18 @@ pre {
         background-color: #fff0;
     }
 
+}
+
+//icon
+.game-console-icon{
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10; 
+    top: 10px;
+    right: 0;
+    width: 20px;
+        height:20px;
 }
