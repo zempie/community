@@ -38,20 +38,25 @@ a {
 
     }
 }
-.feed-content, .invalid-feedback{
+
+.feed-content,
+.invalid-feedback {
     text-align: left;
 }
-.user-short-description-text{
+
+.user-short-description-text {
     word-break: break-all;
 }
-.modal-close-container{
+
+.modal-close-container {
     text-align: right;
     background-color: #9aa4bf3b;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     height: 28px;
-    svg{
-        margin-right:14px
+
+    svg {
+        margin-right: 14px
     }
 }
 
@@ -59,6 +64,7 @@ a {
 
 .dropdown-container {
     height: 25px;
+
     .dropdown-item {
         font-size: 15px !important;
         font-weight: 100 !important;
@@ -68,10 +74,12 @@ a {
         border: none !important;
     }
 }
+
 .quick-post-footer.attachment {
     border-top: 0px;
     min-height: 60px !important;
 }
+
 .quick-post-footer.checkbox {
     border-top: 0px;
     min-height: 30px !important;
@@ -81,9 +89,11 @@ a {
 .post-select {
     min-height: 50px;
 }
+
 .checkbox-wrap {
     margin-right: 5px;
 }
+
 .quick-post-footer-actions {
     .button {
         display: flex;
@@ -97,6 +107,10 @@ a {
     display: flex;
 }
 
+.custom-scroll {
+    background-color: #161b28;
+}
+
 //private btn
 
 .checkbox-wrap .checkbox-box .icon-check {
@@ -107,6 +121,10 @@ a {
 .checkbox-wrap input[type="checkbox"]:checked+.checkbox-box .icon-check,
 .checkbox-wrap input[type="radio"]:checked+.checkbox-box .icon-check {
     fill: #ffffff;
+}
+
+.quick-post-footer.attachment {
+    background-color: #161b28;
 }
 
 // datepicker & timepicker
@@ -484,7 +502,7 @@ pre {
 }
 
 .customPopover-2 {
-    top: -126px !important;
+    top: -143px !important;
 }
 
 .v-popover {
@@ -517,15 +535,29 @@ pre {
 }
 
 //icon
-.game-console-icon{
+.game-console-icon {
     fill: none;
     stroke: #fff;
     stroke-width: 1;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-miterlimit: 10; 
+    stroke-miterlimit: 10;
     top: 10px;
     right: 0;
     width: 20px;
-        height:20px;
+    height: 20px;
+}
+
+//delete modal
+.modal-container {
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .half {
+        display: flex;
+        width: 47% !important;
+        justify-content: center;
+    }
 }

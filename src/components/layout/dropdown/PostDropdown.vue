@@ -64,7 +64,16 @@
       >
     </modal>
 
-    <delete-modal :show="show" :key="show"></delete-modal>
+    <delete-modal :show="show" :key="show" @closeModal="closeModal">
+      <template v-slot:yesDelete>
+        <button
+          class="popup-box-action half button tertiary"
+          @click="yesDeletePost"
+        >
+          네, 삭제하겠습니다.
+        </button>
+      </template>
+    </delete-modal>
   </div>
 </template>
 
@@ -89,13 +98,29 @@ export default class PostDropdown extends Vue {
   private userReport: boolean = false;
   private isUserBlock: boolean = false;
   private show: boolean = false;
+  private timeId: number = 0;
   mounted() {
     this.dropdown.init();
+  }
+  destroy() {
+    this.timeId = 0;
   }
   deletePost(postId: number) {
     (this.$refs.dropbox as HTMLElement).click();
     this.show = true;
-    // const result = this.$api.deletePost(postId);
+
+    const result = this.$api.deletePost(postId);
+  }
+
+  closeModal() {
+    this.timeId = setTimeout(() => {
+      this.show = false;
+    }, 300);
+  }
+
+  async yesDeletePost() {
+    console.log("delet", this.feedId);
+    const result = await this.$api.deletePost(this.feedId);
   }
   editPost(postId: number) {
     this.$emit("postEdit", Date.now());
@@ -105,6 +130,7 @@ export default class PostDropdown extends Vue {
     console.log(state);
   }
   report(reportType: string) {
+    (this.$refs.dropbox as HTMLElement).click();
     this.uniqeKey = Date.now();
     if (reportType === "user") {
       this.userReport = true;

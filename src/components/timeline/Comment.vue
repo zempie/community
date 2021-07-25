@@ -113,7 +113,10 @@
                 <p class="simple-dropdown-link" @click="editPost">
                   Edit Comment
                 </p>
-                <p class="simple-dropdown-link" @click="deletePost(comment.id)">
+                <p
+                  class="simple-dropdown-link"
+                  @click="deleteComment(comment.id)"
+                >
                   Delete Comment
                 </p>
               </div>
@@ -185,7 +188,7 @@ export default class Comment extends Vue {
     this.isEditing = false;
   }
 
-  deletePost(commentId: number) {
+  deleteComment(commentId: number) {
     const result = this.$api.deleteComment(this.postId, commentId);
     (this.$refs.dropbox as HTMLElement).click();
   }

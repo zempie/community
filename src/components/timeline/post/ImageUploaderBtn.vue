@@ -42,11 +42,15 @@ export default class ImageUploaderBtn extends Vue {
   }
 
   // 파일 업로드
-  onFileChange(event: { target: { accept: any; files: any } }) {
+  onFileChange(event: {
+    target: { accept: any; files: any; value: string | null };
+  }) {
     if (this.fileLoader.checkImgFile(event.target.files)) {
-     this.$emit("fileCheckDone");
+      this.$emit("fileCheckDone");
       bus.$emit("fileLoader", this.fileLoader);
+      console.log("파일 업로드", event.target.value);
     }
+    event.target.value = null;
   }
 }
 </script>

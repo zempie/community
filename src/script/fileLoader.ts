@@ -6,28 +6,30 @@ import { fileObjWtUrl } from "@/types/file/file";
 class FileLoader {
     constructor() {
 
-        console.log('FileLoader!');
+        console.log('FileLoader!', this.fileObj);
     }
 
     private remainImgFileSize: number = mbToByte(20); //20mb (binary);
     private remainAudioFileSize: number = mbToByte(40); //40mb (binary);
     fileObj: { img: fileObjWtUrl[], video: fileObjWtUrl[], audio: fileObjWtUrl[] } = { img: [], video: [], audio: [] };
 
-    imgLoad(file: File, callback) {
+    getFileUrl(file: File, callback) {
         store.commit('isClearEditor', false)
         // let fileUrl: string | null | ArrayBuffer;
         let reader = new FileReader();
         reader.onload = callback;
         reader.readAsDataURL(file);
     }
-    getFileUrl(src: string | ArrayBuffer | null) {
-        return src;
-    }
+
 
 
     checkImgFile(files: File[]) {
         console.log('checkImgFile', this.fileObj.img)
         let totalImgCnt = files.length + this.fileObj.img.length;
+
+        let fileSize: number = 0;
+        let fileName: string = '';
+        let fileContentType: string = '';
 
         if (files.length > 5 || totalImgCnt > 5) {
             alert("이미지 개수는 최대 5개입니다");
@@ -42,14 +44,16 @@ class FileLoader {
                         return false;
 
                     }
-
+                    fileSize = files[i].size;
+                    fileName = files[i].name;
+                    fileContentType = files[i].type;
 
                     // this.imgLoad(files[i]);
-                    this.imgLoad(files[i], e => {
+                    this.getFileUrl(files[i], e => {
                         this.fileObj.img.push({
-                            size: files[i].size,
-                            name: files[i].name,
-                            contentType: files[i].type,
+                            size: fileSize,
+                            name: fileName,
+                            contentType: fileContentType,
                             url: e.target.result
                         });
 
@@ -78,15 +82,24 @@ class FileLoader {
 
     checkVideoFile(files: File) {
 
+        let fileSize: number = 0;
+        let fileName: string = '';
+        let fileContentType: string = '';
+
         let videoFile: File | null = null;
         if (byteToMb(files[0].size) > 40) {
             alert("동영상의 최대 파일크기는 40mb를 넘을 수 없습니다.");
         } else {
-            this.imgLoad(files[0], e => {
+
+            fileSize = files[0].size;
+            fileName = files[0].name;
+            fileContentType = files[0].type;
+
+            this.getFileUrl(files[0], e => {
                 this.fileObj.video.push({
-                    size: files[0].size,
-                    name: files[0].name,
-                    contentType: files[0].type,
+                    size: fileSize,
+                    name: fileName,
+                    contentType: fileContentType,
                     url: e.target.result
                 });
 
@@ -99,6 +112,10 @@ class FileLoader {
     checkAudioFile(files: File[]) {
         console.log('checkAudioFile', this.fileObj.audio)
         let totalAudioCnt = files.length + this.fileObj.audio.length;
+
+        let fileSize: number = 0;
+        let fileName: string = '';
+        let fileContentType: string = '';
 
         if (files.length > 5 || totalAudioCnt > 5) {
             alert("이미지 개수는 최대 5개입니다");
@@ -113,14 +130,16 @@ class FileLoader {
                         return false;
 
                     }
-
+                    fileSize = files[i].size;
+                    fileName = files[i].name;
+                    fileContentType = files[i].type;
 
                     // this.imgLoad(files[i]);
-                    this.imgLoad(files[i], e => {
+                    this.getFileUrl(files[i], e => {
                         this.fileObj.audio.push({
-                            size: files[i].size,
-                            name: files[i].name,
-                            contentType: files[i].type,
+                            size: fileSize,
+                            name: fileName,
+                            contentType: fileContentType,
                             url: e.target.result
                         });
 

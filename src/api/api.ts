@@ -1092,11 +1092,12 @@ export default class Api {
 
         return true;
     }
-   
+
 
     //POST
-    deletePost(post_id: number) {
-        console.log('delete post')
+    async deletePost(post_id: number) {
+
+        console.log('delete post', post_id)
 
     }
 

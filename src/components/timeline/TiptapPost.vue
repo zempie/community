@@ -294,6 +294,8 @@ export default class TiptapPost extends Vue {
       onUpdate: () => {
         this.$emit("isEmpty", this.editor.isEmpty);
         this.charCnt = this.editor.getCharacterCount();
+        // todo: array
+        console.log("update", this.editor.getJSON().content);
       },
     });
   }
