@@ -81,7 +81,7 @@ export default class AllGameList extends Vue {
     addGame() {
         if (this.$store.getters.user.is_developer) {
             window.location.href =
-                this.$store.getters.studioUrl + "selectStage";
+                this.$store.getters.studioUrl + "uploadGame";
         }
     }
 }

@@ -71,7 +71,7 @@ export default class GameList extends Vue {
     addGame() {
         if (this.$store.getters.user.is_developer) {
             window.location.href =
-                this.$store.getters.studioUrl + "selectStage";
+                this.$store.getters.studioUrl + "uploadGame";
         }
     }
     @Watch("$store.getters.userInfo")
@@ -80,9 +80,13 @@ export default class GameList extends Vue {
     }
 
     gameList() {
-        if (this.$store.getters.userInfo.dev_games.length > 5) {
+        if (
+            this.$store.getters.userInfo.dev_games &&
+            this.$store.getters.userInfo.dev_games.length > 5
+        ) {
             this.games = this.$store.getters.userInfo.dev_games.slice(0, 5);
         } else if (
+            this.$store.getters.userInfo.dev_games &&
             this.$store.getters.userInfo.dev_games.length > 0 &&
             this.$store.getters.userInfo.dev_games.length < 5
         ) {
