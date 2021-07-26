@@ -24,7 +24,7 @@ class FileLoader {
 
 
     checkImgFile(files: File[]) {
-        console.log('checkImgFile', this.fileObj.img)
+        console.log('checkImgFile',files)
         let totalImgCnt = files.length + this.fileObj.img.length;
 
         let fileSize: number = 0;

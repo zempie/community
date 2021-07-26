@@ -28,7 +28,7 @@
     </div>
 
     <!-- blog post -->
-    <div class="quick-post-body" v-if="activeTab === 'sns'">
+    <div class="quick-post-body" v-if="activeTab === 'blog'">
       <div class="form">
         <div class="form-row">
           <div class="form-item">
@@ -65,7 +65,7 @@
       </div>
     </div>
     <!-- sns post -->
-    <div class="quick-post-body" v-else-if="activeTab === 'blog'">
+    <div class="quick-post-body" v-else-if="activeTab === 'sns'">
       <div class="form">
         <div class="form-row">
           <div class="form-item">
@@ -265,6 +265,7 @@
           <input
             type="checkbox"
             :id="feed ? `checkbox${feed.id}` : 'checkbox'"
+            v-model="isPrivate"
             name="event_add-end-time"
           />
 
@@ -430,7 +431,7 @@ export default class Post extends Vue {
   private selectedFileType: string = "";
 
   // follow 공개 여부
-  private visibility: string = "public";
+  private isPrivate: boolean = false;
   private isScheduledPost: boolean = false;
   private time: any = 0;
 
@@ -455,15 +456,7 @@ export default class Post extends Vue {
 
   //scroll
   ops = {
-    // vuescroll: {
-    //     mode: "slide",
-    //     detectResize: false,
-    //     locking: true,
-    //       checkShifKey: false
-    // },
     scrollPanel: {
-      // initialScrollY: false,
-      // initialScrollX: false,
       scrollingY: false,
     },
 
@@ -487,19 +480,9 @@ export default class Post extends Vue {
   private hasTagSuggestion: boolean = false;
   private postedHashtag: string[] = [];
 
-  private hasMentionSuggestion: boolean = false;
-  private mentionList: any[] = [];
-
   @Watch("user")
   async watchUser() {
     this.communityList = await this.$api.joinedCommunityList(this.user.uid);
-    this.mentionList = await this.$api.followingList(this.user.uid);
-    // if (temp) {
-    //     for (let i in temp) {
-    //         this.mentionList.push(temp[i].nickname);
-    //     }
-    // }
-    // console.log(this.mentionList);
   }
 
   async mounted() {
@@ -706,23 +689,14 @@ export default class Post extends Vue {
 
   //포스팅
 
-  uploadPost() {
-    // if (!this.user) {
-    //   (this.$refs["loginModal"] as any).show();
-    // } else {
-    //   }
-    this.sendPost();
-  }
-
-  sendPost() {
+  async uploadPost() {
     let date = this.reserved_date + "T" + this.reserved_time;
     let scheduledTime = moment(date).valueOf();
     console.log(
       "result",
       this.activeTab,
-      //todo: 파일 체크
       this.fileLoader.fileObj,
-      this.visibility,
+      this.isPrivate,
       this.$store.getters.postContents,
       this.$store.getters.hashtagList,
       this.$store.getters.userTagList,
@@ -733,11 +707,12 @@ export default class Post extends Vue {
       scheduledTime
     );
 
-    const result = this.$api.uploadpost(
-      this.user.uid,
+    const result = await this.$api.uploadpost(
+      "123",
+      // this.user.uid,
       this.activeTab,
-      this.fileList,
-      this.visibility,
+      this.fileLoader.fileObj,
+      this.isPrivate,
       this.$store.getters.postContents,
       this.$store.getters.hashtagList,
       this.$store.getters.userTagList,
@@ -749,7 +724,9 @@ export default class Post extends Vue {
     );
 
     //todo: 백엔드 연결 후 분기처리
-    this.init();
+    if (result) {
+      this.init();
+    }
   }
 
   stringToHTML = (str: any) => {
@@ -796,6 +773,7 @@ export default class Post extends Vue {
   getFileList(fileType: string) {
     // todo: 블로그 이미지
     console.log("getFileList", this.fileList);
+    console.log("fileLoader", this.fileLoader);
     if (fileType === "img") {
       this.fileList.img = this.fileLoader.fileObj.img;
     } else if (fileType === "video") {

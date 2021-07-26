@@ -422,7 +422,7 @@ export default class Api {
                     ,
 
                     "content": "<pre><code>code block</code></pre>",
-                    "visibility": "public",
+                    "is_private": true,
                     "hashtags": ["tag", "tag1"],
                     "user_tag": [],
                     "liked": true,
@@ -516,7 +516,7 @@ export default class Api {
                         'video': {}
                     },
                     "content": `<p><span data-mention="" class="mention" data-id="following1" channel-id="wjZpvIjDEMWUBdXKsUQyR33RWrx2">@following1</span> <span data-hashtag="" class="hashtag" data-id="hashtag8">#hashtag8</span> </p>`,
-                    "visibility": "public",
+                    "is_private": false,
                     "hashtags": ["tag0", "tag1", "tag2"],
                     "user_tag": [],
                     "liked": false,
@@ -583,7 +583,7 @@ export default class Api {
 
             ],
             "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
-            "visibility": "public",
+            "is_private": false,
             "hashtags": ["tag", "tag1"],
             "user_tag": [],
             "liked": true,
@@ -770,7 +770,7 @@ export default class Api {
 
                     ],
                     "content": "test Posting~~",
-                    "visibility": "public",
+                    "is_private": true,
                     "hashtags": ["tag", "tag1"],
                     "user_tag": [],
                     "liked": true,
@@ -829,7 +829,7 @@ export default class Api {
 
                     ],
                     "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
-                    "visibility": "public",
+                    "is_private": false,
                     "hashtags": ["tag0", "tag1", "tag2"],
                     "user_tag": [],
                     "liked": false,
@@ -1101,19 +1101,28 @@ export default class Api {
 
     }
 
-    uploadpost(user_uid: string, post_type: string, fileList: { img: fileObjWtUrl[], video: fileObjWtUrl[], audio: fileObjWtUrl[] }, visibility: string, content: string, hashtags?: string[], userTags?: string[], community?: any[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?: number) {
+    async uploadpost(user_uid: string, post_type: string, fileList: { img: fileObjWtUrl[], video: fileObjWtUrl[], audio: fileObjWtUrl[] }, is_private: boolean, content: string, hashtags?: string[], userTags?: string[], community?: any[], communityId?: number, channelId?: number, gameId?: number, portfolioId?: number, scheduled_for?: number) {
         const formData = new FormData();
-        console.log(community)
+        console.log('uploadpost', fileList)
 
         if (user_uid) { formData.append('user_uid', user_uid); }
-        //todo:파일 넘기기
 
-        // for (let i = 0; i < fileList.img.length; i++) {
-        //     let file = fileList[i];
-        //     console.log(file)
-        //     formData.append('img files[' + i + ']', JSON.stringify(file));
-        // }
-        if (visibility) { formData.append('visibility', visibility); }
+        for (let i = 0; i < fileList.img.length; i++) {
+            let file = fileList.img[i];
+            console.log(file)
+            formData.append('imgFiles[' + i + ']', JSON.stringify(file));
+        }
+        for (let i = 0; i < fileList.audio.length; i++) {
+            let file = fileList.audio[i];
+            console.log(file)
+            formData.append('audioFiles[' + i + ']', JSON.stringify(file));
+        }
+        for (let i = 0; i < fileList.video.length; i++) {
+            let file = fileList.video[i];
+            console.log(file)
+            formData.append('videoFiles[' + i + ']', JSON.stringify(file));
+        }
+        if (is_private) { formData.append('is_private', is_private.toString()); }
         if (content) { formData.append('content', content); }
         if (hashtags) {
             for (let i = 0; i < hashtags.length; i++) {
@@ -1139,6 +1148,8 @@ export default class Api {
         for (var pair of formData.entries()) {
             console.log(pair[0] + ', ' + pair[1]);
         }
+
+        return true;
     }
 
     async hashtagList() {
@@ -1548,7 +1559,7 @@ export default class Api {
                     'video': {}
                 },
                 "content": "<p>유저 타임라인 샘플입니다. p태그</p>",
-                "visibility": "public",
+                "is_private": true,
                 "hashtags": ["프롬더레드", "젬파이"],
                 "user_tag": [],
                 "liked": true,
@@ -1631,7 +1642,7 @@ export default class Api {
 
                 ],
                 "content": `<p>유저 타임라인 샘플 2<span data-mention="" class="mention" data-id="following1" channel-id="wjZpvIjDEMWUBdXKsUQyR33RWrx2">@following1</span> <span data-hashtag="" class="hashtag" data-id="hashtag8">#hashtag8</span> </p>`,
-                "visibility": "public",
+                "is_private": true,
                 "hashtags": ["tag0", "tag1", "tag2"],
                 "user_tag": [],
                 "liked": false,

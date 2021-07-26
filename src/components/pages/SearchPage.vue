@@ -18,6 +18,7 @@
                 <h3 style="margin-bottom: 16px" class="text-left">Posts</h3>
                 <feed v-for="feed in posts" :key="feed.id" :feed="feed"></feed>
             </div>
+            <!-- todo: game search  -->
             <div class="forum-content grid-column">
                 <h3 style="margin-bottom: 16px" class="text-left">Games</h3>
                 <card></card>
