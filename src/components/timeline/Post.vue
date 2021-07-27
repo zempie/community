@@ -28,7 +28,7 @@
     </div>
 
     <!-- blog post -->
-    <div class="quick-post-body" v-if="activeTab === 'blog'">
+    <div class="quick-post-body" v-if="activeTab === 'sns'">
       <div class="form">
         <div class="form-row">
           <div class="form-item">
@@ -65,7 +65,7 @@
       </div>
     </div>
     <!-- sns post -->
-    <div class="quick-post-body" v-else-if="activeTab === 'sns'">
+    <div class="quick-post-body" v-else-if="activeTab === 'sdns'">
       <div class="form">
         <div class="form-row">
           <div class="form-item">

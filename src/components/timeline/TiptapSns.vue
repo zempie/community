@@ -50,7 +50,6 @@ export default class TiptapSns extends Vue {
     private imgPreviewArr: any[] = [];
     private postingText: string = "";
     private editor!: Editor;
-    private fileLoader: any;
     private user!: User;
     private limit: number = 300;
     private charCnt: number = 0;
