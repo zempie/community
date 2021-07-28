@@ -2,7 +2,7 @@
     <div class="widget-box">
         <div class="widget-box-title">
             <p>Portfolio</p>
-            <div class="add-game-tooltip" data-title="Add Portfolio" @click="addPortfolio">
+            <router-link class="add-game-tooltip" data-title="Add Portfolio" to="/createPortfolio">
                 <svg
                     class="
                         icon-plus-small
@@ -14,7 +14,7 @@
                 >
                     <use xlink:href="#svg-plus-small"></use>
                 </svg>
-            </div>
+            </router-link>
         </div>
         <div class="widget-box-content">
             <template v-for="portfolio in portfolios">

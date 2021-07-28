@@ -384,7 +384,7 @@ export default class Api {
         }
 
         return true;
-        
+
     }
 
     // 타임라인
@@ -1503,6 +1503,24 @@ export default class Api {
         const result = 10;
         return result;
     }
+    //portfolio
+
+    async createPortfolio(user_uid: string, title: string, description: string, thumbnail_img: string, is_private: boolean) {
+
+        const formData = new FormData();
+
+        if (user_uid) { formData.append('user_uid', user_uid); }
+        if (title) { formData.append('title', title); }
+        if (description) { formData.append('description', description); }
+        if (is_private) { formData.append('is_private', is_private.toString()); }
+        if (thumbnail_img) { formData.append('thumbnail_img', thumbnail_img); }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+
+        return true;
+    }
 
     async portfolioList(user_uid: string) {
         const result = [
@@ -1512,7 +1530,7 @@ export default class Api {
                 "description": "short description",
                 "thumbnail_img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGD5V34aEvWYxluNXXL72QDbMSyonOgsCT_A&usqp=CAU",
                 "created_at": 1622615373000,
-                "is_public": true,
+                "is_private": true,
                 "user_uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                 "is_pinned": false
             },
@@ -1522,7 +1540,7 @@ export default class Api {
                 "description": "shodsdadadadadrt description",
                 "thumbnail_img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ER4vxwmGTAIxCH0VQeS5eSMu5pOAkq-nSg&usqp=CAU",
                 "created_at": 1622615373000,
-                "is_public": true,
+                "is_private": false,
                 "user_uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
                 "is_pinned": false
             }
@@ -1785,6 +1803,7 @@ export default class Api {
         const response = await this.request('get', `/games/tagged/${id}`, undefined, false);
         return response.result || response;
     }
+
 
 
 }

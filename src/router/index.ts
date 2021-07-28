@@ -172,7 +172,16 @@ const routes: Array<RouteConfig> = [
                 name: 'AllGameList',
                 component: () => import("@/components/pages/user/AllGameList.vue"),
             },
-
+            {
+                path: '/channel/:channel_id/portfolio',
+                name: 'PortfolioList',
+                component: () => import("@/components/pages/user/portfolio/PortfolioList.vue"),
+            },
+            {
+                path: '/channel/:channel_id/portfolio/timeline',
+                name: 'PortfolioTimeline',
+                component: () => import("@/components/pages/user/portfolio/PortfolioTimeline.vue"),
+            },
 
         ]
     },
@@ -189,6 +198,15 @@ const routes: Array<RouteConfig> = [
                 component: () => import("@/components/pages/game/GameTimeline.vue"),
             },
         ]
+    },
+
+    //porfolio
+
+    {
+        path: '/createPortfolio',
+        name: 'CreatePortfolio',
+        component: () => import('@/components/pages/user/portfolio/CreatePortfolio.vue'),
+        props: true
     },
 
     {
