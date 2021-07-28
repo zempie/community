@@ -35,7 +35,6 @@ import Iframe from "@/script/tiptap/iframe";
 import Hashtag from "@/script/tiptap/hashtag";
 import Mention from "@/script/tiptap/mention";
 import Image from "@/script/tiptap/image";
-import ImageUpload from "@/script/tiptap/ImageUpload";
 
 import HahstagList from "./HashTagList.vue";
 import MentionList from "./MentionList.vue";

@@ -151,7 +151,7 @@ export default class ProfileMenu extends Vue {
         this.$router.push("/guestPage");
     }
     moveGameDashBoard() {
-        window.location.href = this.$store.getters.studioUrl + "uploadGame";
+        window.location.href = this.$store.getters.studioUrl + "selectStage";
     }
     routerClick() {
         (this.$refs.dropdown as HTMLElement).click();

@@ -71,7 +71,7 @@ export default class GameList extends Vue {
     addGame() {
         if (this.$store.getters.user.is_developer) {
             window.location.href =
-                this.$store.getters.studioUrl + "uploadGame";
+                this.$store.getters.studioUrl + "selectStage";
         }
     }
     @Watch("$store.getters.userInfo")

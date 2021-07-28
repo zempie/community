@@ -36,7 +36,7 @@ export default class ProfileImgUploader extends Vue {
 
     inputFile(files: File) {
         if (FileSizeCheck(files[0], 5)) {
-            this.fileLoader.imgLoad(files[0], (e) => {
+            this.fileLoader.getFileUrl(files[0], (e) => {
                 bus.$emit("profileImgSrc", e.target!.result);
                 this.$emit("profileImgSrc", e.target!.result);
             });

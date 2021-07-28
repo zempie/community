@@ -94,6 +94,11 @@ const routes: Array<RouteConfig> = [
                 name: 'ManageChannel',
                 component: () => import("@/components/pages/community/manageChannel.vue"),
             },
+            {
+                path: '/community/:community_id/channelCreate',
+                name: 'ChannelCreate',
+                component: () => import("@/components/pages/community/channel/ChannelCreate.vue"),
+            },
         ]
     },
     {

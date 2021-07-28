@@ -3,7 +3,7 @@
         <div class="section">
             <div class="section-header">
                 <div class="section-header-info">
-                    <p class="section-pretitle">Channels</p>
+                    <p class="section-pretitle text-left">Channels</p>
 
                     <h2 class="section-title">Manage Channel</h2>
                 </div>
@@ -20,13 +20,14 @@
                     </div>
 
                     <div class="create-entity-box-info">
-                        <p class="create-entity-box-title">Create New Group</p>
-
-                        <p class="create-entity-box-text">
-                            Share your passion with others!
+                        <p class="create-entity-box-title">
+                            Create New Channel
                         </p>
 
-                        <p
+                        <p class="create-entity-box-text">Create channel</p>
+
+                        <router-link
+                            :to="`/community/${$route.params.community_id}/channelCreate`"
                             class="
                                 button
                                 secondary
@@ -35,11 +36,15 @@
                             "
                         >
                             Start Creating!
-                        </p>
+                        </router-link>
                     </div>
                 </div>
 
-                <div class="user-preview small fixed-height-medium">
+                <div
+                    class="user-preview small fixed-height-medium"
+                    v-for="channel in channelList"
+                    :key="channel.id"
+                >
                     <figure
                         class="user-preview-cover liquid"
                         style="
@@ -47,11 +52,7 @@
                                 cover no-repeat;
                         "
                     >
-                        <img
-                            src="img/cover/29.jpg"
-                            alt="cover-29"
-                            style="display: none"
-                        />
+                        <img :src="channel.profile_img" alt="cover-29" />
                     </figure>
 
                     <div class="user-preview-info">
@@ -108,18 +109,16 @@
                             </a>
 
                             <p class="user-short-description-title small">
-                                <a href="group-timeline.html"
-                                    >Cosplayers of the World</a
-                                >
+                                <a href="group-timeline.html">{{
+                                    channel.name
+                                }}</a>
                             </p>
 
-                            <p class="user-short-description-text regular">
-                                Group Organizer
-                            </p>
+                            <p class="user-short-description-text regular"></p>
                         </div>
 
                         <p class="button white full popup-manage-group-trigger">
-                            Manage Group
+                            Manage Channel
                         </p>
                     </div>
                 </div>
@@ -129,12 +128,23 @@
 </template>
 
 <script lang="ts">
+import { Channel } from "@/types/group/group";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
     components: {},
 })
-export default class ManageChannel extends Vue {}
+export default class ManageChannel extends Vue {
+    private communityId: number = parseInt(this.$route.params.community_id);
+    private channelList: Channel[] = [];
+
+    async mounted() {
+        this.channelList = await this.$api.getCommunityChannel(
+            this.communityId
+        );
+        console.log(this.channelList);
+    }
+}
 </script>
 
 <style scoped>

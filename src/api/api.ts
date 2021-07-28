@@ -368,6 +368,25 @@ export default class Api {
         return true;
     }
 
+    async createChannel(community_id: number, name: string, description: string, is_private: boolean, profile_img?: string) {
+        const formData = new FormData();
+
+        if (community_id) { formData.append('community_id', community_id.toString()); }
+        if (name) { formData.append('name', name); }
+
+        if (description) { formData.append('description', description); }
+
+        if (is_private) { formData.append('is_private', is_private.toString()); }
+        if (profile_img) { formData.append('profile_img', profile_img); }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+
+        return true;
+        
+    }
+
     // 타임라인
     getTimeline(id: number | string, channelId?: number) {
         ///api/v1/timeline/:community_id/channel/:channel_id?offset=0&limit=10&sort=popular

@@ -36,7 +36,7 @@ export default class BannerImgUploader extends Vue {
 
     inputFile(files: File) {
         if (FileSizeCheck(files[0], 15)) {
-            this.fileLoader.imgLoad(files[0], (e) => {
+            this.fileLoader.getFileUrl(files[0], (e) => {
                 this.$emit("bannerImgSrc", e.target!.result);
                 bus.$emit("bannerImgSrc", e.target!.result);
             });
