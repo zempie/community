@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios'
 import Vue, { PluginObject } from "vue";
 import firebase from 'firebase/app';
 import { User } from "@/types/index";
-import { fileObjWtUrl } from '@/types/file/file';
+import { file, fileObjWtUrl } from '@/types/file/file';
 
 export default class Api {
 
@@ -1756,6 +1756,7 @@ export default class Api {
         return result;
     }
 
+    // game
     async games(limit: number = 100, offset: number = 0, category?: number, sort?: string, dir?: string) {
 
         let url = `/games?limit=${limit}&offset=${offset}`;
@@ -1802,6 +1803,34 @@ export default class Api {
     async tagged(id) {
         const response = await this.request('get', `/games/tagged/${id}`, undefined, false);
         return response.result || response;
+    }
+
+    async screenshot(id: number) {
+        const result = [
+            {
+                "id": 111,
+                "type": "image",
+                "size": 200,
+                "url": "https://picsum.photos/1024/480/?image=52",
+                "name": 'qwe.png'
+            },
+            {
+                "id": 22,
+                "type": "image",
+                "size": 300,
+                "url": "https://picsum.photos/1024/480/?image=54",
+                "name": 'test.png'
+            },
+            {
+                "id": 33,
+                "type": "image",
+                "size": 400,
+                "url": "https://picsum.photos/1024/480/?image=53",
+                "name": 'test1.png'
+            },
+        ]
+
+        return result;
     }
 
 

@@ -1,8 +1,10 @@
 <template>
     <div class="grid grid-3-6-3 mobile-prefer-content">
-        <div class="grid-column"></div>
         <div class="grid-column">
-            <post></post>
+            <screenshot :gameId="game.id"></screenshot>
+        </div>
+        <div class="grid-column">
+            <entry-post></entry-post>
             <feed v-for="feed in timeline" :key="feed.id" :feed="feed"></feed>
         </div>
         <div class="grid-column">
@@ -17,15 +19,15 @@ import { mapGetters } from "vuex";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
-import Post from "@/components/timeline/Post.vue";
+import EntryPost from "@/components/layout/EntryPost.vue";
 import Feed from "@/components/timeline/Feed.vue";
 import AboutGame from "@/components/pages/game/GameDescBox.vue";
-
+import Screenshot from "@/components/pages/game/GameScreenshot.vue";
 @Component({
-    components: { Post, Feed, AboutGame },
+    components: { EntryPost, Feed, AboutGame, Screenshot },
 })
 export default class GameTimeline extends Vue {
-    @Prop() game !:any
+    @Prop() game!: any;
     private dropdown: Dropdown = new Dropdown();
     private hexagon: Hexagon = new Hexagon();
 
@@ -36,7 +38,7 @@ export default class GameTimeline extends Vue {
     async created() {
         this.timeline = await this.$api.getTimeline(this.gamePathname);
 
-        console.log('created',this.game)
+        console.log("created", this.game);
     }
 
     mounted() {
