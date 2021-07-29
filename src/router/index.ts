@@ -193,12 +193,12 @@ const routes: Array<RouteConfig> = [
             },
             {
                 path: '/channel/:channel_id/follwers',
-                name: 'FollowerList',
+                name: 'Followers',
                 component: () => import("@/components/pages/user/FollowerList.vue"),
             },
             {
                 path: '/channel/:channel_id/followings',
-                name: 'FollowingList',
+                name: 'Followings',
                 component: () => import("@/components/pages/user/FollowingList.vue"),
             },
             {

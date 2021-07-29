@@ -1,5 +1,5 @@
 <template>
-    <div class="form-box login-register-form-element" >
+    <div class="form-box login-register-form-element" style="top: 10%" >
         <img
             class="form-box-decoration"
             src="../../../img/landing/rocket.png"
@@ -191,7 +191,7 @@
                 <div class="checkbox-wrap">
                     <input
                         type="checkbox"
-                        id="reportReason3"
+                        id="reportReason4"
                         name="reportReason"
                         v-model="form.policyAgreement2"
                         @click="radioBtn()"
@@ -202,7 +202,7 @@
                             <use xlink:href="#svg-check"></use>
                         </svg>
                     </div>
-                    <label for="reportReason3" class="report-reason"
+                    <label for="reportReason4" class="report-reason"
                         >개인정보취급방침 동의</label
                     >
                 </div>
