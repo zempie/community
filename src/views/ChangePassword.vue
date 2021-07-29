@@ -1,5 +1,5 @@
 <template>
-    <div class="content-grid">
+    <div class="grid">
         <div class="account-hub-content">
             <div class="section-header">
                 <div class="section-header-info">

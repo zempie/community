@@ -1,6 +1,6 @@
 <template>
   <article class="post-open">
-    <div class="post-open-body pt-0" style="margin-top: 150px">
+    <div class="post-open-body pt-0" style="margin-top: 80px; height:100vh">
       <div class="post-top">
         <div class="user-avatar small no-outline profile-img-container">
           <div class="user-avatar-content">
@@ -57,7 +57,7 @@
           <div v-html="feed.content">{{ feed.content }}</div>
         </div>
       </div>
-
+ 
       <div class="content-actions">
         <div class="content-action">
           <div class="post-option-wrap" style="position: relative">

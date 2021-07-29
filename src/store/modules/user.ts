@@ -19,6 +19,7 @@ export default {
         user: null,
         redirectUrl: null,
         redirectRouter: null,
+        googleAccountInfo: null,
     },
     getters: {
         loginState(state: any) {
@@ -60,6 +61,9 @@ export default {
         redirectRouter(state: any) {
             return state.redirectRouter;
         },
+        googleAccountInfo(state: any) {
+            return state.googleAccountInfo;
+        },
     },
 
     mutations: {
@@ -81,6 +85,9 @@ export default {
 
         redirectRouter(state: any, payload: any) {
             state.redirectRouter = payload;
+        },
+        googleAccountInfo(state: any, payload: any) {
+            state.googleAccountInfo = payload;
         },
 
         // developer(state: any, payload: any) {
@@ -148,7 +155,7 @@ export default {
             console.log(context.getters.loginState)
         },
 
-        
+
     }
 }
 

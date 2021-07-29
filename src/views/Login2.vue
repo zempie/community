@@ -8,44 +8,39 @@
             </div>
 
             <h2 class="landing-info-pretitle">Welcome to</h2>
-            {{ isGoolgeLoginDone }}
 
             <h1 class="landing-info-title">Zempie</h1>
 
-            <p class="landing-info-text">설명설명설명</p>
+            <p class="landing-info-text">설명설명설명</p>{{isClickedLoginTab}}
 
             <div class="tab-switch">
                 <p
                     ref="loginBtn"
                     class="tab-switch-button login-register-form-trigger"
+                    @click="clickedLoginTab "
                 >
                     Login
                 </p>
 
                 <p
+
                     class="tab-switch-button login-register-form-trigger"
-                    ref="googleRegisterBtn"
-                    style="visibility: hidden; width: 0px; border: 0px"
+                    style="display: none"
+                    ref="googleRegister"
                 >
                     googleRegister
                 </p>
                 <p
-                    ref="forgotPwdBtn"
-                    class="tab-switch-button login-register-form-trigger"
-                >
-                    <!-- style="visibility: hidden; width: 0px; border: 0px" -->
-                    Forgot Password
-                </p>
-                <p
                     ref="registerBtn"
                     class="tab-switch-button login-register-form-trigger"
+                    @click="clickedRegisterTab"
                 >
                     Register
                 </p>
             </div>
         </div>
         <div class="landing-form">
-            <div class="form-box login-register-form-element">
+            <div class="form-box login-register-form-element" :style="isClickedLoginTab ? '' : 'visibility:hidden;'">
                 <img
                     class="form-box-decoration overflowing"
                     src="../img/landing/rocket.png"
@@ -68,7 +63,7 @@
                                         name="login-username"
                                         v-model="$v.form.email.$model"
                                         :state="
-                                            onSubmit
+                                            isClickedLoginBtn
                                                 ? validateState('email')
                                                 : undefined
                                         "
@@ -96,7 +91,7 @@
                                         name="login-password"
                                         v-model="$v.form.password.$model"
                                         :state="
-                                            onSubmit
+                                            isClickedLoginBtn
                                                 ? validateState('password')
                                                 : undefined
                                         "
@@ -139,7 +134,9 @@
                                 login-register-form-trigger
                             "
                         >
-                            <p @click="findPwd">Forgot Password?</p>
+                            <p @click="googleRegister = false;  isClickedLoginTab = false;">
+                                Forgot Password?
+                            </p>
                         </div>
                     </div>
 
@@ -219,7 +216,7 @@
                                     type="text"
                                     id="googleNickname"
                                     v-model="googleForm.googleNickname"
-                                />
+                                ></input>
                             </div>
                         </div>
                     </div>
@@ -245,12 +242,12 @@
             <!-- /google register -->
 
             <!-- zempie register -->
-            <!--   :style="isClickedLoginTab ? 'visibility:hidden;' : ''" -->
-
+            
+            <register :key="isGoolgeLoginDone" :googleForm="googleForm" :style="isClickedLoginTab ? 'visibility:hidden;' : ''"></register>
+            
             <!-- /zempie register -->
             <!-- reset pwd -->
-            <reset-password></reset-password>
-            <register :googleForm="googleForm"></register>
+            <reset-password @loginTab="loginTab" :style="isClickedRegisterTab ? 'visibility:hidden;' : ''"></reset-password>
             <!-- /reset pwd -->
         </div>
     </div>
@@ -272,7 +269,6 @@ import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { helpers } from "vuelidate/lib/validators";
 import Register from "@/components/pages/login/Register.vue";
 import ResetPassword from "@/components/pages/login/ResetPassword.vue";
-import { HTMLElement } from "@tiptap/core";
 
 const emailValidator = helpers.regex(
     "emailValidator",
@@ -313,11 +309,11 @@ export default class Login extends Vue {
         googleEmail: "",
     };
 
-    // private googleRegister: boolean = false;
-    // private isClickedLoginBtn: boolean = false;
+    private googleRegister: boolean = false;
+    private isClickedLoginBtn: boolean = false;
     private isGoolgeLoginDone: boolean = false;
-    // private isClickedLoginTab: boolean = false;
-    // private isClickedRegisterTab: boolean = false;
+    private isClickedLoginTab: boolean = false;
+    private isClickedRegisterTab: boolean = false;
 
     private googleBtn: string = "img/btn_google_signin_dark_normal_web.png";
 
@@ -330,11 +326,13 @@ export default class Login extends Vue {
 
     // vuelidate
     validateState(name) {
+        console.log(this.$v);
         const { $dirty, $error } = this.$v.form[name]!;
         return $dirty ? !$error : null;
     }
 
     async onSubmit() {
+        this.isClickedLoginBtn = true;
         this.$v.form.$touch();
         if (this.$v.form.$anyError) {
             return;
@@ -347,7 +345,7 @@ export default class Login extends Vue {
                     this.form.email,
                     this.form.password
                 );
-          
+            // console.log(result);
             // await this.$router.replace('/');
 
             if (result.user) {
@@ -359,8 +357,7 @@ export default class Login extends Vue {
                 if (result?.error?.code === 20001) {
                     // alert( this.$t('login.joinError') as string );
                     this.$store.commit("loginState", LoginState.no_user);
-
-                    // this.googleRegister = false;
+                    this.googleRegister = false;
                     // await this.$router.replace("/joinEmailContinue");
                     return;
                 }
@@ -445,8 +442,8 @@ export default class Login extends Vue {
     // }
 
     async google() {
-        // this.isClickedLoginTab = false;
-        // this.googleRegister = true;
+        this.isClickedLoginTab = false;
+        this.googleRegister = true;
         await this.$store.dispatch("loginState");
 
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -463,10 +460,11 @@ export default class Login extends Vue {
             console.log(result);
             // if( result.error && result.error && result.error.message === '잘 못 된 유저 아이디입니다' ) {
             if (result?.error?.code === 20001) {
-                (this.$refs.googleRegisterBtn as any).click();
+                //@ts-ignore
+                this.$refs.googleRegister.click();
                 // alert(this.$t("login.googleJoinError") as string);
                 this.$store.commit("loginState", LoginState.no_user);
-                this.$store.commit("googleAccountInfo", this.googleForm);
+
                 // await this.$router.replace("/join");
                 return;
             }
@@ -517,24 +515,24 @@ export default class Login extends Vue {
             },
         });
     }
-    findPwd() {
-        (this.$refs.forgotPwdBtn as HTMLElement).click();
-    }
-    googleRegisterDone() {
-        (this.$refs.registerBtn as HTMLElement).click();
-        this.isGoolgeLoginDone = !this.isGoolgeLoginDone;
+    loginTab() {
+        (this.$refs.loginBtn as HTMLElement).click();
     }
 
-    // clickedLoginTab() {
-    //     this.googleRegister = false;
-    //     this.isClickedLoginTab = true;
-    //     this.isClickedRegisterTab = false;
-    // }
-    // clickedRegisterTab() {
-    //     this.googleRegister = false;
-    //     this.isClickedLoginTab = false;
-    //     this.isClickedRegisterTab = true;
-    // }
+    googleRegisterDone() {
+        this.isGoolgeLoginDone = !this.isGoolgeLoginDone;
+        (this.$refs.registerBtn as HTMLElement).click();
+    }
+    clickedLoginTab() {
+        this.googleRegister = false;
+        this.isClickedLoginTab = true;
+        this.isClickedRegisterTab = false
+    }
+    clickedRegisterTab() {
+        this.googleRegister = false;
+        this.isClickedLoginTab = false;
+        this.isClickedRegisterTab = true;
+    }
 }
 </script>
 

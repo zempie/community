@@ -60,8 +60,9 @@
             </div>
 
             <router-link
+                @click.native="closeDropdown"
                 class="dropdown-box-button primary"
-               to="/messageList"
+                :to="`/user/${user.uid}/messageList`"
                 >View all Messages</router-link
             >
         </div>
@@ -88,6 +89,9 @@ export default class Messages extends Vue {
     toGeneralSettings() {
         this.$router.push(`/user/${this.user.uid}/settings`);
 
+        this.closeDropdown();
+    }
+    closeDropdown() {
         (this.$refs.dropdown as HTMLElement).click();
     }
 }

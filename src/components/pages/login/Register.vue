@@ -1,5 +1,5 @@
 <template>
-    <div class="form-box login-register-form-element" style="    top: 15%;">
+    <div class="form-box login-register-form-element" >
         <img
             class="form-box-decoration"
             src="../../../img/landing/rocket.png"
@@ -11,7 +11,10 @@
         <form class="form" @submit="register">
             <div class="form-row">
                 <div class="form-item">
-                    <div class="form-input">
+                    <div
+                        class="form-input"
+                        :class="this.form.email.length > 0 ? 'active' : ''"
+                    >
                         <b-form-group
                             label="Your Email"
                             label-for="register-email"
@@ -102,7 +105,10 @@
 
             <div class="form-row">
                 <div class="form-item">
-                    <div class="form-input">
+                    <div
+                        class="form-input"
+                        :class="this.form.username.length > 0 ? 'active' : ''"
+                    >
                         <b-form-group
                             label="Username"
                             label-for="register-username"
@@ -131,7 +137,10 @@
             </div>
             <div class="form-row">
                 <div class="form-item">
-                    <div class="form-input">
+                    <div
+                        class="form-input"
+                        :class="this.form.nickname.length > 0 ? 'active' : ''"
+                    >
                         <b-form-group
                             label="Nickname"
                             label-for="register-nickname"
@@ -226,8 +235,11 @@
                     <b-button
                         variant="primary"
                         size="sm"
-                        class="float-left "
-                        @click="form.policyAgreement1 = true; show=false"
+                        class="float-left"
+                        @click="
+                            form.policyAgreement1 = true;
+                            show = false;
+                        "
                     >
                         동의
                     </b-button>
@@ -247,7 +259,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import LoginManager from "@/script/login";
 
 import firebase from "firebase/app";
@@ -304,6 +316,7 @@ const pwdValidator = helpers.regex(
     },
 })
 export default class Register extends Vue {
+    @Prop() googleForm!: any;
     private form = {
         email: "",
         password: "",
@@ -314,6 +327,7 @@ export default class Register extends Vue {
         policyAgreement2: false,
     };
     private footerBgVariant = "dark";
+
     async mounted() {
         Form.formInput();
 
@@ -331,7 +345,7 @@ export default class Register extends Vue {
             return;
         }
 
-        this.form.nickname = currentUser.displayName!;
+        // this.form.nickname = currentUser.displayName!;
     }
     // vuelidate
     validateState(name) {
@@ -411,6 +425,16 @@ export default class Register extends Vue {
     policy1() {
         (this.$refs["policy1"] as any).show();
     }
+
+    @Watch("$store.getters.googleAccountInfo")
+    watchGoogleInfo() {
+        if (this.googleForm && this.googleForm.googleEmail) {
+            this.form.email = this.googleForm.googleEmail;
+            this.form.username = this.googleForm.googleUsername;
+            this.form.nickname = this.googleForm.googleNickname.substring(1);
+        }
+        console.log("watchGoogleInfo", this.googleForm);
+    }
 }
 </script>
 
@@ -432,7 +456,7 @@ export default class Register extends Vue {
     width: 100%;
     height: 80vh;
 }
-.button-container{
+.button-container {
     display: flex;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="form-box login-register-form-element">
+    <div class="form-box login-register-form-element" style="top: 30%">
         <img
             class="form-box-decoration overflowing"
             src="../../../img/landing/rocket.png"

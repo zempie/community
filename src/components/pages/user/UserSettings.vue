@@ -1,5 +1,5 @@
 <template>
-    <div class="content-grid">
+    <div class="grid">
         <div class="account-hub-content">
             <div class="section-header">
                 <div class="section-header-info">
@@ -172,6 +172,18 @@
                     <div class="widget-box-content">
                         <div class="switch-option-list">
                             <div class="switch-option">
+                                <p class="switch-option-title">비밀번호 변경</p>
+                                <p class="switch-option-text">비밀번호 변경</p>
+                                <router-link
+                                    :to="`/user/${user.uid}/changePassword`"
+                                    class="delete-account-btn"
+                                >
+                                    <b-button variant="danger"
+                                        >비밀번호 변경
+                                    </b-button>
+                                </router-link>
+                            </div>
+                            <div class="switch-option">
                                 <p class="switch-option-title">계정 비활성화</p>
                                 <p class="switch-option-text">
                                     계정을 비활성화하시면 해당 계정이 삭제되고
@@ -203,7 +215,11 @@ import { User } from "@/types";
 
 @Component({
     computed: { ...mapGetters(["user"]) },
-    components: { ImgPreview, ProfileImgUploader, BannerImgUploader },
+    components: {
+        ImgPreview,
+        ProfileImgUploader,
+        BannerImgUploader,
+    },
 })
 export default class UserSettings extends Vue {
     private hexagon: Hexagon = new Hexagon();

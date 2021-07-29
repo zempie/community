@@ -1,4 +1,5 @@
 export interface Portfolio {
+    latestDate(latestDate: any): string;
     id: number;
     title: string;
     description: string;
@@ -7,4 +8,5 @@ export interface Portfolio {
     is_public: boolean;
     user_uid: number;
     is_pinned: boolean;
+    latest_update:? number;
 }

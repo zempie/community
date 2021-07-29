@@ -5,7 +5,7 @@
             <portfolio :userUid="userUid"></portfolio>
         </div>
         <div class="grid-column">
-            <post></post>
+            <entry-post></entry-post>
             <!-- 타임라인 -->
 
             <feed v-for="feed in timeline" :key="feed.id" :feed="feed"></feed>
@@ -23,7 +23,7 @@ import { mapGetters } from "vuex";
 import Dropdown from "@/plugins/dropdown";
 import Hexagon from "@/plugins/hexagon";
 
-import Post from "@/components/timeline/Post.vue";
+import EntryPost from "@/components/layout/EntryPost.vue";
 import Feed from "@/components/timeline/Feed.vue";
 import WhoToFollow from "@/components/pages/user/WhoToFollow.vue";
 import JoinedCommunity from "@/components/pages/user/JoinedCommunity.vue";
@@ -35,7 +35,7 @@ import { User } from "@/types";
 @Component({
     computed: { ...mapGetters(["user"]) },
     components: {
-        Post,
+        EntryPost,
         Feed,
         WhoToFollow,
         Portfolio,

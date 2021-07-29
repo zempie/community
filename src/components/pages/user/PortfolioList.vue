@@ -2,7 +2,11 @@
     <div class="widget-box">
         <div class="widget-box-title">
             <p>Portfolio</p>
-            <router-link class="add-game-tooltip" data-title="Add Portfolio" to="/createPortfolio">
+            <router-link
+                class="add-game-tooltip"
+                data-title="Add Portfolio"
+                to="/createPortfolio"
+            >
                 <svg
                     class="
                         icon-plus-small
@@ -18,11 +22,11 @@
         </div>
         <div class="widget-box-content">
             <template v-for="portfolio in portfolios">
-                <div
+                <router-link
                     :key="portfolio.id"
                     class="user-status-list"
                     @click="movePortfolio(portfolio.id)"
-                    :id="portfolio.id"
+                    :to="`/channel/${userUid}/portfolio/${portfolio.id}/timeline`"
                 >
                     <span class="portfolio-title">{{ portfolio.title }}</span>
 
@@ -32,12 +36,13 @@
                         }) center center / cover no-repeat;`"
                         class="thumb img portfolio-img"
                     />
-                    <!-- <b-img
-                        class="portfolio-img"
-                        :src="`${portfolio.thumbnail_img}`"
-                    /> -->
-                </div>
+                </router-link>
             </template>
+            <router-link
+                class="user-status-list all-btn"
+                :to="`/channel/${userUid}/portfolio`"
+                >View all</router-link
+            >
         </div>
     </div>
 </template>
@@ -56,8 +61,8 @@ export default class PortfolioList extends Vue {
         this.portfolios = await this.$api.portfolioList(this.userUid);
         console.log(this.portfolios);
     }
-    addPortfolio(){
-        console.log("add pf")
+    addPortfolio() {
+        console.log("add pf");
     }
 }
 </script>
@@ -106,5 +111,21 @@ export default class PortfolioList extends Vue {
         bottom: 0px !important;
         cursor: pointer;
     }
+}
+
+.all-btn {
+    border-radius: 6px;
+    border: 1px solid #9aa4bf;
+    color: #fff;
+    font-size: 0.75rem;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.all-btn:hover {
+    color: #1d2333;
+    background: #fff;
 }
 </style>

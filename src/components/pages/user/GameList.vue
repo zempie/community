@@ -7,7 +7,7 @@
                 data-title="Add Game"
                 @click="addGame"
             >
-                <svg
+                <!-- <svg
                     class="
                         icon-plus-small
                         action-list-item
@@ -17,7 +17,19 @@
                     style="fill: #fff"
                 >
                     <use xlink:href="#svg-plus-small"></use>
-                </svg>
+                </svg> -->
+
+                <div class="percentage-diff-icon-wrap positive">
+                    <svg class="
+                        icon-plus-small
+                        action-list-item
+                        category-dropdown-trigger
+                    "
+                    ref="dropdown"
+                    style="fill: #fff">
+                        <use xlink:href="#svg-plus-small"></use>
+                    </svg>
+                </div>
             </div>
         </div>
         <div class="widget-box-content">
@@ -134,11 +146,12 @@ export default class GameList extends Vue {
     justify-content: center;
     align-items: baseline;
 
-    svg {
+    .percentage-diff-icon-wrap {
         position: absolute !important;
         left: 78px !important;
         bottom: 0px !important;
         cursor: pointer;
+        border-color: #fff;
     }
 }
 .all-btn {

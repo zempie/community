@@ -47,26 +47,60 @@ const routes: Array<RouteConfig> = [
         name: 'Login',
         component: () => import("@/views/Login.vue"),
     },
-    {
-        path: '/user/:userUid/changePassword',
-        name: 'ChangePassword',
-        component: () => import("@/views/ChangePassword.vue"),
-    },
+
     // {
     //     path: '/user/resetPassword',
     //     name: 'ResetPassword',
     //     component: () => import("@/views/ResetPassword.vue"),
     // },
+    // user setting
     {
         path: '/user/:userUid/settings',
-        name: 'UserSettings',
-        component: () => import("@/components/pages/user/UserSettings.vue"),
+        name: 'UserSettingHeader',
+        component: () => import("@/components/layout/UserSettingHeader.vue"),
+        children: [
+            {
+                path: '/user/:userUid/settings',
+                name: 'UserSettings',
+                component: () => import("@/components/pages/user/UserSettings.vue"),
+            },
+            {
+                path: '/user/:userUid/manageJoinedGroup',
+                name: 'ManageJoinedGroup',
+                component: () => import("@/components/pages/user/ManageJoinedGroup.vue"),
+            },
+
+            {
+                path: '/user/:userUid/changePassword',
+                name: 'ChangePassword',
+                component: () => import("@/views/ChangePassword.vue"),
+            },
+            {
+                path: '/user/:userUid/follwers',
+                name: 'FollowerList',
+                component: () => import("@/components/pages/user/FollowerList.vue"),
+            },
+            {
+                path: '/user/:userUid/followings',
+                name: 'FollowingList',
+                component: () => import("@/components/pages/user/FollowingList.vue"),
+            },
+            {
+                path: '/user/:userUid/notificationList',
+                name: 'NotificationList',
+                component: () => import('@/views/NotificationList.vue'),
+            },
+            {
+                path: '/user/:userUid/messageList',
+                name: 'MessageList',
+                component: () => import('@/views/MessageList.vue'),
+            },
+
+        ]
+
     },
-    {
-        path: '/user/:userUid/manageJoinedGroup',
-        name: 'ManageJoinedGroup',
-        component: () => import("@/components/pages/user/ManageJoinedGroup.vue"),
-    },
+
+
 
     {
         path: '/community/list',
@@ -178,7 +212,7 @@ const routes: Array<RouteConfig> = [
                 component: () => import("@/components/pages/user/portfolio/PortfolioList.vue"),
             },
             {
-                path: '/channel/:channel_id/portfolio/timeline',
+                path: '/channel/:channel_id/portfolio/:porfolio_id/timeline',
                 name: 'PortfolioTimeline',
                 component: () => import("@/components/pages/user/portfolio/PortfolioTimeline.vue"),
             },
@@ -236,16 +270,7 @@ const routes: Array<RouteConfig> = [
         name: 'leave',
         component: () => import('@/views/leave.vue'),
     },
-    {
-        path: '/messageList',
-        name: 'MessageList',
-        component: () => import('@/views/MessageList.vue'),
-    },
-    {
-        path: '/notificationList',
-        name: 'NotificationList',
-        component: () => import('@/views/NotificationList.vue'),
-    },
+
 
 ]
 

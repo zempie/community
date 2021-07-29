@@ -60,7 +60,9 @@
                             >
                         </p>
 
-                        <p class="user-status-timestamp text-left">2 minutes ago</p>
+                        <p class="user-status-timestamp text-left">
+                            2 minutes ago
+                        </p>
 
                         <div class="user-status-icon">
                             <svg class="icon-comment">
@@ -72,8 +74,9 @@
             </div>
 
             <router-link
+                @click.native="closeDropdown"
                 class="dropdown-box-button secondary"
-              to="/notificationList"
+                :to="`/user/${user.uid}/notificationList`"
                 >View all Notifications</router-link
             >
         </div>
@@ -101,7 +104,9 @@ export default class Notification extends Vue {
 
     toGeneralSettings() {
         this.$router.push(`/user/${this.user.uid}/settings`);
-
+        this.closeDropdown();
+    }
+    closeDropdown() {
         (this.$refs.dropdown as HTMLElement).click();
     }
 }
