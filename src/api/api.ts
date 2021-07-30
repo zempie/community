@@ -1994,6 +1994,14 @@ export default class Api {
         return result;
     }
 
+    // FCM
+    async getNotification(id: string){
+        const result =[]
+
+
+
+    }
+
 
 
 }

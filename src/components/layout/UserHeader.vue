@@ -16,8 +16,14 @@
 
                         <div class="user-avatar-content">
                             <div
+                                v-if="userInfo && userInfo.picture"
                                 class="hexagon-image-100-110"
                                 :data-src="userInfo && userInfo.picture"
+                            ></div>
+                            <div
+                                v-else
+                                class="hexagon-image-100-110"
+                                data-src="img/default_profile.png"
                             ></div>
                         </div>
 

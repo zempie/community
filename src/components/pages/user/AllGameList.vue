@@ -84,7 +84,9 @@ export default class AllGameList extends Vue {
     async mounted() {
         await this.$store.dispatch("loginState");
         this.tlUser = this.$store.getters.userInfo;
+        console.log(this.tlUser)
         this.gameList = this.$store.getters.userInfo.dev_games;
+
     }
     @Watch("$store.getters.userInfo")
     watchUserInfo() {

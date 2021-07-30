@@ -20,13 +20,15 @@
                 </svg> -->
 
                 <div class="percentage-diff-icon-wrap positive">
-                    <svg class="
-                        icon-plus-small
-                        action-list-item
-                        category-dropdown-trigger
-                    "
-                    ref="dropdown"
-                    style="fill: #fff">
+                    <svg
+                        class="
+                            icon-plus-small
+                            action-list-item
+                            category-dropdown-trigger
+                        "
+                        ref="dropdown"
+                        style="fill: #fff"
+                    >
                         <use xlink:href="#svg-plus-small"></use>
                     </svg>
                 </div>
@@ -53,10 +55,14 @@
                 </div>
             </template>
             <router-link
+                v-if="games.lenght > 0"
                 class="user-status-list all-btn"
                 :to="`/channel/${userUid}/games`"
                 >View all</router-link
             >
+            <div v-if="games.length === 0">
+                <p @click="addGame" style="cursor:pointer;">게임 등록 하실래요?</p>
+            </div>
         </div>
     </div>
 </template>
@@ -81,10 +87,11 @@ export default class GameList extends Vue {
         this.$router.push(`/timeline/game/${game.pathname}`);
     }
     addGame() {
-        if (this.$store.getters.user.is_developer) {
+        
+        // if (this.$store.getters.user.is_developer) {
             window.location.href =
                 this.$store.getters.studioUrl + "selectStage";
-        }
+        // }
     }
     @Watch("$store.getters.userInfo")
     watchUserInfo() {
