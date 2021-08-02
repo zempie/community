@@ -28,7 +28,7 @@ export default Node.create<ImageOptions>({
     name: 'image',
 
     defaultOptions: {
-        inline: false,
+        inline: true,
         HTMLAttributes: {},
     },
 

@@ -1327,7 +1327,7 @@ export default class Api {
             console.log(pair[0] + ', ' + pair[1]);
         }
 
-        return true;
+        return false;
     }
 
     async hashtagList() {
@@ -1778,7 +1778,7 @@ export default class Api {
                 "scheduled_for": null,
                 "status": "active",
                 "is_retweet": false,
-                "is_pinned": false
+                "is_pinned": true
             },
             {
                 "id": 222,
@@ -1995,11 +1995,22 @@ export default class Api {
     }
 
     // FCM
-    async getNotification(id: string){
-        const result =[]
+    async getNotification(id: string) {
+        const result = []
 
 
 
+    }
+
+    // 파일 업로드
+    async imageUplaod(src: string) {
+        const formData = new FormData();
+        if (src) { formData.append('file', src) };
+
+
+        const response = await this.request('post', '/community/att/i', formData, true);
+        console.log(response)
+        return response.result || response;
     }
 
 

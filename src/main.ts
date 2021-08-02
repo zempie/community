@@ -28,6 +28,9 @@ Vue.use(VTooltip)
 import vuescroll from 'vuescroll/dist/vuescroll-slide';
 Vue.use(vuescroll);
 
+import Toasted from 'vue-toasted'; 
+Vue.use(Toasted)
+
 export const bus = new Vue();
 
 

@@ -25,7 +25,7 @@
                 </svg>
             </div>
 
-            <div class="dropdown-navigation header-settings-dropdown">
+            <div class="dropdown-navigation header-settings-dropdown text-left">
                 <div class="dropdown-navigation-header">
                     <div class="user-status">
                         <router-link

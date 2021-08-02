@@ -92,7 +92,7 @@
             </svg>
           </div>
         </div>
-        <post-dropdown class="dropdown" :feedId="feed.id"></post-dropdown>
+        <post-dropdown class="dropdown" :feed="feed"></post-dropdown>
       </div>
       <div id="comments" class="post-comment-list">
         <comment-list :postId="feedId"></comment-list>

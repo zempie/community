@@ -4,6 +4,7 @@
             <navigator></navigator>
         </template>
         <router-view />
+         <toast ></toast>
     </div>
 </template>
 

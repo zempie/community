@@ -1,5 +1,5 @@
 <template>
-    <div class="widget-box-settings">
+    <div class="widget-box-settings" v-if="feed">
         <div class="post-settings-wrap">
             <div
                 class="post-settings widget-box-post-settings-dropdown-trigger"
@@ -14,19 +14,19 @@
                 <p class="simple-dropdown-link" @click="openEdit">
                     포스팅 수정
                 </p>
-                <p class="simple-dropdown-link" @click="deletePost(feedId)">
+                <p class="simple-dropdown-link" @click="deletePost(feed.id)">
                     포스팅 삭제
                 </p>
                 <p
                     class="simple-dropdown-link"
-                    v-b-modal="feedId.toString()"
+                    v-b-modal="feed.id.toString()"
                     @click="report('post')"
                 >
                     포스팅 신고
                 </p>
                 <p
                     class="simple-dropdown-link"
-                    v-b-modal="feedId.toString()"
+                    v-b-modal="feed.id.toString()"
                     @click="report('user')"
                 >
                     작성자 신고
@@ -34,7 +34,7 @@
             </div>
         </div>
         <modal
-            :reportId="feedId.toString()"
+            :reportId="feed.id.toString()"
             :title="userReport ? modalTitle2 : modalTitle1"
             :key="uniqeKey"
         >
@@ -83,8 +83,8 @@
             v-model="isShowEditPost"
             ref="editModal"
         >
-            <post>
-                <template v-slot:closeBtn>
+            <post :feed="feed" @closePostModal="closePostModal">
+                <!-- <template v-slot:closeBtn>
                     <div class="modal-close-container">
                         <svg class="icon-cross text-right">
                             <use xlink:href="#svg-cross"></use>
@@ -93,9 +93,10 @@
                 </template>
                 <template v-slot:saveType>
                     <p class="button small secondary">post</p>
-                </template>
+                </template> -->
             </post>
         </b-modal>
+        
     </div>
 </template>
 
@@ -112,7 +113,7 @@ import Post from "@/components/timeline/Post.vue";
     components: { Modal, DeleteModal, Post },
 })
 export default class PostDropdown extends Vue {
-    @Prop() feedId!: any;
+    @Prop() feed!: any;
     private dropdown: Dropdown = new Dropdown();
 
     private modalTitle1: string = "Report Post";
@@ -135,6 +136,9 @@ export default class PostDropdown extends Vue {
 
         const result = this.$api.deletePost(postId);
     }
+    closePostModal(){
+        (this.$refs.editModal as any).hide();
+    }
 
     closeModal() {
         this.timeId = setTimeout(() => {
@@ -143,8 +147,8 @@ export default class PostDropdown extends Vue {
     }
 
     async yesDeletePost() {
-        console.log("delet", this.feedId);
-        const result = await this.$api.deletePost(this.feedId);
+        console.log("delet", this.feed.id);
+        const result = await this.$api.deletePost(this.feed.id);
     }
     openEdit() {
         //todo:로그인 여부 검사

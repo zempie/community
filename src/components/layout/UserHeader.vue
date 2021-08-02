@@ -14,19 +14,21 @@
                             <div class="hexagon-148-164"></div>
                         </div>
 
-                        <div class="user-avatar-content">
+                        <div
+                            class="user-avatar-content"
+                            v-if="userInfo && userInfo.picture"
+                        >
                             <div
-                                v-if="userInfo && userInfo.picture"
                                 class="hexagon-image-100-110"
                                 :data-src="userInfo && userInfo.picture"
                             ></div>
+                        </div>
+                        <!-- <div class="user-avatar-content" v-else-if='!userInfo || !userInfo.picture'>
                             <div
-                                v-else
                                 class="hexagon-image-100-110"
                                 data-src="img/default_profile.png"
                             ></div>
-                        </div>
-
+                        </div> -->
                         <div class="user-avatar-progress">
                             <div class="hexagon-progress-124-136"></div>
                         </div>

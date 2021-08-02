@@ -577,3 +577,28 @@ pre {
 .chat-widget-speaker-message{
     text-align: left;
 }
+
+
+// toast
+.toasted:first-child{
+    margin-top:80px !important;
+    
+}
+
+.toast-success{
+    
+    border-radius: 0px !important;    
+    color: #a975ff !important;
+    border-color: #a975ff !important;
+    // background-color: rgba(255, 255, 255, 0.568) !important;
+}
+// .toast-success:first-child{
+//     margin-top:80px !important;
+// }
+
+.toast-error{
+    border-radius: 0px !important;    
+    color: #fd4350 !important;
+    border-color: #fd4350 !important;
+    
+}

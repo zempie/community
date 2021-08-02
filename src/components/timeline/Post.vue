@@ -496,6 +496,7 @@ export default class Post extends Vue {
     }
 
     async mounted() {
+        console.log(this.feed);
         this.tooltip.init();
         this.dropdown.init();
 
@@ -584,11 +585,6 @@ export default class Post extends Vue {
         // (this.$refs[fileType] as HTMLElement).click();
     }
 
-    // 파일 업로드
-    onFileChange(event: { target: { accept: any; files: any } }) {
-        this.inputFile(event.target.files);
-    }
-
     deleteVideo() {
         this.fileList.video = [];
         console.log(this.fileList);
@@ -599,92 +595,6 @@ export default class Post extends Vue {
         this.remainAudioSize += this.fileList[idx].size;
         this.audioPreviewArr.splice(idx, 1);
         this.fileList.audio.splice(idx, 1);
-    }
-
-    //파일 용량 & 개수 체크
-    checkImgFile(files: any) {
-        console.log("this.imgPreviewArr.length", this.imgPreviewArr.length);
-
-        if (files.length > 5 || this.imgPreviewArr.length >= 5) {
-            alert("이미지 개수는 최대 5개입니다");
-        } else {
-            if (files.length <= 5 && this.selectedFileType === "image") {
-                for (let i = 0; i < files.length; i++) {
-                    this.remainFileSize -= files[i].size;
-                    this.fileList.img.push(files[i]);
-                    if (this.remainFileSize < 0) {
-                        alert("최대 파일 용량을 넘었습니다.(최대 20mb)");
-                        this.remainFileSize += files[i].size;
-                        break;
-                    }
-
-                    //   this.fileLoader.imgLoad(files[i]);
-                }
-            }
-        }
-        console.log(this.$store.getters.previewImgArr);
-        this.imgPreviewArr = this.$store.getters.previewImgArr;
-        return this.fileList;
-    }
-
-    inputFile(files: any) {
-        let fileArr: any[] | any = [];
-
-        // if (this.selectedFileType === "image") {
-        //   fileArr = this.checkImgFile(files);
-        // } else if (this.selectedFileType === "video") {
-        //   fileArr = this.checkVideoFile(files);
-        // } else if (this.selectedFileType === "audio") {
-        //   fileArr = this.checkAudioFile(files);
-        // }
-
-        if (fileArr && fileArr.length) {
-            for (let i = 0; i < fileArr.length; i++) {
-                let file = fileArr[i];
-
-                if (this.selectedFileType === "video") {
-                    this.videoSrc = URL.createObjectURL(file);
-                    if (this.activeTab === "blog") {
-                        this.editor
-                            .chain()
-                            .focus("end")
-                            .setVideo({
-                                src: this.videoSrc,
-                                type: file.type,
-                                width: 360,
-                                height: 240,
-                                controls: true,
-                            })
-                            .run();
-                    }
-                } else if (this.selectedFileType === "audio") {
-                    this.audioSrc = URL.createObjectURL(file);
-                    if (this.activeTab === "blog") {
-                        this.editor
-                            .chain()
-                            .focus("end")
-                            .setAudio({
-                                src: this.audioSrc,
-                                type: file.type,
-                                controls: true,
-                            })
-                            .run();
-                    }
-                } else if (this.selectedFileType === "image") {
-                    // this.imgSrc = URL.createObjectURL(file);
-
-                    if (this.activeTab === "blog") {
-                        this.editor
-                            .chain()
-                            .focus("end")
-                            .setImage({ src: this.imgSrc })
-                            .run();
-                    } else {
-                        this.imageSrcArr.push(file);
-                    }
-                }
-            }
-        }
     }
 
     @Watch("reserved_time")
@@ -702,7 +612,6 @@ export default class Post extends Vue {
     }
 
     //포스팅
-
     async uploadPost() {
         let date = this.reserved_date + "T" + this.reserved_time;
         let scheduledTime = moment(date).valueOf();
@@ -740,6 +649,38 @@ export default class Post extends Vue {
         //todo: 백엔드 연결 후 분기처리
         if (result) {
             this.init();
+            this.$emit("closePostModal");
+            this.$toasted.show("포스트 수정이 완료되었습니다. ", {
+                fullWidth: true,
+                fitToScreen: true,
+                theme: "outline",
+                position: "top-center",
+                className:'toast-success',
+                duration: 3000,
+                type:'success',
+                action: {
+                    text: "X",
+                    onClick: (e, toastObject) => {
+                        toastObject.goAway(0);
+                    },
+                },
+            });
+        } else {
+            this.$toasted.show("포스트 수정에 실패하였습니다. ", {
+                fullWidth: true,
+                fitToScreen: true,
+                theme: "outline",
+                position: "top-center",
+                className:'toast-error',
+                duration: 3000,
+                type:'error',
+                action: {
+                    text: "X",
+                    onClick: (e, toastObject) => {
+                        toastObject.goAway(0);
+                    },
+                },
+            });
         }
     }
 

@@ -281,7 +281,7 @@ export default class Navtigator extends Vue {
     hide() {
         this.searchInput = "";
         (this.$refs.input as HTMLElement).classList.remove("active");
-          this.header.searchDropdown();
+        this.header.searchDropdown();
     }
     listReset() {
         this.userList = [];
@@ -362,5 +362,10 @@ export default class Navtigator extends Vue {
 
         align-items: center;
     }
+}
+.interactive-input.dark input {
+    border: none !important;
+    background-color: #5538b5 !important;
+    color: #fff !important;
 }
 </style>
