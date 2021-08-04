@@ -43,11 +43,12 @@ a {
 .invalid-feedback {
     text-align: left;
 }
-.feed-content{
-    .attr-img{
-       max-width:  100% !important;
-       margin-top:10px;
-       margin-bottom: 10px;
+
+.feed-content {
+    .attr-img {
+        max-width: 100% !important;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }
 
@@ -571,53 +572,64 @@ pre {
 
 
 //알람
-.notification-box{
+.notification-box {
     text-align: left;
 }
 
 //dm
-.chat-widget-message{
-    .user-status{
+.chat-widget-message {
+    .user-status {
         text-align: left;
     }
 }
-.chat-widget-speaker-message{
+
+.chat-widget-speaker-message {
     text-align: left;
 }
 
 
 // toast
-.toasted:first-child{
-    margin-top:80px !important;
-    
+.toasted:first-child {
+    margin-top: 80px !important;
+
 }
 
-.toast-success{
-    
-    border-radius: 0px !important;    
+.toast-success {
+
+    border-radius: 0px !important;
     color: #a975ff !important;
     border-color: #a975ff !important;
     // background-color: rgba(255, 255, 255, 0.568) !important;
 }
+
 // .toast-success:first-child{
 //     margin-top:80px !important;
 // }
 
-.toast-error{
-    border-radius: 0px !important;    
+.toast-error {
+    border-radius: 0px !important;
     color: #fd4350 !important;
     border-color: #fd4350 !important;
-    
+
 }
 
 
 
-.orgin-img-modal{
-    .modal-dialog{
-        // height: 100vh;
-        // position: fixed;
-        // max-width: 100% !important;
-        // left: 25%;
+.orgin-img-modal {
+    .modal-dialog {
+        max-width: 100%;
     }
-  
+
+    .modal-body {
+        margin: 0 auto;
+        padding: 0px !important;
+    }
+
+    .modal-content {
+        width:auto;
+        left:50%;
+        transform:translateX(-50%);
+        
+    }
+
 }
