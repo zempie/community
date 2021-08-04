@@ -12,7 +12,7 @@
                     <p class="information-line-title">Owner</p>
                     <router-link
                         class="user-status-avatar"
-                        :to="`/channel/${ownerInfo.uid}/timeline`"
+                        :to="`/channel/${this.community.owner_uid}/timeline`"
                     >
                         <div class="user-avatar small no-outline">
                             <div class="user-avatar-content">
@@ -51,7 +51,7 @@
                     <p class="information-line-title">Manager</p>
                     <router-link
                         class="user-status-avatar"
-                        :to="`/channel/${managerInfo.uid}/timeline`"
+                        :to="`/channel/${this.community.manager_uid}/timeline`"
                     >
                         <div class="user-avatar small no-outline">
                             <div class="user-avatar-content">
@@ -110,8 +110,12 @@ export default class CommunityDescBox extends Vue {
     private hexagon: Hexagon = new Hexagon();
 
     async created() {
-        let temp = await this.$api.channel(this.community.manager_uid);
+        //todo
+        let temp = await this.$api.channel(this.community.owner_uid);
         let temp2 = await this.$api.channel(this.community.owner_uid);
+
+        console.log("temp", temp)
+        console.log("temp2", temp2)
 
         this.managerInfo = temp.target;
         this.ownerInfo = temp2.target;

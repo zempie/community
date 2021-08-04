@@ -65,7 +65,7 @@ export default Node.create<ImageOptions>({
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
+        return ['img', mergeAttributes({ 'class': 'attr-img' }, this.options.HTMLAttributes, HTMLAttributes)]
     },
 
 

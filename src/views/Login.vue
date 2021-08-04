@@ -480,10 +480,10 @@ export default class Login extends Vue {
   }
   findPwd() {
     document.getElementById("forgotPwdBtn")!.click();
-    (this.$refs.forgotPwdBtn as HTMLElement).click();
+    (this.$refs.forgotPwdBtn as any).click();
   }
   googleRegisterDone() {
-    (this.$refs.registerBtn as HTMLElement).click();
+    (this.$refs.registerBtn as any).click();
     this.isGoolgeLoginDone = !this.isGoolgeLoginDone;
   }
 

@@ -43,6 +43,13 @@ a {
 .invalid-feedback {
     text-align: left;
 }
+.feed-content{
+    .attr-img{
+       max-width:  100% !important;
+       margin-top:10px;
+       margin-bottom: 10px;
+    }
+}
 
 .user-short-description-text {
     word-break: break-all;
@@ -601,4 +608,16 @@ pre {
     color: #fd4350 !important;
     border-color: #fd4350 !important;
     
+}
+
+
+
+.orgin-img-modal{
+    .modal-dialog{
+        // height: 100vh;
+        // position: fixed;
+        // max-width: 100% !important;
+        // left: 25%;
+    }
+  
 }

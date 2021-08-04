@@ -56,6 +56,7 @@
 
                         <div
                             class="widget-box-status-text feed-content"
+                            ref="feedContent"
                             v-html="feed.content"
                             @click="contentClicked"
                         ></div>
@@ -240,6 +241,17 @@
             </div>
         </div>
 
+        <b-modal
+            modal-class="orgin-img-modal"
+            centered
+            hide-header
+            hide-footer
+        
+            ref="originImgModal"
+        >
+            <b-img :src="originImg" />
+        </b-modal>
+
         <template v-if="isOpenedComments">
             <comment-list :postId="feed.id"></comment-list>
         </template>
@@ -285,6 +297,8 @@ export default class Feed extends Vue {
 
     private show: boolean = false;
 
+    private originImg: string = "";
+
     mounted() {
         console.log("post", this.feed);
         this.dropdown.init();
@@ -316,7 +330,12 @@ export default class Feed extends Vue {
     //post
 
     contentClicked(e: any) {
-        if (e.target.matches(".hashtag")) {
+        if (e.target.matches("img")) {
+            console.log("이미지 클릭", e.target.src);
+            this.originImg = e.target.src;
+            this.$refs.originImgModal.show();
+        }
+        else if (e.target.matches(".hashtag")) {
             this.$router.push(
                 `/search?hashtag=${e.target.attributes["data-id"].nodeValue}`
             );
@@ -399,5 +418,13 @@ export default class Feed extends Vue {
 .icon-pinned.active {
     fill: #f39800;
     opacity: 1;
+}
+
+.orgin-img-modal{
+    .modal-dialog{
+
+        max-width: 100% !important;
+    }
+  
 }
 </style>

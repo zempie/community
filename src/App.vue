@@ -4,7 +4,7 @@
             <navigator></navigator>
         </template>
         <router-view />
-         <toast ></toast>
+         <!-- <toast ></toast> -->
     </div>
 </template>
 

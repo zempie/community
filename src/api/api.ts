@@ -393,6 +393,9 @@ export default class Api {
         ///api/v1/timeline/:community_id/channel/:channel_id?offset=0&limit=10&sort=popular
         // console.log(id, channelId)
         let result: any;
+        console.log('id', id)
+        console.log('channelId', channelId)
+        console.log('portfolioId', portfolioId)
 
         if (id && portfolioId) {
             console.log('here?')
@@ -594,12 +597,8 @@ export default class Api {
                             "url": "https://blush-design.imgix.net/collections/kSlBLJlsKBVuI0j1MQlv/73d85711-031c-472e-8579-fd017e9ddada.png?w=800&auto=compress&cs=srgb"
                         }],
                         'video': {}
-                    }
-
-
-                    ,
-
-                    "content": "<pre><code>code block</code></pre>",
+                    },
+                    "content": "<pre><code>code block</code></pre><p>안녕!</p>",
                     "is_private": true,
                     "hashtags": ["tag", "tag1"],
                     "user_tag": [],
@@ -716,7 +715,343 @@ export default class Api {
                     "status": "active",
                     "is_retweet": false,
                     "is_pinned": true
-                }
+                },
+                {
+                    "id": 999,
+                    "user": {
+                        "id": 1,
+                        "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                        "status": "owner ",
+                        "email": "zempie@google.name",
+                        "name": "젬파이",
+                        "nickname": "zempieeee",
+                        "channel_id": 12,
+                        "created_at": 1616117970000,
+                        "state": "active || block ",
+                        "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                        "post_cnt": 0,
+                        "liked_cnt": 7,
+                        "followers_cnt": 123,
+                        "followings_cnt": 0,
+                        "follows_you": true,
+                        "is_following": true,
+                        "block_you": false,
+                        "is_blocked": false,
+                        "mutes_you": false,
+                        "is_muted": false,
+                        "type": "user"
+                    },
+                    "post_type": "blog",
+                    "created_at": 1616117970000,
+                    "attatchment_files":
+                    {
+                        'audio': [{}],
+                        'img': [{
+                            "id": 111,
+                            "name": 'pic',
+                            "contentType": "image",
+                            "size": 200,
+                            "url": "https://i.embed.ly/1/image?url=https%3A%2F%2Fwww.setaswall.com%2Fwp-content%2Fuploads%2F2019%2F03%2FLines-Circles-Stripes-Rotation-Abstract-768x1024.jpg&key=c0f258539b9c4ab5bf044cd294d74ff1"
+                        }],
+                        'video': {}
+                    },
+                    "content": "<p>태블릿이미지 입니다.<img class='attr-img' src='https://i.embed.ly/1/image?url=https%3A%2F%2Fwww.setaswall.com%2Fwp-content%2Fuploads%2F2019%2F03%2FLines-Circles-Stripes-Rotation-Abstract-768x1024.jpg&key=c0f258539b9c4ab5bf044cd294d74ff1'/> 768*1024</p>",
+                    "is_private": true,
+                    "hashtags": ["tag", "tag1"],
+                    "user_tag": [],
+                    "liked": true,
+                    "like_cnt": 1,
+                    "comment_cnt": 5,
+                    "read_cnt": 0,
+                    "shared_cnt": 0,
+                    "posted_at": {
+                        "channel_id": 1,
+                        "game_id": null,
+                        "community": [{
+                            "id": 1,
+                            "channel_id": 1,
+                        },
+                        {
+                            "id": 2,
+                            "channel_id": 1
+                        }],
+                        "portfolio_id": null,
+                    },
+                    "poll": null,
+                    "scheduled_for": null,
+                    "status": "active",
+                    "is_retweet": false,
+                    "is_pinned": false
+                },
+                {
+                    "id": 888,
+                    "user": {
+                        "id": 1,
+                        "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                        "status": "owner ",
+                        "email": "zempie@google.name",
+                        "name": "젬파이",
+                        "nickname": "zempieeee",
+                        "channel_id": 12,
+                        "created_at": 1616117970000,
+                        "state": "active || block ",
+                        "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                        "post_cnt": 0,
+                        "liked_cnt": 7,
+                        "followers_cnt": 123,
+                        "followings_cnt": 0,
+                        "follows_you": true,
+                        "is_following": true,
+                        "block_you": false,
+                        "is_blocked": false,
+                        "mutes_you": false,
+                        "is_muted": false,
+                        "type": "user"
+                    },
+                    "post_type": "blog",
+                    "created_at": 1616117970000,
+                    "attatchment_files":
+                    {
+                        'audio': [{}],
+                        'img': [{
+                            "id": 111,
+                            "name": 'pic',
+                            "contentType": "image",
+                            "size": 200,
+                            "url": "https://i.embed.ly/1/image?url=https%3A%2F%2Fwww.setaswall.com%2Fwp-content%2Fuploads%2F2019%2F03%2FLines-Circles-Stripes-Rotation-Abstract-768x1024.jpg&key=c0f258539b9c4ab5bf044cd294d74ff1"
+                        }],
+                        'video': {}
+                    },
+                    "content": "<p>모바일 전용 입니다.<img class='attr-img' src='https://phoneky.co.uk/thumbs/screensavers/down/nature/360x640_e9a4lrzf.gif'/> 360*640</p>",
+                    "is_private": true,
+                    "hashtags": ["tag", "tag1"],
+                    "user_tag": [],
+                    "liked": true,
+                    "like_cnt": 1,
+                    "comment_cnt": 5,
+                    "read_cnt": 0,
+                    "shared_cnt": 0,
+                    "posted_at": {
+                        "channel_id": 1,
+                        "game_id": null,
+                        "community": [{
+                            "id": 1,
+                            "channel_id": 1,
+                        },
+                        {
+                            "id": 2,
+                            "channel_id": 1
+                        }],
+                        "portfolio_id": null,
+                    },
+                    "poll": null,
+                    "scheduled_for": null,
+                    "status": "active",
+                    "is_retweet": false,
+                    "is_pinned": false
+                },
+                {
+                    "id": 7,
+                    "user": {
+                        "id": 1,
+                        "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                        "status": "owner ",
+                        "email": "zempie@google.name",
+                        "name": "젬파이",
+                        "nickname": "zempieeee",
+                        "channel_id": 12,
+                        "created_at": 1616117970000,
+                        "state": "active || block ",
+                        "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                        "post_cnt": 0,
+                        "liked_cnt": 7,
+                        "followers_cnt": 123,
+                        "followings_cnt": 0,
+                        "follows_you": true,
+                        "is_following": true,
+                        "block_you": false,
+                        "is_blocked": false,
+                        "mutes_you": false,
+                        "is_muted": false,
+                        "type": "user"
+                    },
+                    "post_type": "blog",
+                    "created_at": 1616117970000,
+                    "attatchment_files":
+                    {
+                        'audio': [{}],
+                        'img': [{
+                            "id": 111,
+                            "name": 'pic',
+                            "contentType": "image",
+                            "size": 200,
+                            "url": "https://i.embed.ly/1/image?url=https%3A%2F%2Fwww.setaswall.com%2Fwp-content%2Fuploads%2F2019%2F03%2FLines-Circles-Stripes-Rotation-Abstract-768x1024.jpg&key=c0f258539b9c4ab5bf044cd294d74ff1"
+                        }],
+                        'video': {}
+                    },
+                    "content": "<p>이미지 해상도 테스트 </p><p>가장 작은 데스크톱</p><p>1024×768</p><p><img class='attr-img' src='https://contattafiles.s3.us-west-1.amazonaws.com/tnt34018/UWA7roumeZQ0hiN/image_13_1024x768.png'></p><p></p>",
+                    "is_private": true,
+                    "hashtags": ["tag", "tag1"],
+                    "user_tag": [],
+                    "liked": true,
+                    "like_cnt": 1,
+                    "comment_cnt": 5,
+                    "read_cnt": 0,
+                    "shared_cnt": 0,
+                    "posted_at": {
+                        "channel_id": 1,
+                        "game_id": null,
+                        "community": [{
+                            "id": 1,
+                            "channel_id": 1,
+                        },
+                        {
+                            "id": 2,
+                            "channel_id": 1
+                        }],
+                        "portfolio_id": null,
+                    },
+                    "poll": null,
+                    "scheduled_for": null,
+                    "status": "active",
+                    "is_retweet": false,
+                    "is_pinned": false
+                },
+                {
+                    "id": 77,
+                    "user": {
+                        "id": 1,
+                        "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                        "status": "owner ",
+                        "email": "zempie@google.name",
+                        "name": "젬파이",
+                        "nickname": "zempieeee",
+                        "channel_id": 12,
+                        "created_at": 1616117970000,
+                        "state": "active || block ",
+                        "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                        "post_cnt": 0,
+                        "liked_cnt": 7,
+                        "followers_cnt": 123,
+                        "followings_cnt": 0,
+                        "follows_you": true,
+                        "is_following": true,
+                        "block_you": false,
+                        "is_blocked": false,
+                        "mutes_you": false,
+                        "is_muted": false,
+                        "type": "user"
+                    },
+                    "post_type": "blog",
+                    "created_at": 1616117970000,
+                    "attatchment_files":
+                    {
+                        'audio': [{}],
+                        'img': [{
+                            "id": 111,
+                            "name": 'pic',
+                            "contentType": "image",
+                            "size": 200,
+                            "url": "https://i.embed.ly/1/image?url=https%3A%2F%2Fwww.setaswall.com%2Fwp-content%2Fuploads%2F2019%2F03%2FLines-Circles-Stripes-Rotation-Abstract-768x1024.jpg&key=c0f258539b9c4ab5bf044cd294d74ff1"
+                        }],
+                        'video': {}
+                    },
+                    "content": "<p>21년 기준 pc 스크린 점유율이 가장 높은 해상도</p><p><img class='attr-img' src='https://contattafiles.s3.us-west-1.amazonaws.com/tnt34018/nrfuIecPiOXL2xX/image_16_1366x768.png'></p>",
+                    "is_private": true,
+                    "hashtags": ["tag", "tag1"],
+                    "user_tag": [],
+                    "liked": true,
+                    "like_cnt": 1,
+                    "comment_cnt": 5,
+                    "read_cnt": 0,
+                    "shared_cnt": 0,
+                    "posted_at": {
+                        "channel_id": 1,
+                        "game_id": null,
+                        "community": [{
+                            "id": 1,
+                            "channel_id": 1,
+                        },
+                        {
+                            "id": 2,
+                            "channel_id": 1
+                        }],
+                        "portfolio_id": null,
+                    },
+                    "poll": null,
+                    "scheduled_for": null,
+                    "status": "active",
+                    "is_retweet": false,
+                    "is_pinned": false
+                },
+                {
+                    "id": 22277,
+                    "user": {
+                        "id": 1,
+                        "uid": 'wjZpvIjDEMWUBdXKsUQyR33RWrx2',
+                        "status": "owner ",
+                        "email": "zempie@google.name",
+                        "name": "젬파이",
+                        "nickname": "zempieeee",
+                        "channel_id": 12,
+                        "created_at": 1616117970000,
+                        "state": "active || block ",
+                        "profile_img": "https://blush-design.imgix.net/collections/Xu9zfHCDvMoRx6YhtcN4/3ab2ecb4-bd1f-4834-82df-89d183c643ca.png?w=800&auto=compress&cs=srgb",
+                        "post_cnt": 0,
+                        "liked_cnt": 7,
+                        "followers_cnt": 123,
+                        "followings_cnt": 0,
+                        "follows_you": true,
+                        "is_following": true,
+                        "block_you": false,
+                        "is_blocked": false,
+                        "mutes_you": false,
+                        "is_muted": false,
+                        "type": "user"
+                    },
+                    "post_type": "blog",
+                    "created_at": 1616117970000,
+                    "attatchment_files":
+                    {
+                        'audio': [{}],
+                        'img': [{
+                            "id": 111,
+                            "name": 'pic',
+                            "contentType": "image",
+                            "size": 200,
+                            "url": "https://i.embed.ly/1/image?url=https%3A%2F%2Fwww.setaswall.com%2Fwp-content%2Fuploads%2F2019%2F03%2FLines-Circles-Stripes-Rotation-Abstract-768x1024.jpg&key=c0f258539b9c4ab5bf044cd294d74ff1"
+                        }],
+                        'video': {}
+                    },
+                    "content": "<p>1920*1080</p><p><img class='attr-img' src='https://contattafiles.s3.us-west-1.amazonaws.com/tnt34018/kL0xhBNuMuFfVCs/image_42_1920x1080.png'></p>",
+                    "is_private": true,
+                    "hashtags": ["tag", "tag1"],
+                    "user_tag": [],
+                    "liked": true,
+                    "like_cnt": 1,
+                    "comment_cnt": 5,
+                    "read_cnt": 0,
+                    "shared_cnt": 0,
+                    "posted_at": {
+                        "channel_id": 1,
+                        "game_id": null,
+                        "community": [{
+                            "id": 1,
+                            "channel_id": 1,
+                        },
+                        {
+                            "id": 2,
+                            "channel_id": 1
+                        }],
+                        "portfolio_id": null,
+                    },
+                    "poll": null,
+                    "scheduled_for": null,
+                    "status": "active",
+                    "is_retweet": false,
+                    "is_pinned": false
+                },
+
             ]
         }
         return result;
@@ -760,7 +1095,7 @@ export default class Api {
 
 
             ],
-            "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
+            "content": "<div><p>ㄷㅈㄷㅂㄷ</p><img class='attr-img' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCDSyJJYxEyv3gZclxu6GaczwEGBoIhBAdeA&amp;usqp=CAU' alt='펫플스토리] 고양이 입양하기 전 의식주 마련은 필수 - 부산일보'><p>123</p></div>",
             "is_private": false,
             "hashtags": ["tag", "tag1"],
             "user_tag": [],
@@ -1719,6 +2054,7 @@ export default class Api {
 
 
         result = [
+
             {
                 "id": 111,
                 "user": {

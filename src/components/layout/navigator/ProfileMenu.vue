@@ -3,8 +3,8 @@
         <!-- <div class="login" @click="logout">logout</div> -->
         <div class="lang-selector form-select dropbox-container">
             <b-select name="sub-manager" class="dropbox">
-                <b-select-option v-for="lang in langList" :key="lang.id">{{
-                    lang
+                <b-select-option v-for="lan in langList" :key="lan.id">{{
+                    lan
                 }}</b-select-option>
             </b-select>
         </div>
@@ -139,6 +139,7 @@ export default class ProfileMenu extends Vue {
     private hexagon: Hexagon = new Hexagon();
     private user = this.$store.getters.user;
     private langList = ["한국어", "English"];
+    private lang = "?";
     mounted() {
         // await this.$store.dispatch('loginState');
 
@@ -151,7 +152,7 @@ export default class ProfileMenu extends Vue {
         this.$router.push("/guestPage");
     }
     moveGameDashBoard() {
-        window.location.href = this.$store.getters.studioUrl + "selectStage";
+        window.location.href = this.$store.getters.studioUrl + "dashboard";
     }
     routerClick() {
         (this.$refs.dropdown as HTMLElement).click();
