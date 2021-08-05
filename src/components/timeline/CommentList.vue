@@ -24,19 +24,6 @@
                 class="bordered-top"
             ></comment-input>
         </div>
-        <!-- <div v-if="isOpenReport">
-            <popup :commentId="selectedCommentId" :postId="postId"
-            @reportDone="reportDone" 
-            :key="uniqeKey"
-                >
-                <template v-slot:popupHeader
-                    ><h2 class="popup-header">Report Comment</h2></template
-                >
-                <template v-slot:reason1>욕설</template>
-                <template v-slot:reason2>스팸</template>
-                <template v-slot:reason3>음란성</template>
-            </popup>
-        </div> -->
     </div>
 </template>
 
@@ -46,10 +33,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Dropdown from "@/plugins/dropdown";
 import Comment from "@/components/timeline/Comment.vue";
 import CommentInput from "@/components/timeline/CommentInput.vue";
-import Popup from "@/components/common/Popup.vue";
 
 @Component({
-    components: { Comment, CommentInput, Popup },
+    components: { Comment, CommentInput },
 })
 export default class CommentList extends Vue {
     @Prop() postId!: any;

@@ -116,17 +116,17 @@ const routes: Array<RouteConfig> = [
             {
                 path: '/community/:community_id/setting',
                 name: 'CommunitySetting',
-                component: () => import("@/components/pages/community/communitySetting.vue"),
+                component: () => import("@/components/pages/community/CommunitySetting.vue"),
             },
             {
                 path: '/community/:community_id/setting/member',
                 name: 'CommunitySettingMember',
-                component: () => import("@/components/pages/community/communitySettingMember.vue"),
+                component: () => import("@/components/pages/community/CommunitySettingMember.vue"),
             },
             {
                 path: '/community/:community_id/manageChannel',
                 name: 'ManageChannel',
-                component: () => import("@/components/pages/community/manageChannel.vue"),
+                component: () => import("@/components/pages/community/ManageChannel.vue"),
             },
             {
                 path: '/community/:community_id/channelCreate',
@@ -223,7 +223,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/timeline/game/:game_pathname',
         name: 'Game',
-        component: () => import("@/components/layout/gameHeader.vue"),
+        component: () => import("@/components/layout/GameHeader.vue"),
         redirect: '/timeline/game/:game_pathname/timeline',
         children: [
             {
@@ -268,7 +268,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/leave',
         name: 'leave',
-        component: () => import('@/views/leave.vue'),
+        component: () => import('@/views/Leave.vue'),
     },
 
 
