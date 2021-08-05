@@ -47,22 +47,28 @@ export default class ImageUploaderBtn extends Vue {
     }
 
     // 파일 업로드
-    onFileChange(event: {
+    async onFileChange(event: {
         target: { accept: any; files: any; value: string | null };
     }) {
-      //포스팅 타입 분기 
+        //포스팅 타입 분기
         if (this.activeTab === "sns") {
             if (this.fileLoader.checkImgFile(event.target.files)) {
                 this.$emit("fileCheckDone");
                 bus.$emit("fileLoader", this.fileLoader);
                 console.log("파일 업로드", event.target.value);
             }
-        } else if(this.activeTab === "blog") {
-            if (this.fileLoader.checkBlogImgFile(event.target.files)) {
-                this.$emit("fileCheckDone");
-                bus.$emit("fileLoader", this.fileLoader);
-                console.log("파일 업로드", event.target.value);
-            }
+        } else if (this.activeTab === "blog") {
+            // console.log(event.target.files)
+            event.target.files.forEach(async (element) => {
+                let imgUrl = await this.$api.imageUplaod(element);
+                bus.$emit("imgUrl", imgUrl.url);
+            });
+            // this.$api.imageUplaod(event.target.files)
+            // if (this.fileLoader.checkBlogImgFile(event.target.files)) {
+            //     this.$emit("fileCheckDone");
+            //     bus.$emit("fileLoader", this.fileLoader);
+            //     console.log("파일 업로드", event.target.value);
+            // }
         }
         event.target.value = null;
     }
