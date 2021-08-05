@@ -319,6 +319,20 @@ export default class TiptapPost extends Vue {
     }
     mounted() {
         console.log(this.postType);
+        bus.$on("fileLoader", (fileLoader) => {
+            const imgArr = fileLoader.fileObj.img;
+            console.log("파일로더", imgArr);
+            for (let i in imgArr) {
+                this.editor
+                    .chain()
+                    .focus()
+                    .setImage({ src: imgArr[i].url })
+                    .run()
+            }
+        });
+    }
+    destroyed() {
+        bus.$off("fileLoader");
     }
     getFile() {
         console.log();

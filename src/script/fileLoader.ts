@@ -60,6 +60,49 @@ class FileLoader {
             return this.fileObj;
         }
     }
+
+    // 블로그 이미지 체크
+    checkBlogImgFile(files: File[]) {
+        let totalImgCnt = files.length + this.fileObj.img.length;
+
+        let fileSize: number = 0;
+        let fileName: string = '';
+        let fileContentType: string = '';
+
+        // if (files.length > 5 || totalImgCnt > 5) {
+        //     alert("이미지 개수는 최대 5개입니다");
+        //     return false;
+        // } else {
+        //     if (files.length <= 5) {
+        for (let i = 0; i < files.length; i++) {
+            this.remainImgFileSize -= files[i].size;
+            if (this.remainImgFileSize < 0) {
+                alert("최대 파일 용량을 넘었습니다.(최대 20mb)");
+                this.remainImgFileSize += files[i].size;
+                return false;
+
+            }
+            fileSize = files[i].size;
+            fileName = files[i].name;
+            fileContentType = files[i].type;
+
+            // this.imgLoad(files[i]);
+            this.getFileUrl(files[i], e => {
+                this.fileObj.img.push({
+                    size: fileSize,
+                    name: fileName,
+                    contentType: fileContentType,
+                    url: e.target.result
+                });
+
+            })
+        }
+        // }
+
+        console.log('checkImgFile', this.fileObj)
+        return this.fileObj;
+        // }
+    }
     //미리보기 사진 삭제
     deletePreviewImg(idx: number | string) {
         if (typeof idx === 'number') {

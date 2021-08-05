@@ -216,6 +216,7 @@
                 <image-uploader-btn
                     @fileCheckDone="getFileList('img')"
                     :fileLoader="fileLoader"
+                    :activeTab="activeTab"
                 ></image-uploader-btn>
 
                 <!-- upload video -->

@@ -3,7 +3,6 @@ import {
     nodeInputRule,
     mergeAttributes,
 } from '@tiptap/core'
-import { getFileFromUrl } from '../fileLoader'
 
 export interface ImageOptions {
     inline: boolean,
