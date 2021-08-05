@@ -650,7 +650,7 @@ export default class Post extends Vue {
         if (result) {
             this.init();
             this.$emit("closePostModal");
-            this.$toasted.show("포스트 수정이 완료되었습니다. ", {
+            this.$toasted.show("포스팅이 완료되었습니다.", {
                 fullWidth: true,
                 fitToScreen: true,
                 theme: "outline",
@@ -666,7 +666,7 @@ export default class Post extends Vue {
                 },
             });
         } else {
-            this.$toasted.show("포스트 수정에 실패하였습니다. ", {
+            this.$toasted.show("업로드에 실패하였습니다.", {
                 fullWidth: true,
                 fitToScreen: true,
                 theme: "outline",
@@ -747,13 +747,7 @@ export default class Post extends Vue {
         this.isEditorEmpty = state;
     }
 
-    goLoginPage(state: boolean) {
-        if (state) {
-            this.$router.push("/login");
-        } else {
-            (this.$refs["loginModal"] as any).hide();
-        }
-    }
+   
     getChannel(channel) {
         this.selectedCommunity = Object.assign(this.selectedCommunity, {
             channel: channel,

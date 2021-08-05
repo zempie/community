@@ -333,7 +333,7 @@ export default class Feed extends Vue {
         if (e.target.matches("img")) {
             console.log("이미지 클릭", e.target.src);
             this.originImg = e.target.src;
-            this.$refs.originImgModal.show();
+            (this.$refs.originImgModal as any).show();
         }
         else if (e.target.matches(".hashtag")) {
             this.$router.push(

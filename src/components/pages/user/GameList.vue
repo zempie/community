@@ -35,6 +35,7 @@
             </div>
         </div>
         <div class="widget-box-content">
+            
             <template v-for="game in games">
                 <div
                     :key="game.id"
@@ -55,13 +56,15 @@
                 </div>
             </template>
             <router-link
-                v-if="games.lenght > 0"
+                v-if="games.length > 0"
                 class="user-status-list all-btn"
                 :to="`/channel/${userUid}/games`"
                 >View all</router-link
             >
             <div v-if="games.length === 0">
-                <p @click="addGame" style="cursor:pointer;">게임 등록 하실래요?</p>
+                <p @click="addGame" style="cursor: pointer">
+                    게임 등록 하실래요?
+                </p>
             </div>
         </div>
     </div>
@@ -87,10 +90,8 @@ export default class GameList extends Vue {
         this.$router.push(`/timeline/game/${game.pathname}`);
     }
     addGame() {
-        
         // if (this.$store.getters.user.is_developer) {
-            window.location.href =
-                this.$store.getters.studioUrl + "selectStage";
+        window.location.href = this.$store.getters.studioUrl + "selectStage";
         // }
     }
     @Watch("$store.getters.userInfo")
@@ -99,9 +100,10 @@ export default class GameList extends Vue {
     }
 
     gameList() {
+        console.log(this.$store.getters.userInfo.dev_games);
         if (
             this.$store.getters.userInfo.dev_games &&
-            this.$store.getters.userInfo.dev_games.length > 5
+            this.$store.getters.userInfo.dev_games.length >= 5
         ) {
             this.games = this.$store.getters.userInfo.dev_games.slice(0, 5);
         } else if (
@@ -111,6 +113,7 @@ export default class GameList extends Vue {
         ) {
             this.games = this.$store.getters.userInfo.dev_games;
         }
+    console.log('this.games', this.games)
     }
 }
 </script>
