@@ -250,7 +250,7 @@ const emailValidator = helpers.regex(
 
 const pwdValidator = helpers.regex(
   "pwdValidator",
-  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[!@#\$%\^&\*]).{6,20}$/
+  /^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z])(?=.*[!@#\$%\^&\*]).{6,20}$/
 );
 @Component({
   components: { Register, ResetPassword },
